@@ -1,6 +1,6 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowRight, Facebook, Twitter, Linkedin, Link2, Flame } from "lucide-react";
-import { posts, site } from "@/lib/portfolio-data";
+import { posts, site, type Post } from "@/lib/portfolio-data";
 import { accentFor } from "./blog";
 
 export const Route = createFileRoute("/blog/$slug")({
