@@ -51,13 +51,12 @@ function BlogPage() {
           <Portrait eager />
           <div className="grid gap-3">
             {[
-              [Edit3, "25+", "Articles Published"],
-              [Users, "5K+", "Readers Worldwide"],
-              [Globe, "10+", "Topics Covered"],
-            ].map(([Icon, v, l], i) => (
-              <div key={i} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
+              { Icon: Edit3, v: "25+", l: "Articles Published" },
+              { Icon: Users, v: "5K+", l: "Readers Worldwide" },
+              { Icon: Globe, v: "10+", l: "Topics Covered" },
+            ].map(({ Icon, v, l }) => (
+              <div key={l} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
                 <div className="grid h-11 w-11 place-items-center rounded-xl bg-accent text-primary">
-                  {/* @ts-expect-error dynamic */}
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>

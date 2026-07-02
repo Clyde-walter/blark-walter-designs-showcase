@@ -51,14 +51,13 @@ function TestimonialsPage() {
           <Portrait eager />
           <div className="grid gap-3">
             {[
-              [Star, "50+", "Happy Clients Worldwide"],
-              [Briefcase, "750+", "Projects Completed"],
-              [Award, "5+", "Years of Experience"],
-              [ThumbsUp, "100%", "Client Satisfaction Rate"],
-            ].map(([Icon, v, l], i) => (
-              <div key={i} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
+              { Icon: Star, v: "50+", l: "Happy Clients Worldwide" },
+              { Icon: Briefcase, v: "750+", l: "Projects Completed" },
+              { Icon: Award, v: "5+", l: "Years of Experience" },
+              { Icon: ThumbsUp, v: "100%", l: "Client Satisfaction Rate" },
+            ].map(({ Icon, v, l }) => (
+              <div key={l} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
                 <div className="grid h-11 w-11 place-items-center rounded-xl bg-accent text-primary">
-                  {/* @ts-expect-error dynamic */}
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
