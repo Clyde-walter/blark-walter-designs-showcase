@@ -71,7 +71,7 @@ function HomePage() {
       {/* Skills ticker bar */}
       <section className="container-x">
         <div className="ink-panel flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-6 py-5 text-sm font-semibold text-ink-foreground sm:text-base">
-          {["UI/UX Design", "Web Design", "Mobile App Design", "Branding", "Prototyping"].map((s, i, arr) => (
+          {["UI/UX Design", "Frontend Development", "Web Design", "Mobile App Design", "Branding", "Prototyping"].map((s, i, arr) => (
             <span key={s} className="flex items-center gap-4">
               {s}
               {i < arr.length - 1 && <span className="text-primary">+</span>}
