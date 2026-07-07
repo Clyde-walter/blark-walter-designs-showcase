@@ -135,7 +135,7 @@ function TableManager({ table, title, fields, defaults, orderBy, descending }: {
   const { data, isLoading } = useQuery({
     queryKey: [table],
     queryFn: async () => {
-      const { data, error } = await supabase.from(table as never).select("*").order(orderBy, { ascending: !descending });
+      const { data, error } = await (supabase.from(table as never) as any).select("*").order(orderBy, { ascending: !descending });
       if (error) throw error; return data as any[];
     },
   });
@@ -145,11 +145,11 @@ function TableManager({ table, title, fields, defaults, orderBy, descending }: {
       const clean = { ...row };
       delete clean.created_at; delete clean.updated_at;
       if (clean.id) {
-        const { error } = await supabase.from(table as never).update(clean).eq("id", clean.id);
+        const { error } = await (supabase.from(table as never) as any).update(clean).eq("id", clean.id);
         if (error) throw error;
       } else {
         delete clean.id;
-        const { error } = await supabase.from(table as never).insert(clean);
+        const { error } = await (supabase.from(table as never) as any).insert(clean);
         if (error) throw error;
       }
     },
@@ -158,7 +158,7 @@ function TableManager({ table, title, fields, defaults, orderBy, descending }: {
 
   const del = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from(table as never).delete().eq("id", id);
+      const { error } = await (supabase.from(table as never) as any).delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: [table] }),
@@ -251,12 +251,12 @@ function SubmissionsView() {
   const { data, isLoading } = useQuery({
     queryKey: ["contact_submissions"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("contact_submissions" as never).select("*").order("created_at", { ascending: false });
+      const { data, error } = await (supabase.from("contact_submissions" as never) as any).select("*").order("created_at", { ascending: false });
       if (error) throw error; return data as any[];
     },
   });
   const del = useMutation({
-    mutationFn: async (id: string) => { const { error } = await supabase.from("contact_submissions" as never).delete().eq("id", id); if (error) throw error; },
+    mutationFn: async (id: string) => { const { error } = await (supabase.from("contact_submissions" as never) as any).delete().eq("id", id); if (error) throw error; },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["contact_submissions"] }),
   });
   if (isLoading) return <Loader2 className="h-5 w-5 animate-spin text-primary" />;
