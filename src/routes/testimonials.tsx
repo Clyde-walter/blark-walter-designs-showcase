@@ -40,9 +40,9 @@ function TestimonialsPage() {
               Real feedback from real clients. Here's what businesses and founders say about working with me and the results we've achieved together.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
+              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
                 Work With Me <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
               <Link to="/projects" className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold hover:border-primary">
                 View All Projects <Grid3x3 className="h-4 w-4" />
               </Link>
@@ -178,10 +178,10 @@ function TestimonialsPage() {
             </h3>
             <p className="text-sm text-muted-foreground">Let's bring your ideas to life.</p>
           </div>
-          <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
+          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
             Let's Talk
             <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
-          </a>
+          </Link>
         </div>
       </section>
     </>

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Target, HeartHandshake, ShieldCheck, Sparkles, GraduationCap, Briefcase, Zap, MessageSquare, Heart, User } from "lucide-react";
+import { ArrowRight, Target, HeartHandshake, ShieldCheck, Sparkles, GraduationCap, Briefcase, Zap, MessageSquare, Heart, User, Code2 } from "lucide-react";
 import { Portrait } from "@/components/site/Portrait";
-import { site, education, experience } from "@/lib/portfolio-data";
+import { site, education, experience, frontendSkills } from "@/lib/portfolio-data";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -136,6 +136,29 @@ function AboutPage() {
         <div className="mt-10 grid gap-8 lg:grid-cols-2">
           <JourneyList title="Education" icon={GraduationCap} items={education} />
           <JourneyList title="Work Experience" icon={Briefcase} items={experience} />
+        </div>
+      </section>
+
+      <section className="container-x pb-16">
+        <div className="grid gap-8 lg:grid-cols-[1fr_2fr] lg:items-center">
+          <div>
+            <span className="section-label">Frontend Development</span>
+            <h2 className="mt-4 text-4xl font-bold">
+              Design That <span className="text-primary">Ships</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              I don't just hand off mockups. I build the interfaces I design — production-ready, accessible and fast.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {frontendSkills.map((s) => (
+              <div key={s.name} className="rounded-2xl border border-border bg-card p-4">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-primary"><Code2 className="h-5 w-5" /></div>
+                <div className="mt-3 text-sm font-semibold">{s.name}</div>
+                <div className="text-xs text-primary">{s.level}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

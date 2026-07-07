@@ -186,10 +186,10 @@ function ProjectDetailPage() {
               <div className="mt-1 text-xl font-bold text-ink-foreground">
                 Let's create something <span className="text-primary">amazing</span> together!
               </div>
-              <a href={`mailto:${site.email}`} className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary py-2.5 pl-5 pr-1 text-sm font-semibold text-primary-foreground">
+              <Link to="/contact" className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary py-2.5 pl-5 pr-1 text-sm font-semibold text-primary-foreground">
                 Let's Talk
                 <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
-              </a>
+              </Link>
             </div>
           </aside>
         </div>

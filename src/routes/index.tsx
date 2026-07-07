@@ -38,9 +38,9 @@ function HomePage() {
                 View My Work
                 <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
               </Link>
-              <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary">
+              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary">
                 Hire Me <Download className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
             <div className="mt-8 flex items-center gap-4">
               <div className="flex -space-x-2">
@@ -71,7 +71,7 @@ function HomePage() {
       {/* Skills ticker bar */}
       <section className="container-x">
         <div className="ink-panel flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-6 py-5 text-sm font-semibold text-ink-foreground sm:text-base">
-          {["UI/UX Design", "Web Design", "Mobile App Design", "Branding", "Prototyping"].map((s, i, arr) => (
+          {["UI/UX Design", "Frontend Development", "Web Design", "Mobile App Design", "Branding", "Prototyping"].map((s, i, arr) => (
             <span key={s} className="flex items-center gap-4">
               {s}
               {i < arr.length - 1 && <span className="text-primary">+</span>}
@@ -289,10 +289,10 @@ export function CTABand({ title, text, buttonLabel }: { title: string; text: str
             <p className="text-sm text-muted-foreground">{text}</p>
           </div>
         </div>
-        <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 rounded-full bg-ink py-3 pl-6 pr-1.5 text-sm font-semibold text-ink-foreground transition hover:bg-primary">
+        <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-ink py-3 pl-6 pr-1.5 text-sm font-semibold text-ink-foreground transition hover:bg-primary">
           {buttonLabel}
           <span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground"><ArrowRight className="h-4 w-4" /></span>
-        </a>
+        </Link>
       </div>
     </section>
   );

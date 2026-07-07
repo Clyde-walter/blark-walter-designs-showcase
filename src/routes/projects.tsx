@@ -38,9 +38,9 @@ function ProjectsPage() {
               <button className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
                 All Projects <LayoutGrid className="h-4 w-4" />
               </button>
-              <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white">
+              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white">
                 Let's Work Together <ArrowRight className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
             <div className="mt-8 flex gap-8 text-white">
               {[["75+","Projects Completed"],["30+","Happy Clients"],["5+","Years of Experience"]].map(([v,l]) => (
@@ -71,7 +71,7 @@ function ProjectsPage() {
                 <div className="text-xs text-white/60">Have a project in mind?</div>
                 <div className="text-sm font-semibold">Let's discuss your idea and bring it to life.</div>
               </div>
-              <a href={`mailto:${site.email}`} className="grid h-11 w-11 place-items-center rounded-full bg-white text-ink"><ArrowRight className="h-5 w-5" /></a>
+              <Link to="/contact" className="grid h-11 w-11 place-items-center rounded-full bg-white text-ink"><ArrowRight className="h-5 w-5" /></Link>
             </div>
           </div>
         </div>
@@ -127,10 +127,10 @@ function ProjectsPage() {
               </div>
             </div>
           </div>
-          <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
+          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
             Start Your Project
             <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
-          </a>
+          </Link>
         </div>
       </section>
     </>
