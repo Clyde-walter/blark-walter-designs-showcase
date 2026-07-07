@@ -38,9 +38,9 @@ function ServicesPage() {
               <Link to="/projects" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
                 View My Work <ArrowRight className="h-4 w-4" />
               </Link>
-              <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold">
+              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold">
                 Hire Me <Download className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
           </div>
           <Portrait eager />
@@ -95,10 +95,10 @@ function ServicesPage() {
           })}
         </div>
         <div className="mt-10 text-center">
-          <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold hover:border-primary hover:text-primary">
+          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold hover:border-primary hover:text-primary">
             Discuss Your Project
             <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-primary-foreground"><ArrowRight className="h-4 w-4" /></span>
-          </a>
+          </Link>
         </div>
       </section>
 
