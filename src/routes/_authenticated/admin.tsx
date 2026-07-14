@@ -186,21 +186,41 @@ function TableManager({ table, title, fields, defaults, orderBy, descending }: {
               </tr>
             </thead>
             <tbody>
-              {(data ?? []).map((row: any) => (
+              {(data ?? []).map((row: any) => {
+                const isDraft = row.status === "draft" || row.is_published === false;
+                return (
                 <tr key={row.id} className="border-t border-border">
-                  <td className="p-3 font-medium">{row.title ?? row.name ?? row.slug}</td>
+                  <td className="p-3 font-medium">
+                    <div className="flex items-center gap-2">
+                      {row.hero_image && <img src={row.hero_image} alt="" className="h-8 w-8 rounded object-cover" />}
+                      <span>{row.title ?? row.name ?? row.slug}</span>
+                      {isDraft ? (
+                        <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-amber-600">Draft</span>
+                      ) : (
+                        <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-emerald-600">Published</span>
+                      )}
+                    </div>
+                  </td>
                   <td className="p-3 hidden text-xs text-muted-foreground sm:table-cell">
                     {row.category ?? row.role ?? row.slug ?? ""}
                     {typeof row.price_monthly === "number" && ` · $${row.price_monthly}/mo`}
-                    {row.is_published === false && " · draft"}
                   </td>
                   <td className="p-3 text-right">
+                    {"status" in row || "is_published" in row ? (
+                      <button
+                        title={isDraft ? "Publish" : "Unpublish"}
+                        onClick={() => save.mutate({ ...row, ...(("status" in row) ? { status: isDraft ? "published" : "draft" } : { is_published: isDraft }) })}
+                        className="mr-2 rounded-full border border-border px-2 py-1 text-xs"
+                      >{isDraft ? <Eye className="inline h-3 w-3" /> : <EyeOff className="inline h-3 w-3" />}</button>
+                    ) : null}
                     <button onClick={() => setEditing(row)} className="mr-2 rounded-full border border-border px-3 py-1 text-xs font-semibold">Edit</button>
                     <button onClick={() => confirm("Delete?") && del.mutate(row.id)} className="rounded-full bg-destructive/10 px-2 py-1 text-xs font-semibold text-destructive"><Trash2 className="inline h-3 w-3" /></button>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
               {(data ?? []).length === 0 && <tr><td colSpan={3} className="p-6 text-center text-sm text-muted-foreground">No entries yet.</td></tr>}
+
             </tbody>
           </table>
         </div>
