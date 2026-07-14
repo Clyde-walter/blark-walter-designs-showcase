@@ -225,7 +225,36 @@ function ProjectDetailPage() {
         </div>
       </section>
 
+      {gallery.length > 0 && (
+        <section className="container-x pb-12">
+          <span className="section-label">Project Gallery</span>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {gallery.map((src, i) => (
+              <a key={src + i} href={src} target="_blank" rel="noreferrer" className="group block overflow-hidden rounded-2xl border border-border bg-card">
+                <img src={src} alt={`${p.title} screen ${i + 1}`} loading="lazy" className="h-full w-full object-cover transition group-hover:scale-105" />
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {testimonial && (
+        <section className="container-x pb-12">
+          <div className="flex flex-col items-start gap-6 rounded-2xl border border-border bg-card p-6 md:flex-row md:items-center md:justify-between md:p-8">
+            <div className="flex items-start gap-4">
+              <Quote className="h-8 w-8 shrink-0 text-primary" />
+              <p className="max-w-2xl text-sm text-muted-foreground md:text-base">"{testimonial.quote}"</p>
+            </div>
+            <div className="text-right">
+              <div className="font-semibold">{testimonial.name}</div>
+              <div className="text-xs text-muted-foreground">{testimonial.role}</div>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="container-x pb-16">
+
         <span className="section-label">Related Projects</span>
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {related.slice(0, 3).map((r) => (
