@@ -20,11 +20,13 @@ export type Database = {
           category: string
           created_at: string
           excerpt: string
+          hero_image: string | null
           id: string
           is_published: boolean
           published_at: string
           read_time: string | null
           slug: string
+          status: string
           tags: string[]
           title: string
           updated_at: string
@@ -34,11 +36,13 @@ export type Database = {
           category?: string
           created_at?: string
           excerpt?: string
+          hero_image?: string | null
           id?: string
           is_published?: boolean
           published_at?: string
           read_time?: string | null
           slug: string
+          status?: string
           tags?: string[]
           title: string
           updated_at?: string
@@ -48,11 +52,13 @@ export type Database = {
           category?: string
           created_at?: string
           excerpt?: string
+          hero_image?: string | null
           id?: string
           is_published?: boolean
           published_at?: string
           read_time?: string | null
           slug?: string
+          status?: string
           tags?: string[]
           title?: string
           updated_at?: string
@@ -96,6 +102,8 @@ export type Database = {
           client: string | null
           created_at: string
           duration: string | null
+          gallery_images: string[]
+          hero_image: string | null
           id: string
           industry: string | null
           is_published: boolean
@@ -118,6 +126,8 @@ export type Database = {
           client?: string | null
           created_at?: string
           duration?: string | null
+          gallery_images?: string[]
+          hero_image?: string | null
           id?: string
           industry?: string | null
           is_published?: boolean
@@ -140,6 +150,8 @@ export type Database = {
           client?: string | null
           created_at?: string
           duration?: string | null
+          gallery_images?: string[]
+          hero_image?: string | null
           id?: string
           industry?: string | null
           is_published?: boolean
