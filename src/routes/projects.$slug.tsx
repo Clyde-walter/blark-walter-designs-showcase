@@ -39,7 +39,28 @@ export const Route = createFileRoute("/projects/$slug")({
 function ProjectDetailPage() {
   const p = Route.useLoaderData();
   const related = projects.filter((x) => x.slug !== p.slug).slice(0, 6);
+
+  // Enrich with DB extras (hero_image, gallery_images) if the project exists in the CMS
+  const { data: extras } = useQuery({
+    queryKey: ["project-extras", p.slug],
+    queryFn: async () => {
+      const { data } = await (supabase.from("projects" as never) as any)
+        .select("hero_image,gallery_images").eq("slug", p.slug).maybeSingle();
+      return data as { hero_image?: string; gallery_images?: string[] } | null;
+    },
+  });
+  const { data: testimonial } = useQuery({
+    queryKey: ["project-testimonial", p.slug],
+    queryFn: async () => {
+      const { data } = await (supabase.from("testimonials" as never) as any)
+        .select("*").eq("is_published", true).ilike("project", `%${p.title}%`).limit(1).maybeSingle();
+      return data as { name: string; role: string; quote: string } | null;
+    },
+  });
+  const gallery = extras?.gallery_images ?? [];
+
   return (
+
     <>
       <section className="bg-ink py-10 text-ink-foreground">
         <div className="container-x">
