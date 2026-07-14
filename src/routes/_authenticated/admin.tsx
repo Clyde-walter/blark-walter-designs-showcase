@@ -1,8 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { LogOut, Plus, Trash2, Save, Loader2, X, ShieldCheck, Layers, Wrench, MessageSquareQuote, DollarSign, FileText, Inbox } from "lucide-react";
+import { LogOut, Plus, Trash2, Save, Loader2, X, ShieldCheck, Layers, Wrench, MessageSquareQuote, DollarSign, FileText, Inbox, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { ImageUpload, GalleryUpload } from "@/components/admin/ImageUpload";
+
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Admin — Blark-walter Designs" }, { name: "robots", content: "noindex" }] }),
