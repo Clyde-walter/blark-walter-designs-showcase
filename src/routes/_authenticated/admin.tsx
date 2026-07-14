@@ -255,9 +255,14 @@ function EditorModal({ fields, row, onChange, onCancel, onSave, saving, error }:
                 <select value={row[f.key] ?? ""} onChange={(e) => onChange({ ...row, [f.key]: e.target.value })} className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm">
                   {f.options?.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
+              ) : f.type === "image" ? (
+                <ImageUpload value={row[f.key] ?? ""} onChange={(url) => onChange({ ...row, [f.key]: url })} folder={f.folder} label={f.label} />
+              ) : f.type === "gallery" ? (
+                <GalleryUpload value={row[f.key] ?? []} onChange={(urls) => onChange({ ...row, [f.key]: urls })} folder={f.folder} />
               ) : (
                 <input value={row[f.key] ?? ""} onChange={(e) => onChange({ ...row, [f.key]: e.target.value })} className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm" />
               )}
+
             </div>
           ))}
         </div>
