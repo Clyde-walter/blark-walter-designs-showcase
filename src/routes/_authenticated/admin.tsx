@@ -74,11 +74,12 @@ function AdminPage() {
       </nav>
 
       <div className="mt-8">
-        {tab === "projects" && <TableManager table="projects" title="Projects" fields={PROJECT_FIELDS} defaults={{ slug: "", title: "", subtitle: "", category: "", tags: [], summary: "", accent: "from-violet-600 to-fuchsia-600", is_published: true, sort: 0 }} orderBy="sort" />}
+        {tab === "projects" && <TableManager table="projects" title="Projects" fields={PROJECT_FIELDS} defaults={{ slug: "", title: "", subtitle: "", category: "", tags: [], summary: "", accent: "from-violet-600 to-fuchsia-600", hero_image: "", gallery_images: [], is_published: true, sort: 0 }} orderBy="sort" />}
         {tab === "services" && <TableManager table="services" title="Services" fields={SERVICE_FIELDS} defaults={{ name: "", description: "", sort: 0 }} orderBy="sort" />}
         {tab === "testimonials" && <TableManager table="testimonials" title="Testimonials" fields={TESTIMONIAL_FIELDS} defaults={{ name: "", role: "", project: "", quote: "", sort: 0, is_published: true }} orderBy="sort" />}
         {tab === "plans" && <TableManager table="subscription_plans" title="Subscription Plans" fields={PLAN_FIELDS} defaults={{ slug: "", category: "brand-identity", name: "", tagline: "", price_monthly: 0, currency: "USD", features: [], is_featured: false, sort: 0, is_published: true }} orderBy="sort" />}
-        {tab === "blog" && <TableManager table="blog_posts" title="Blog Posts" fields={BLOG_FIELDS} defaults={{ slug: "", title: "", category: "", excerpt: "", body_md: "", tags: [], read_time: "5 min read", is_published: true }} orderBy="published_at" descending />}
+        {tab === "blog" && <TableManager table="blog_posts" title="Blog Posts" fields={BLOG_FIELDS} defaults={{ slug: "", title: "", category: "", excerpt: "", body_md: "", tags: [], read_time: "5 min read", status: "draft", hero_image: "" }} orderBy="published_at" descending />}
+
         {tab === "submissions" && <SubmissionsView />}
       </div>
     </section>
