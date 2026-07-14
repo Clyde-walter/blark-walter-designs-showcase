@@ -99,8 +99,13 @@ function ProjectDetailPage() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <ProjectVisual project={p} />
+              {extras?.hero_image ? (
+                <img src={extras.hero_image} alt={p.title} className="max-h-[520px] w-full rounded-2xl object-contain" />
+              ) : (
+                <ProjectVisual project={p} />
+              )}
             </div>
+
             <div className="rounded-2xl bg-white/5 p-6 backdrop-blur">
               <div className="mb-3 flex items-center gap-2 font-semibold">
                 <div className="h-2 w-2 rounded-full bg-primary" />
