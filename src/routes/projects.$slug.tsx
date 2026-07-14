@@ -1,7 +1,11 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowRight, ExternalLink, Play, Clock, User, Calendar, Monitor, ShieldCheck, TrendingUp, MessageCircle, HeadphonesIcon, AlertCircle, CheckCircle2, Linkedin, Twitter, Facebook, Dribbble } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { ArrowRight, ExternalLink, Play, Clock, User, Calendar, Monitor, ShieldCheck, TrendingUp, MessageCircle, HeadphonesIcon, AlertCircle, CheckCircle2, Linkedin, Twitter, Facebook, Dribbble, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { projects, site } from "@/lib/portfolio-data";
+import { supabase } from "@/integrations/supabase/client";
+
 
 export const Route = createFileRoute("/projects/$slug")({
   head: ({ params }) => {
@@ -35,7 +39,28 @@ export const Route = createFileRoute("/projects/$slug")({
 function ProjectDetailPage() {
   const p = Route.useLoaderData();
   const related = projects.filter((x) => x.slug !== p.slug).slice(0, 6);
+
+  // Enrich with DB extras (hero_image, gallery_images) if the project exists in the CMS
+  const { data: extras } = useQuery({
+    queryKey: ["project-extras", p.slug],
+    queryFn: async () => {
+      const { data } = await (supabase.from("projects" as never) as any)
+        .select("hero_image,gallery_images").eq("slug", p.slug).maybeSingle();
+      return data as { hero_image?: string; gallery_images?: string[] } | null;
+    },
+  });
+  const { data: testimonial } = useQuery({
+    queryKey: ["project-testimonial", p.slug],
+    queryFn: async () => {
+      const { data } = await (supabase.from("testimonials" as never) as any)
+        .select("*").eq("is_published", true).ilike("project", `%${p.title}%`).limit(1).maybeSingle();
+      return data as { name: string; role: string; quote: string } | null;
+    },
+  });
+  const gallery = extras?.gallery_images ?? [];
+
   return (
+
     <>
       <section className="bg-ink py-10 text-ink-foreground">
         <div className="container-x">
@@ -74,8 +99,13 @@ function ProjectDetailPage() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <ProjectVisual project={p} />
+              {extras?.hero_image ? (
+                <img src={extras.hero_image} alt={p.title} className="max-h-[520px] w-full rounded-2xl object-contain" />
+              ) : (
+                <ProjectVisual project={p} />
+              )}
             </div>
+
             <div className="rounded-2xl bg-white/5 p-6 backdrop-blur">
               <div className="mb-3 flex items-center gap-2 font-semibold">
                 <div className="h-2 w-2 rounded-full bg-primary" />
@@ -195,7 +225,36 @@ function ProjectDetailPage() {
         </div>
       </section>
 
+      {gallery.length > 0 && (
+        <section className="container-x pb-12">
+          <span className="section-label">Project Gallery</span>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {gallery.map((src, i) => (
+              <a key={src + i} href={src} target="_blank" rel="noreferrer" className="group block overflow-hidden rounded-2xl border border-border bg-card">
+                <img src={src} alt={`${p.title} screen ${i + 1}`} loading="lazy" className="h-full w-full object-cover transition group-hover:scale-105" />
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {testimonial && (
+        <section className="container-x pb-12">
+          <div className="flex flex-col items-start gap-6 rounded-2xl border border-border bg-card p-6 md:flex-row md:items-center md:justify-between md:p-8">
+            <div className="flex items-start gap-4">
+              <Quote className="h-8 w-8 shrink-0 text-primary" />
+              <p className="max-w-2xl text-sm text-muted-foreground md:text-base">"{testimonial.quote}"</p>
+            </div>
+            <div className="text-right">
+              <div className="font-semibold">{testimonial.name}</div>
+              <div className="text-xs text-muted-foreground">{testimonial.role}</div>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="container-x pb-16">
+
         <span className="section-label">Related Projects</span>
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {related.slice(0, 3).map((r) => (

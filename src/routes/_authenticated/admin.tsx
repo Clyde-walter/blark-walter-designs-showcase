@@ -1,8 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { LogOut, Plus, Trash2, Save, Loader2, X, ShieldCheck, Layers, Wrench, MessageSquareQuote, DollarSign, FileText, Inbox } from "lucide-react";
+import { LogOut, Plus, Trash2, Save, Loader2, X, ShieldCheck, Layers, Wrench, MessageSquareQuote, DollarSign, FileText, Inbox, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { ImageUpload, GalleryUpload } from "@/components/admin/ImageUpload";
+
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Admin — Blark-walter Designs" }, { name: "robots", content: "noindex" }] }),
@@ -72,18 +74,19 @@ function AdminPage() {
       </nav>
 
       <div className="mt-8">
-        {tab === "projects" && <TableManager table="projects" title="Projects" fields={PROJECT_FIELDS} defaults={{ slug: "", title: "", subtitle: "", category: "", tags: [], summary: "", accent: "from-violet-600 to-fuchsia-600", is_published: true, sort: 0 }} orderBy="sort" />}
+        {tab === "projects" && <TableManager table="projects" title="Projects" fields={PROJECT_FIELDS} defaults={{ slug: "", title: "", subtitle: "", category: "", tags: [], summary: "", accent: "from-violet-600 to-fuchsia-600", hero_image: "", gallery_images: [], is_published: true, sort: 0 }} orderBy="sort" />}
         {tab === "services" && <TableManager table="services" title="Services" fields={SERVICE_FIELDS} defaults={{ name: "", description: "", sort: 0 }} orderBy="sort" />}
         {tab === "testimonials" && <TableManager table="testimonials" title="Testimonials" fields={TESTIMONIAL_FIELDS} defaults={{ name: "", role: "", project: "", quote: "", sort: 0, is_published: true }} orderBy="sort" />}
         {tab === "plans" && <TableManager table="subscription_plans" title="Subscription Plans" fields={PLAN_FIELDS} defaults={{ slug: "", category: "brand-identity", name: "", tagline: "", price_monthly: 0, currency: "USD", features: [], is_featured: false, sort: 0, is_published: true }} orderBy="sort" />}
-        {tab === "blog" && <TableManager table="blog_posts" title="Blog Posts" fields={BLOG_FIELDS} defaults={{ slug: "", title: "", category: "", excerpt: "", body_md: "", tags: [], read_time: "5 min read", is_published: true }} orderBy="published_at" descending />}
+        {tab === "blog" && <TableManager table="blog_posts" title="Blog Posts" fields={BLOG_FIELDS} defaults={{ slug: "", title: "", category: "", excerpt: "", body_md: "", tags: [], read_time: "5 min read", status: "draft", hero_image: "" }} orderBy="published_at" descending />}
+
         {tab === "submissions" && <SubmissionsView />}
       </div>
     </section>
   );
 }
 
-type Field = { key: string; label: string; type: "text" | "textarea" | "number" | "bool" | "tags" | "select"; options?: string[]; span?: number };
+type Field = { key: string; label: string; type: "text" | "textarea" | "number" | "bool" | "tags" | "select" | "image" | "gallery"; options?: string[]; span?: number; folder?: string };
 
 const PROJECT_FIELDS: Field[] = [
   { key: "slug", label: "Slug", type: "text" }, { key: "title", label: "Title", type: "text" },
@@ -93,6 +96,8 @@ const PROJECT_FIELDS: Field[] = [
   { key: "year", label: "Year", type: "text" }, { key: "platforms", label: "Platforms", type: "text" },
   { key: "tags", label: "Tags (comma-separated)", type: "tags" },
   { key: "accent", label: "Accent gradient", type: "text" },
+  { key: "hero_image", label: "Hero image", type: "image", span: 2, folder: "projects/hero" },
+  { key: "gallery_images", label: "Project gallery", type: "gallery", span: 2, folder: "projects/gallery" },
   { key: "summary", label: "Summary", type: "textarea", span: 2 },
   { key: "problem", label: "Problem", type: "textarea", span: 2 },
   { key: "solution", label: "Solution", type: "textarea", span: 2 },
@@ -123,11 +128,13 @@ const PLAN_FIELDS: Field[] = [
 const BLOG_FIELDS: Field[] = [
   { key: "slug", label: "Slug", type: "text" }, { key: "title", label: "Title", type: "text" },
   { key: "category", label: "Category", type: "text" }, { key: "read_time", label: "Read time", type: "text" },
+  { key: "status", label: "Status", type: "select", options: ["draft", "published"] },
+  { key: "hero_image", label: "Hero image", type: "image", span: 2, folder: "blog/hero" },
   { key: "tags", label: "Tags", type: "tags", span: 2 },
   { key: "excerpt", label: "Excerpt", type: "textarea", span: 2 },
   { key: "body_md", label: "Body (markdown)", type: "textarea", span: 2 },
-  { key: "is_published", label: "Published", type: "bool" },
 ];
+
 
 function TableManager({ table, title, fields, defaults, orderBy, descending }: { table: string; title: string; fields: Field[]; defaults: Record<string, any>; orderBy: string; descending?: boolean }) {
   const qc = useQueryClient();
@@ -179,21 +186,41 @@ function TableManager({ table, title, fields, defaults, orderBy, descending }: {
               </tr>
             </thead>
             <tbody>
-              {(data ?? []).map((row: any) => (
+              {(data ?? []).map((row: any) => {
+                const isDraft = row.status === "draft" || row.is_published === false;
+                return (
                 <tr key={row.id} className="border-t border-border">
-                  <td className="p-3 font-medium">{row.title ?? row.name ?? row.slug}</td>
+                  <td className="p-3 font-medium">
+                    <div className="flex items-center gap-2">
+                      {row.hero_image && <img src={row.hero_image} alt="" className="h-8 w-8 rounded object-cover" />}
+                      <span>{row.title ?? row.name ?? row.slug}</span>
+                      {isDraft ? (
+                        <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-amber-600">Draft</span>
+                      ) : (
+                        <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-emerald-600">Published</span>
+                      )}
+                    </div>
+                  </td>
                   <td className="p-3 hidden text-xs text-muted-foreground sm:table-cell">
                     {row.category ?? row.role ?? row.slug ?? ""}
                     {typeof row.price_monthly === "number" && ` · $${row.price_monthly}/mo`}
-                    {row.is_published === false && " · draft"}
                   </td>
                   <td className="p-3 text-right">
+                    {"status" in row || "is_published" in row ? (
+                      <button
+                        title={isDraft ? "Publish" : "Unpublish"}
+                        onClick={() => save.mutate({ ...row, ...(("status" in row) ? { status: isDraft ? "published" : "draft" } : { is_published: isDraft }) })}
+                        className="mr-2 rounded-full border border-border px-2 py-1 text-xs"
+                      >{isDraft ? <Eye className="inline h-3 w-3" /> : <EyeOff className="inline h-3 w-3" />}</button>
+                    ) : null}
                     <button onClick={() => setEditing(row)} className="mr-2 rounded-full border border-border px-3 py-1 text-xs font-semibold">Edit</button>
                     <button onClick={() => confirm("Delete?") && del.mutate(row.id)} className="rounded-full bg-destructive/10 px-2 py-1 text-xs font-semibold text-destructive"><Trash2 className="inline h-3 w-3" /></button>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
               {(data ?? []).length === 0 && <tr><td colSpan={3} className="p-6 text-center text-sm text-muted-foreground">No entries yet.</td></tr>}
+
             </tbody>
           </table>
         </div>
@@ -228,9 +255,14 @@ function EditorModal({ fields, row, onChange, onCancel, onSave, saving, error }:
                 <select value={row[f.key] ?? ""} onChange={(e) => onChange({ ...row, [f.key]: e.target.value })} className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm">
                   {f.options?.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
+              ) : f.type === "image" ? (
+                <ImageUpload value={row[f.key] ?? ""} onChange={(url) => onChange({ ...row, [f.key]: url })} folder={f.folder} label={f.label} />
+              ) : f.type === "gallery" ? (
+                <GalleryUpload value={row[f.key] ?? []} onChange={(urls) => onChange({ ...row, [f.key]: urls })} folder={f.folder} />
               ) : (
                 <input value={row[f.key] ?? ""} onChange={(e) => onChange({ ...row, [f.key]: e.target.value })} className="mt-1 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm" />
               )}
+
             </div>
           ))}
         </div>
