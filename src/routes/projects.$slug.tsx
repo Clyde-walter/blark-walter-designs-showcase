@@ -1,7 +1,11 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowRight, ExternalLink, Play, Clock, User, Calendar, Monitor, ShieldCheck, TrendingUp, MessageCircle, HeadphonesIcon, AlertCircle, CheckCircle2, Linkedin, Twitter, Facebook, Dribbble } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { ArrowRight, ExternalLink, Play, Clock, User, Calendar, Monitor, ShieldCheck, TrendingUp, MessageCircle, HeadphonesIcon, AlertCircle, CheckCircle2, Linkedin, Twitter, Facebook, Dribbble, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { projects, site } from "@/lib/portfolio-data";
+import { supabase } from "@/integrations/supabase/client";
+
 
 export const Route = createFileRoute("/projects/$slug")({
   head: ({ params }) => {
