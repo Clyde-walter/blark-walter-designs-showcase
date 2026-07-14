@@ -85,7 +85,7 @@ function AdminPage() {
   );
 }
 
-type Field = { key: string; label: string; type: "text" | "textarea" | "number" | "bool" | "tags" | "select"; options?: string[]; span?: number };
+type Field = { key: string; label: string; type: "text" | "textarea" | "number" | "bool" | "tags" | "select" | "image" | "gallery"; options?: string[]; span?: number; folder?: string };
 
 const PROJECT_FIELDS: Field[] = [
   { key: "slug", label: "Slug", type: "text" }, { key: "title", label: "Title", type: "text" },
@@ -95,6 +95,8 @@ const PROJECT_FIELDS: Field[] = [
   { key: "year", label: "Year", type: "text" }, { key: "platforms", label: "Platforms", type: "text" },
   { key: "tags", label: "Tags (comma-separated)", type: "tags" },
   { key: "accent", label: "Accent gradient", type: "text" },
+  { key: "hero_image", label: "Hero image", type: "image", span: 2, folder: "projects/hero" },
+  { key: "gallery_images", label: "Project gallery", type: "gallery", span: 2, folder: "projects/gallery" },
   { key: "summary", label: "Summary", type: "textarea", span: 2 },
   { key: "problem", label: "Problem", type: "textarea", span: 2 },
   { key: "solution", label: "Solution", type: "textarea", span: 2 },
@@ -125,11 +127,13 @@ const PLAN_FIELDS: Field[] = [
 const BLOG_FIELDS: Field[] = [
   { key: "slug", label: "Slug", type: "text" }, { key: "title", label: "Title", type: "text" },
   { key: "category", label: "Category", type: "text" }, { key: "read_time", label: "Read time", type: "text" },
+  { key: "status", label: "Status", type: "select", options: ["draft", "published"] },
+  { key: "hero_image", label: "Hero image", type: "image", span: 2, folder: "blog/hero" },
   { key: "tags", label: "Tags", type: "tags", span: 2 },
   { key: "excerpt", label: "Excerpt", type: "textarea", span: 2 },
   { key: "body_md", label: "Body (markdown)", type: "textarea", span: 2 },
-  { key: "is_published", label: "Published", type: "bool" },
 ];
+
 
 function TableManager({ table, title, fields, defaults, orderBy, descending }: { table: string; title: string; fields: Field[]; defaults: Record<string, any>; orderBy: string; descending?: boolean }) {
   const qc = useQueryClient();
