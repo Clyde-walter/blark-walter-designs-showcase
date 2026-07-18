@@ -53,31 +53,34 @@ export function Header() {
           </nav>
         )}
         <div className="flex shrink-0 items-center gap-2">
-          <Link
-            to="/contact"
-            className="hidden items-center gap-2 rounded-full bg-ink py-2.5 pl-4 pr-1 text-sm font-semibold text-ink-foreground transition hover:bg-primary sm:inline-flex sm:py-3 sm:pl-5 sm:pr-1.5"
-          >
-            Let's Talk
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-primary-foreground sm:h-9 sm:w-9">
-              <ArrowRight className="h-4 w-4" />
-            </span>
-          </Link>
+          {!isAdmin && (
+            <Link
+              to="/contact"
+              className="hidden items-center gap-2 rounded-full bg-ink py-2.5 pl-4 pr-1 text-sm font-semibold text-ink-foreground transition hover:bg-primary sm:inline-flex sm:py-3 sm:pl-5 sm:pr-1.5"
+            >
+              Let's Talk
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-primary text-primary-foreground sm:h-9 sm:w-9">
+                <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          )}
           <button
             aria-label="Toggle menu"
             onClick={() => setOpen((o) => !o)}
-            className="rounded-full border border-border p-2.5 xl:hidden"
+            className={`rounded-full border border-border p-2.5 ${isAdmin ? "lg:hidden" : "xl:hidden"}`}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
       {open && (
-        <div className="border-t border-border xl:hidden">
+        <div className={`border-t border-border ${isAdmin ? "lg:hidden" : "xl:hidden"}`}>
           <div className="container-x flex flex-col py-3">
-            {nav.map((n) => (
+            {(isAdmin ? adminNav.map((n) => ({ to: n.to, hash: n.hash, label: n.label })) : nav.map((n) => ({ to: n.to, hash: undefined, label: n.label }))).map((n) => (
               <Link
-                key={n.to}
+                key={n.label}
                 to={n.to}
+                hash={n.hash}
                 onClick={() => setOpen(false)}
                 className="py-3 text-base font-medium text-foreground data-[status=active]:text-primary"
                 activeOptions={{ exact: n.to === "/" }}
@@ -85,14 +88,16 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
-            <Link
-              to="/contact"
-              onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-between gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-ink-foreground sm:hidden"
-            >
-              Let's Talk
-              <ArrowRight className="h-4 w-4 text-primary" />
-            </Link>
+            {!isAdmin && (
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="mt-2 inline-flex items-center justify-between gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-ink-foreground sm:hidden"
+              >
+                Let's Talk
+                <ArrowRight className="h-4 w-4 text-primary" />
+              </Link>
+            )}
           </div>
         </div>
       )}
