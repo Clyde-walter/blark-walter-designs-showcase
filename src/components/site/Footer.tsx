@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Linkedin, Twitter, Instagram, Dribbble, Mail, Phone, MapPin, Clock } from "lucide-react";
-import logoAsset from "@/assets/logo.png.asset.json";
+
 import { site, nav, services } from "@/lib/portfolio-data";
 
 const socials = [
