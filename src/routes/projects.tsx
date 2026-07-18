@@ -159,3 +159,26 @@ function ProjectsPage() {
           <p className="mt-10 text-center text-muted-foreground">No projects in this category yet — check back soon.</p>
         )}
       </section>
+
+      <section className="container-x pb-16">
+        <div className="ink-panel flex flex-col items-center gap-4 p-8 text-ink-foreground md:flex-row md:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="grid h-14 w-14 place-items-center rounded-full border-2 border-primary text-primary">
+              <Send className="h-6 w-6" />
+            </div>
+            <div>
+              <div className="text-sm text-white/60">Like what you see?</div>
+              <div className="text-2xl font-bold">
+                Let's create something <span className="text-primary">amazing</span> together!
+              </div>
+            </div>
+          </div>
+          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
+            Start Your Project
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
+          </Link>
+        </div>
+      </section>
+    </>
+  );
+}
