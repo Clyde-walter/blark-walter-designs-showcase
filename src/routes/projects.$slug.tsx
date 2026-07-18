@@ -78,16 +78,25 @@ function ProjectDetailPage() {
               </h1>
               <p className="mt-5 text-white/70">{p.summary}</p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <a href="#" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
-                  Visit Website
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20"><ExternalLink className="h-4 w-4" /></span>
-                </a>
-                <a href="#" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold">
-                  View Live Demo <Play className="h-4 w-4" />
-                </a>
+                {p.liveUrl ? (
+                  <a href={p.liveUrl} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
+                    Visit Website
+                    <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20"><ExternalLink className="h-4 w-4" /></span>
+                  </a>
+                ) : (
+                  <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
+                    Request Case Study
+                    <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
+                  </Link>
+                )}
+                {p.liveUrl && (
+                  <a href={p.liveUrl} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold">
+                    View Live Demo <Play className="h-4 w-4" />
+                  </a>
+                )}
               </div>
               <div className="mt-6 flex flex-wrap gap-2">
-                {["Figma", "Photoshop", "Illustrator"].map((t) => (
+                {(p.stack ?? ["Figma", "Photoshop", "Illustrator"]).map((t: string) => (
                   <span key={t} className="rounded-full border border-white/20 px-3 py-1 text-xs">{t}</span>
                 ))}
               </div>

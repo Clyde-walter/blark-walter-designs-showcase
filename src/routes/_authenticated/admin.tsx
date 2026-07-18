@@ -28,6 +28,16 @@ function AdminPage() {
   const [email, setEmail] = useState<string>("");
 
   useEffect(() => {
+    const applyHash = () => {
+      const h = (typeof window !== "undefined" ? window.location.hash.replace(/^#/, "") : "") as Tab;
+      if (h && TABS.some((t) => t.id === h)) setTab(h);
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
+
+  useEffect(() => {
     (async () => {
       const { data: u } = await supabase.auth.getUser();
       setEmail(u.user?.email ?? "");
