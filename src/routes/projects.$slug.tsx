@@ -96,7 +96,7 @@ function ProjectDetailPage() {
                 )}
               </div>
               <div className="mt-6 flex flex-wrap gap-2">
-                {(p.stack ?? ["Figma", "Photoshop", "Illustrator"]).map((t) => (
+                {(p.stack ?? ["Figma", "Photoshop", "Illustrator"]).map((t: string) => (
                   <span key={t} className="rounded-full border border-white/20 px-3 py-1 text-xs">{t}</span>
                 ))}
               </div>
