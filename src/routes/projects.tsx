@@ -1,8 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Grid3x3, LayoutGrid, Send } from "lucide-react";
+import { ArrowRight, ExternalLink, Grid3x3, LayoutGrid, Send } from "lucide-react";
+import { useMemo, useState } from "react";
 import { Portrait } from "@/components/site/Portrait";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
-import { projects, site } from "@/lib/portfolio-data";
+import { projects } from "@/lib/portfolio-data";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
