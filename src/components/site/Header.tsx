@@ -1,11 +1,21 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { ArrowRight, Menu, X, Layers, Wrench, MessageSquareQuote, DollarSign, FileText, Inbox } from "lucide-react";
 import { useState } from "react";
-import logoAsset from "@/assets/logo.png.asset.json";
 import { nav, site } from "@/lib/portfolio-data";
+
+const adminNav = [
+  { to: "/admin", hash: "projects", label: "Projects", Icon: Layers },
+  { to: "/admin", hash: "services", label: "Services", Icon: Wrench },
+  { to: "/admin", hash: "testimonials", label: "Testimonials", Icon: MessageSquareQuote },
+  { to: "/admin", hash: "plans", label: "Plans", Icon: DollarSign },
+  { to: "/admin", hash: "blog", label: "Blog", Icon: FileText },
+  { to: "/admin", hash: "submissions", label: "Contacts", Icon: Inbox },
+] as const;
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isAdmin = pathname.startsWith("/admin");
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-3 sm:h-20 sm:gap-6">
