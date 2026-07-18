@@ -20,23 +20,38 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-3 sm:h-20 sm:gap-6">
         <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-2.5">
-          <img src={logoAsset.url} alt={site.name} className="h-9 w-9 shrink-0 sm:h-10 sm:w-10" />
+          <img src="/logo.png" alt={site.name} className="h-9 w-9 shrink-0 sm:h-10 sm:w-10" />
           <div className="hidden truncate text-sm font-semibold leading-tight text-foreground sm:block font-display">
             Blark-walter<br />Designs
           </div>
         </Link>
-        <nav className="hidden items-center gap-6 xl:flex">
-          {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-primary data-[status=active]:text-primary data-[status=active]:after:absolute data-[status=active]:after:-bottom-1.5 data-[status=active]:after:left-1/2 data-[status=active]:after:h-0.5 data-[status=active]:after:w-6 data-[status=active]:after:-translate-x-1/2 data-[status=active]:after:bg-primary"
-              activeOptions={{ exact: n.to === "/" }}
-            >
-              {n.label}
-            </Link>
-          ))}
-        </nav>
+        {isAdmin ? (
+          <nav className="hidden items-center gap-4 lg:flex">
+            {adminNav.map((n) => (
+              <Link
+                key={n.hash}
+                to={n.to}
+                hash={n.hash}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition hover:text-primary"
+              >
+                <n.Icon className="h-4 w-4" /> {n.label}
+              </Link>
+            ))}
+          </nav>
+        ) : (
+          <nav className="hidden items-center gap-6 xl:flex">
+            {nav.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-primary data-[status=active]:text-primary data-[status=active]:after:absolute data-[status=active]:after:-bottom-1.5 data-[status=active]:after:left-1/2 data-[status=active]:after:h-0.5 data-[status=active]:after:w-6 data-[status=active]:after:-translate-x-1/2 data-[status=active]:after:bg-primary"
+                activeOptions={{ exact: n.to === "/" }}
+              >
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+        )}
         <div className="flex shrink-0 items-center gap-2">
           <Link
             to="/contact"
