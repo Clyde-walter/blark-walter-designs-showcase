@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Linkedin, Twitter, Instagram, Dribbble, Mail, Phone, MapPin, Clock } from "lucide-react";
-import logoAsset from "@/assets/logo.png.asset.json";
+
 import { site, nav, services } from "@/lib/portfolio-data";
 
 const socials = [
@@ -16,7 +16,7 @@ export function Footer() {
       <div className="container-x grid gap-10 py-14 sm:grid-cols-2 md:grid-cols-4">
         <div>
           <Link to="/" className="flex items-center gap-2.5">
-            <img src={logoAsset.url} alt={site.name} className="h-10 w-10" />
+            <img src="/logo.png" alt={site.name} className="h-10 w-10" />
             <div className="text-sm font-semibold leading-tight font-display">Blark-walter<br />Designs</div>
           </Link>
           <p className="mt-5 max-w-xs text-sm text-muted-foreground">
