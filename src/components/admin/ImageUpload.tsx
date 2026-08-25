@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Loader2, Upload, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 
 const TEN_YEARS = 60 * 60 * 24 * 365 * 10;
 
@@ -44,9 +45,11 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Imag
         ) : (
           <div className="grid h-20 w-20 place-items-center rounded-xl border border-dashed border-border bg-muted text-muted-foreground"><Upload className="h-5 w-5" /></div>
         )}
-        <button type="button" onClick={() => inputRef.current?.click()} disabled={busy} className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold disabled:opacity-60">
-          {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />} {value ? "Replace" : "Upload"}
-        </button>
+        <Button asChild>
+          <button type="button" onClick={() => inputRef.current?.click()} disabled={busy}>
+            {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />} {value ? "Replace" : "Upload"}
+          </button>
+        </Button>
         <input ref={inputRef} type="file" accept="image/*" hidden onChange={(e) => handleFiles(e.target.files)} />
       </div>
       {err && <p className="mt-1 text-xs text-destructive">{err}</p>}

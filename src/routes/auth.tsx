@@ -18,6 +18,7 @@ function AuthPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -27,16 +28,27 @@ function AuthPage() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true); setError("");
+    setLoading(true); setError(""); setSuccess("");
     const fd = new FormData(e.currentTarget);
     const email = String(fd.get("email"));
     const password = String(fd.get("password"));
     const fn = mode === "signin"
       ? supabase.auth.signInWithPassword({ email, password })
-      : supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth` } });
-    const { error } = await fn;
+      : supabase.auth.signUp({ email, password });
+    const { data, error } = await fn;
     setLoading(false);
     if (error) { setError(error.message); return; }
+    // If sign in produced a session, go to admin. If sign up requires email confirmation
+    // Supabase may not return a session; inform the user accordingly.
+    if (data?.session) {
+      navigate({ to: "/_authenticated/admin" as any });
+      return;
+    }
+    if (mode === "signup") {
+      setSuccess("Check your email to confirm your account. After confirming, sign in.");
+      return;
+    }
+    // Fallback: navigate to auth page to refresh state
     navigate({ to: "/_authenticated/admin" as any });
   }
 
@@ -60,6 +72,7 @@ function AuthPage() {
             <input name="password" type="password" required minLength={6} className="rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
           </label>
           {error && <p className="text-sm text-destructive">{error}</p>}
+          {success && <p className="text-sm text-emerald-600">{success}</p>}
           <button disabled={loading} className="inline-flex items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60">
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
             {mode === "signin" ? "Sign in" : "Create account"}

@@ -4,7 +4,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { LogOut, Plus, Trash2, Save, Loader2, X, ShieldCheck, Layers, Wrench, MessageSquareQuote, DollarSign, FileText, Inbox, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ImageUpload, GalleryUpload } from "@/components/admin/ImageUpload";
+import { AdminSidebar } from "@/components/admin/Sidebar";
+import { DashboardMain } from "@/components/admin/Dashboard";
+import AdminTopbar from "@/components/admin/Topbar";
 
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({ meta: [{ title: "Admin — Blark-walter Designs" }, { name: "robots", content: "noindex" }] }),
@@ -63,6 +69,7 @@ function AdminPage() {
 
   return (
     <section className="container-x py-8 md:py-12">
+      <AdminTopbar />
       <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 sm:flex sm:flex-wrap sm:justify-between">
         <div className="min-w-0">
           <span className="section-label">Admin</span>
@@ -75,22 +82,33 @@ function AdminPage() {
         </div>
       </header>
 
-      <nav className="mt-6 flex flex-wrap gap-2 border-b border-border pb-2">
-        {TABS.map(({ id, label, Icon }) => (
-          <button key={id} onClick={() => setTab(id)} className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${tab === id ? "bg-primary text-primary-foreground" : "border border-border bg-card hover:border-primary"}`}>
-            <Icon className="h-4 w-4" /> {label}
-          </button>
-        ))}
-      </nav>
+      <div className="mt-6">
+        <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)}>
+          <TabsList>
+            {TABS.map(({ id, label, Icon }) => (
+              <TabsTrigger key={id} value={id} className="px-4">
+                <Icon className="h-4 w-4" />
+                <span className="ml-1">{label}</span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      </div>
 
-      <div className="mt-8">
-        {tab === "projects" && <TableManager table="projects" title="Projects" fields={PROJECT_FIELDS} defaults={{ slug: "", title: "", subtitle: "", category: "", tags: [], summary: "", accent: "from-violet-600 to-fuchsia-600", hero_image: "", gallery_images: [], is_published: true, sort: 0 }} orderBy="sort" />}
-        {tab === "services" && <TableManager table="services" title="Services" fields={SERVICE_FIELDS} defaults={{ name: "", description: "", sort: 0 }} orderBy="sort" />}
-        {tab === "testimonials" && <TableManager table="testimonials" title="Testimonials" fields={TESTIMONIAL_FIELDS} defaults={{ name: "", role: "", project: "", quote: "", sort: 0, is_published: true }} orderBy="sort" />}
-        {tab === "plans" && <TableManager table="subscription_plans" title="Subscription Plans" fields={PLAN_FIELDS} defaults={{ slug: "", category: "brand-identity", name: "", tagline: "", price_monthly: 0, currency: "USD", features: [], is_featured: false, sort: 0, is_published: true }} orderBy="sort" />}
-        {tab === "blog" && <TableManager table="blog_posts" title="Blog Posts" fields={BLOG_FIELDS} defaults={{ slug: "", title: "", category: "", excerpt: "", body_md: "", tags: [], read_time: "5 min read", status: "draft", hero_image: "" }} orderBy="published_at" descending />}
+      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[20rem_1fr]">
+        <AdminSidebar />
+        <main>
+          {tab === "projects" && <TableManager table="projects" title="Projects" fields={PROJECT_FIELDS} defaults={{ slug: "", title: "", subtitle: "", category: "", tags: [], summary: "", accent: "from-violet-600 to-fuchsia-600", hero_image: "", gallery_images: [], is_published: true, sort: 0 }} orderBy="sort" />}
+          {tab === "services" && <TableManager table="services" title="Services" fields={SERVICE_FIELDS} defaults={{ name: "", description: "", sort: 0 }} orderBy="sort" />}
+          {tab === "testimonials" && <TableManager table="testimonials" title="Testimonials" fields={TESTIMONIAL_FIELDS} defaults={{ name: "", role: "", project: "", quote: "", sort: 0, is_published: true }} orderBy="sort" />}
+          {tab === "plans" && <TableManager table="subscription_plans" title="Subscription Plans" fields={PLAN_FIELDS} defaults={{ slug: "", category: "brand-identity", name: "", tagline: "", price_monthly: 0, currency: "USD", features: [], is_featured: false, sort: 0, is_published: true }} orderBy="sort" />}
+          {tab === "blog" && <TableManager table="blog_posts" title="Blog Posts" fields={BLOG_FIELDS} defaults={{ slug: "", title: "", category: "", excerpt: "", body_md: "", tags: [], read_time: "5 min read", status: "draft", hero_image: "" }} orderBy="published_at" descending />}
 
-        {tab === "submissions" && <SubmissionsView />}
+          {tab === "submissions" && <SubmissionsView />}
+
+          {/* Dashboard: show when tab is dashboard (hash) or default */}
+          {(tab === "dashboard" || !tab) && <DashboardMain />}
+        </main>
       </div>
     </section>
   );
@@ -185,7 +203,7 @@ function TableManager({ table, title, fields, defaults, orderBy, descending }: {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold">{title} <span className="text-sm font-normal text-muted-foreground">({data?.length ?? 0})</span></h2>
-        <button onClick={() => setEditing({ ...defaults })} className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"><Plus className="h-4 w-4" /> New</button>
+        <Button onClick={() => setEditing({ ...defaults })}><Plus className="h-4 w-4" /> New</Button>
       </div>
       {isLoading ? <Loader2 className="h-5 w-5 animate-spin text-primary" /> : (
         <div className="overflow-x-auto rounded-2xl border border-border bg-card">
@@ -217,14 +235,12 @@ function TableManager({ table, title, fields, defaults, orderBy, descending }: {
                   </td>
                   <td className="p-3 text-right">
                     {"status" in row || "is_published" in row ? (
-                      <button
-                        title={isDraft ? "Publish" : "Unpublish"}
-                        onClick={() => save.mutate({ ...row, ...(("status" in row) ? { status: isDraft ? "published" : "draft" } : { is_published: isDraft }) })}
-                        className="mr-2 rounded-full border border-border px-2 py-1 text-xs"
-                      >{isDraft ? <Eye className="inline h-3 w-3" /> : <EyeOff className="inline h-3 w-3" />}</button>
+                      <Button variant="outline" size="sm" title={isDraft ? "Publish" : "Unpublish"} onClick={() => save.mutate({ ...row, ...(("status" in row) ? { status: isDraft ? "published" : "draft" } : { is_published: isDraft }) })} className="mr-2">
+                        {isDraft ? <Eye className="inline h-3 w-3" /> : <EyeOff className="inline h-3 w-3" />}
+                      </Button>
                     ) : null}
-                    <button onClick={() => setEditing(row)} className="mr-2 rounded-full border border-border px-3 py-1 text-xs font-semibold">Edit</button>
-                    <button onClick={() => confirm("Delete?") && del.mutate(row.id)} className="rounded-full bg-destructive/10 px-2 py-1 text-xs font-semibold text-destructive"><Trash2 className="inline h-3 w-3" /></button>
+                    <Button variant="outline" size="sm" onClick={() => setEditing(row)} className="mr-2">Edit</Button>
+                    <Button variant="destructive" size="sm" onClick={() => confirm("Delete?") && del.mutate(row.id)}><Trash2 className="inline h-3 w-3" /></Button>
                   </td>
                 </tr>
                 );
@@ -243,13 +259,14 @@ function TableManager({ table, title, fields, defaults, orderBy, descending }: {
 
 function EditorModal({ fields, row, onChange, onCancel, onSave, saving, error }: any) {
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 p-4">
-      <div className="my-8 w-full max-w-3xl rounded-2xl border border-border bg-card shadow-xl">
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <h3 className="text-lg font-bold">{row.id ? "Edit" : "Create"}</h3>
-          <button onClick={onCancel} className="rounded-full p-2 hover:bg-muted"><X className="h-4 w-4" /></button>
-        </div>
-        <div className="grid gap-4 p-6 sm:grid-cols-2">
+    <Dialog open={true} onOpenChange={(open) => { if (!open) onCancel(); }}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{row.id ? "Edit" : "Create"}</DialogTitle>
+          <DialogDescription className="text-sm text-muted-foreground">Edit fields for the entry</DialogDescription>
+        </DialogHeader>
+
+        <div className="grid gap-4 p-2 sm:grid-cols-2">
           {fields.map((f: Field) => (
             <div key={f.key} className={f.span === 2 ? "sm:col-span-2" : ""}>
               <label className="text-xs font-semibold text-muted-foreground">{f.label}</label>
@@ -276,15 +293,15 @@ function EditorModal({ fields, row, onChange, onCancel, onSave, saving, error }:
             </div>
           ))}
         </div>
-        {error && <p className="px-6 pb-2 text-sm text-destructive">{String(error.message ?? error)}</p>}
-        <div className="flex justify-end gap-2 border-t border-border p-4">
-          <button onClick={onCancel} className="rounded-full border border-border px-4 py-2 text-sm font-semibold">Cancel</button>
-          <button onClick={onSave} disabled={saving} className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-60">
-            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save
-          </button>
-        </div>
-      </div>
-    </div>
+
+        {error && <p className="px-2 pb-2 text-sm text-destructive">{String(error.message ?? error)}</p>}
+
+        <DialogFooter>
+          <Button variant="outline" onClick={onCancel}>Cancel</Button>
+          <Button onClick={onSave} disabled={saving}>{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
