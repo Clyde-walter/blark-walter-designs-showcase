@@ -1,5 +1,15 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ArrowRight, Menu, X, Layers, Wrench, MessageSquareQuote, DollarSign, FileText, Inbox } from "lucide-react";
+import {
+  ArrowRight,
+  Menu,
+  X,
+  Layers,
+  Wrench,
+  MessageSquareQuote,
+  DollarSign,
+  FileText,
+  Inbox,
+} from "lucide-react";
 import { useState } from "react";
 import { nav, site } from "@/lib/portfolio-data";
 
@@ -22,7 +32,9 @@ export function Header() {
         <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-2.5">
           <img src="/logo.png" alt={site.name} className="h-9 w-9 shrink-0 sm:h-10 sm:w-10" />
           <div className="hidden truncate text-sm font-semibold leading-tight text-foreground sm:block font-display">
-            Blark-walter<br />Designs
+            Blark-walter
+            <br />
+            Designs
           </div>
         </Link>
         {isAdmin ? (
@@ -76,7 +88,10 @@ export function Header() {
       {open && (
         <div className={`border-t border-border ${isAdmin ? "lg:hidden" : "xl:hidden"}`}>
           <div className="container-x flex flex-col py-3">
-            {(isAdmin ? adminNav.map((n) => ({ to: n.to, hash: n.hash, label: n.label })) : nav.map((n) => ({ to: n.to, hash: undefined, label: n.label }))).map((n) => (
+            {(isAdmin
+              ? adminNav.map((n) => ({ to: n.to, hash: n.hash, label: n.label }))
+              : nav.map((n) => ({ to: n.to, hash: undefined, label: n.label }))
+            ).map((n) => (
               <Link
                 key={n.label}
                 to={n.to}

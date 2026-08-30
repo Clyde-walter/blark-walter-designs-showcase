@@ -14,7 +14,9 @@ export function AdminTopbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="rounded-full p-2 hover:bg-muted"><Bell className="h-4 w-4" /></button>
+          <button className="rounded-full p-2 hover:bg-muted">
+            <Bell className="h-4 w-4" />
+          </button>
           <Link to="/auth" className="flex items-center gap-2">
             <img src="/logo.png" alt="avatar" className="h-8 w-8 rounded-full object-cover" />
             <div className="hidden sm:block text-sm">

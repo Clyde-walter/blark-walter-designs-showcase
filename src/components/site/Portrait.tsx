@@ -1,6 +1,12 @@
 import portrait from "@/assets/portrait.png";
 
-export function Portrait({ eager = false, className = "" }: { eager?: boolean; className?: string }) {
+export function Portrait({
+  eager = false,
+  className = "",
+}: {
+  eager?: boolean;
+  className?: string;
+}) {
   return (
     <div className={`relative mx-auto aspect-[4/5] w-full max-w-md ${className}`}>
       {/* dotted grid */}

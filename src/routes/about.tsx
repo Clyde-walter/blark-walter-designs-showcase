@@ -1,5 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Target, HeartHandshake, ShieldCheck, Sparkles, GraduationCap, Briefcase, Zap, MessageSquare, Heart, User, Code2 } from "lucide-react";
+import {
+  ArrowRight,
+  Target,
+  HeartHandshake,
+  ShieldCheck,
+  Sparkles,
+  GraduationCap,
+  Briefcase,
+  Zap,
+  MessageSquare,
+  Heart,
+  User,
+  Code2,
+} from "lucide-react";
 import { Portrait } from "@/components/site/Portrait";
 import { site, education, experience, frontendSkills } from "@/lib/portfolio-data";
 
@@ -7,9 +20,16 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Blark-walter Designs" },
-      { name: "description", content: "Clyde Walter is a UI/UX and brand designer with 5+ years of experience building intuitive digital products and memorable brands." },
+      {
+        name: "description",
+        content:
+          "Clyde Walter is a UI/UX and brand designer with 5+ years of experience building intuitive digital products and memorable brands.",
+      },
       { property: "og:title", content: "About Clyde Walter — Blark-walter Designs" },
-      { property: "og:description", content: "Learn about Clyde Walter's design philosophy, values and journey." },
+      {
+        property: "og:description",
+        content: "Learn about Clyde Walter's design philosophy, values and journey.",
+      },
       { property: "og:url", content: "/about" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
@@ -28,13 +48,22 @@ function AboutPage() {
               Who is <span className="text-primary">Clyde Walter?</span>
             </h1>
             <p className="mt-5 text-muted-foreground">
-              I'm a UI/UX and Brand Designer passionate about solving problems through thoughtful design. I create user-centered digital products, brand identities, and marketing visuals that help businesses connect with their audience and achieve measurable results.
+              I'm a UI/UX and Brand Designer passionate about solving problems through thoughtful
+              design. I create user-centered digital products, brand identities, and marketing
+              visuals that help businesses connect with their audience and achieve measurable
+              results.
             </p>
             <p className="mt-4 text-muted-foreground">
-              With over 5 years of experience, I've worked with startups, entrepreneurs, and established brands to deliver designs that are not only beautiful but also functional and impactful.
+              With over 5 years of experience, I've worked with startups, entrepreneurs, and
+              established brands to deliver designs that are not only beautiful but also functional
+              and impactful.
             </p>
             <div className="mt-6 flex gap-6">
-              {[["750+","Projects Completed"],["30+","Happy Clients"],["5+","Years of Experience"]].map(([v,l]) => (
+              {[
+                ["750+", "Projects Completed"],
+                ["30+", "Happy Clients"],
+                ["5+", "Years of Experience"],
+              ].map(([v, l]) => (
                 <div key={l}>
                   <div className="text-2xl font-bold">{v}</div>
                   <div className="text-xs text-muted-foreground">{l}</div>
@@ -57,7 +86,10 @@ function AboutPage() {
               ["Experience", "5+ Years"],
               ["Freelance", "Available"],
             ].map(([label, v]) => (
-              <div key={label} className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4">
+              <div
+                key={label}
+                className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4"
+              >
                 <div className="grid h-10 w-10 place-items-center rounded-lg bg-accent text-primary">
                   <User className="h-4 w-4" />
                 </div>
@@ -80,10 +112,26 @@ function AboutPage() {
             </h2>
             <div className="mt-8 space-y-5">
               {[
-                { icon: Target, title: "Purposeful Design", text: "I design with intention, focusing on solving real problems and creating meaningful impact." },
-                { icon: HeartHandshake, title: "User-Centered", text: "I put users first by understanding their needs and crafting intuitive experiences." },
-                { icon: ShieldCheck, title: "Quality & Excellence", text: "I'm committed to delivering high-quality designs that exceed expectations." },
-                { icon: Sparkles, title: "Growth Mindset", text: "I'm always learning, improving, and exploring new ideas to stay ahead in design." },
+                {
+                  icon: Target,
+                  title: "Purposeful Design",
+                  text: "I design with intention, focusing on solving real problems and creating meaningful impact.",
+                },
+                {
+                  icon: HeartHandshake,
+                  title: "User-Centered",
+                  text: "I put users first by understanding their needs and crafting intuitive experiences.",
+                },
+                {
+                  icon: ShieldCheck,
+                  title: "Quality & Excellence",
+                  text: "I'm committed to delivering high-quality designs that exceed expectations.",
+                },
+                {
+                  icon: Sparkles,
+                  title: "Growth Mindset",
+                  text: "I'm always learning, improving, and exploring new ideas to stay ahead in design.",
+                },
               ].map(({ icon: Icon, title, text }) => (
                 <div key={title} className="flex gap-4">
                   <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-accent text-primary">
@@ -103,10 +151,16 @@ function AboutPage() {
               What <span className="text-primary">Drives Me</span>
             </h2>
             <p className="mt-6 text-muted-foreground">
-              I'm driven by the opportunity to turn ideas into experiences that make a difference. Every project is a chance to learn, solve problems, and create value for businesses and their users.
+              I'm driven by the opportunity to turn ideas into experiences that make a difference.
+              Every project is a chance to learn, solve problems, and create value for businesses
+              and their users.
             </p>
             <p className="mt-4 text-muted-foreground">
-              When I'm not designing, I enjoy teaching and creating content through my platform, <span className="font-semibold text-primary underline underline-offset-2">Learn with Blark</span>, where I share UI/UX and graphic design tips to help aspiring designers grow.
+              When I'm not designing, I enjoy teaching and creating content through my platform,{" "}
+              <span className="font-semibold text-primary underline underline-offset-2">
+                Learn with Blark
+              </span>
+              , where I share UI/UX and graphic design tips to help aspiring designers grow.
             </p>
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {[
@@ -147,13 +201,16 @@ function AboutPage() {
               Design That <span className="text-primary">Ships</span>
             </h2>
             <p className="mt-4 text-muted-foreground">
-              I don't just hand off mockups. I build the interfaces I design — production-ready, accessible and fast.
+              I don't just hand off mockups. I build the interfaces I design — production-ready,
+              accessible and fast.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {frontendSkills.map((s) => (
               <div key={s.name} className="rounded-2xl border border-border bg-card p-4">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-primary"><Code2 className="h-5 w-5" /></div>
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-primary">
+                  <Code2 className="h-5 w-5" />
+                </div>
                 <div className="mt-3 text-sm font-semibold">{s.name}</div>
                 <div className="text-xs text-primary">{s.level}</div>
               </div>
@@ -170,11 +227,31 @@ function AboutPage() {
           </h2>
           <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
             {[
-              { icon: Target, t: "Strategic Thinking", s: "I align design with business goals to deliver real results." },
-              { icon: User, t: "Attention to Detail", s: "I focus on every detail to ensure a polished outcome." },
-              { icon: Zap, t: "Fast & Reliable", s: "I respect deadlines and deliver quality on time." },
-              { icon: MessageSquare, t: "Clear Communication", s: "I keep clients updated and involved at every step." },
-              { icon: Heart, t: "Client Satisfaction", s: "I'm dedicated to building lasting relationships." },
+              {
+                icon: Target,
+                t: "Strategic Thinking",
+                s: "I align design with business goals to deliver real results.",
+              },
+              {
+                icon: User,
+                t: "Attention to Detail",
+                s: "I focus on every detail to ensure a polished outcome.",
+              },
+              {
+                icon: Zap,
+                t: "Fast & Reliable",
+                s: "I respect deadlines and deliver quality on time.",
+              },
+              {
+                icon: MessageSquare,
+                t: "Clear Communication",
+                s: "I keep clients updated and involved at every step.",
+              },
+              {
+                icon: Heart,
+                t: "Client Satisfaction",
+                s: "I'm dedicated to building lasting relationships.",
+              },
             ].map(({ icon: Icon, t, s }) => (
               <div key={t} className="text-center">
                 <Icon className="mx-auto h-10 w-10 text-primary" />
@@ -207,7 +284,9 @@ function JourneyList({ title, icon: Icon, items }: { title: string; icon: any; i
                 <div className="font-semibold">{it.title}</div>
                 <div className="text-sm text-muted-foreground">{it.org}</div>
               </div>
-              <span className="rounded-full bg-ink px-3 py-1 text-xs font-medium text-ink-foreground">{it.when}</span>
+              <span className="rounded-full bg-ink px-3 py-1 text-xs font-medium text-ink-foreground">
+                {it.when}
+              </span>
             </div>
           </li>
         ))}

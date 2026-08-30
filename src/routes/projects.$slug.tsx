@@ -1,18 +1,42 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { ArrowRight, ExternalLink, Play, Clock, User, Calendar, Monitor, ShieldCheck, TrendingUp, MessageCircle, HeadphonesIcon, AlertCircle, CheckCircle2, Linkedin, Twitter, Facebook, Dribbble, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import {
+  ArrowRight,
+  ExternalLink,
+  Play,
+  Clock,
+  User,
+  Calendar,
+  Monitor,
+  ShieldCheck,
+  TrendingUp,
+  MessageCircle,
+  HeadphonesIcon,
+  AlertCircle,
+  CheckCircle2,
+  Linkedin,
+  Twitter,
+  Facebook,
+  Dribbble,
+  ChevronLeft,
+  ChevronRight,
+  Quote,
+} from "lucide-react";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
-import { projects, site } from "@/lib/portfolio-data";
+import { projects, site, type Project } from "@/lib/portfolio-data";
 import { supabase } from "@/integrations/supabase/client";
-
 
 export const Route = createFileRoute("/projects/$slug")({
   head: ({ params }) => {
     const p = projects.find((x) => x.slug === params.slug);
     return {
       meta: [
-        { title: p ? `${p.title} — ${p.subtitle} | Blark-walter Designs` : "Project — Blark-walter Designs" },
+        {
+          title: p
+            ? `${p.title} — ${p.subtitle} | Blark-walter Designs`
+            : "Project — Blark-walter Designs",
+        },
         { name: "description", content: p?.summary ?? "Case study by Blark-walter Designs." },
         { property: "og:title", content: p ? `${p.title} — ${p.subtitle}` : "Project" },
         { property: "og:description", content: p?.summary ?? "" },
@@ -31,13 +55,15 @@ export const Route = createFileRoute("/projects/$slug")({
   notFoundComponent: () => (
     <div className="container-x py-24 text-center">
       <h1 className="text-3xl font-bold">Project not found</h1>
-      <Link to="/projects" className="mt-6 inline-flex text-primary">Back to projects</Link>
+      <Link to="/projects" className="mt-6 inline-flex text-primary">
+        Back to projects
+      </Link>
     </div>
   ),
 });
 
 function ProjectDetailPage() {
-  const p = Route.useLoaderData();
+  const p = Route.useLoaderData() as Project;
   const related = projects.filter((x) => x.slug !== p.slug).slice(0, 6);
 
   // Enrich with DB extras (hero_image, gallery_images) if the project exists in the CMS
@@ -45,7 +71,9 @@ function ProjectDetailPage() {
     queryKey: ["project-extras", p.slug],
     queryFn: async () => {
       const { data } = await (supabase.from("projects" as never) as any)
-        .select("hero_image,gallery_images").eq("slug", p.slug).maybeSingle();
+        .select("hero_image,gallery_images")
+        .eq("slug", p.slug)
+        .maybeSingle();
       return data as { hero_image?: string; gallery_images?: string[] } | null;
     },
   });
@@ -53,51 +81,82 @@ function ProjectDetailPage() {
     queryKey: ["project-testimonial", p.slug],
     queryFn: async () => {
       const { data } = await (supabase.from("testimonials" as never) as any)
-        .select("*").eq("is_published", true).ilike("project", `%${p.title}%`).limit(1).maybeSingle();
+        .select("*")
+        .eq("is_published", true)
+        .ilike("project", `%${p.title}%`)
+        .limit(1)
+        .maybeSingle();
       return data as { name: string; role: string; quote: string } | null;
     },
   });
   const gallery = extras?.gallery_images ?? [];
 
   return (
-
     <>
       <section className="bg-ink py-10 text-ink-foreground">
         <div className="container-x">
           <nav className="text-xs text-white/60">
-            <Link to="/" className="hover:text-white">Home</Link> ›{" "}
-            <Link to="/projects" className="text-primary">Projects</Link> ›{" "}
-            <span>{p.title} - {p.subtitle}</span>
+            <Link to="/" className="hover:text-white">
+              Home
+            </Link>{" "}
+            ›{" "}
+            <Link to="/projects" className="text-primary">
+              Projects
+            </Link>{" "}
+            ›{" "}
+            <span>
+              {p.title} - {p.subtitle}
+            </span>
           </nav>
           <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_1.2fr_1fr]">
             <div>
               <span className="section-label">{p.category}</span>
               <h1 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl">
-                {p.title}<br />
+                {p.title}
+                <br />
                 <span className="text-white/80">{p.subtitle}</span>
               </h1>
               <p className="mt-5 text-white/70">{p.summary}</p>
               <div className="mt-6 flex flex-wrap gap-3">
                 {p.liveUrl ? (
-                  <a href={p.liveUrl} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
+                  <a
+                    href={p.liveUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground"
+                  >
                     Visit Website
-                    <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20"><ExternalLink className="h-4 w-4" /></span>
+                    <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20">
+                      <ExternalLink className="h-4 w-4" />
+                    </span>
                   </a>
                 ) : (
-                  <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground"
+                  >
                     Request Case Study
-                    <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
+                    <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20">
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
                   </Link>
                 )}
                 {p.liveUrl && (
-                  <a href={p.liveUrl} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold">
+                  <a
+                    href={p.liveUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold"
+                  >
                     View Live Demo <Play className="h-4 w-4" />
                   </a>
                 )}
               </div>
               <div className="mt-6 flex flex-wrap gap-2">
                 {(p.stack ?? ["Figma", "Photoshop", "Illustrator"]).map((t: string) => (
-                  <span key={t} className="rounded-full border border-white/20 px-3 py-1 text-xs">{t}</span>
+                  <span key={t} className="rounded-full border border-white/20 px-3 py-1 text-xs">
+                    {t}
+                  </span>
                 ))}
               </div>
               <div className="mt-6 grid grid-cols-2 gap-3 text-xs text-white/70 sm:grid-cols-4">
@@ -109,7 +168,11 @@ function ProjectDetailPage() {
             </div>
             <div className="flex items-center justify-center">
               {extras?.hero_image ? (
-                <img src={extras.hero_image} alt={p.title} className="max-h-[520px] w-full rounded-2xl object-contain" />
+                <img
+                  src={extras.hero_image}
+                  alt={p.title}
+                  className="max-h-[520px] w-full rounded-2xl object-contain"
+                />
               ) : (
                 <ProjectVisual project={p} />
               )}
@@ -146,13 +209,32 @@ function ProjectDetailPage() {
         <div className="grid gap-12 lg:grid-cols-[1.6fr_1fr]">
           <div>
             <span className="section-label">Project Overview</span>
-            <p className="mt-4 text-muted-foreground">{p.summary} The goal was to create a seamless and secure experience that helps users manage their finances, make transactions, and track spending with ease.</p>
+            <p className="mt-4 text-muted-foreground">
+              {p.summary} The goal was to create a seamless and secure experience that helps users
+              manage their finances, make transactions, and track spending with ease.
+            </p>
             <div className="mt-6 grid gap-4 rounded-2xl border border-border bg-card p-5 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { icon: TrendingUp, t: "Easy Transactions", s: "Send, receive and transfer money instantly." },
-                { icon: ShieldCheck, t: "Smart Analytics", s: "Visual insights to track spending and savings." },
-                { icon: ShieldCheck, t: "Top Security", s: "Biometric login and advanced encryption." },
-                { icon: HeadphonesIcon, t: "24/7 Support", s: "Get help anytime with in-app support." },
+                {
+                  icon: TrendingUp,
+                  t: "Easy Transactions",
+                  s: "Send, receive and transfer money instantly.",
+                },
+                {
+                  icon: ShieldCheck,
+                  t: "Smart Analytics",
+                  s: "Visual insights to track spending and savings.",
+                },
+                {
+                  icon: ShieldCheck,
+                  t: "Top Security",
+                  s: "Biometric login and advanced encryption.",
+                },
+                {
+                  icon: HeadphonesIcon,
+                  t: "24/7 Support",
+                  s: "Get help anytime with in-app support.",
+                },
               ].map(({ icon: Icon, t, s }) => (
                 <div key={t}>
                   <Icon className="h-6 w-6 text-primary" />
@@ -186,7 +268,9 @@ function ProjectDetailPage() {
                   ["Test & Refine", "Usability testing and iteration for the best experience."],
                 ].map(([t, s], i) => (
                   <div key={t} className="text-center">
-                    <div className="mx-auto grid h-12 w-12 place-items-center rounded-full border-2 border-primary text-primary font-bold">{i + 1}</div>
+                    <div className="mx-auto grid h-12 w-12 place-items-center rounded-full border-2 border-primary text-primary font-bold">
+                      {i + 1}
+                    </div>
                     <div className="mt-3 text-sm font-semibold">{t}</div>
                     <p className="mt-1 text-xs text-muted-foreground">{s}</p>
                   </div>
@@ -202,7 +286,9 @@ function ProjectDetailPage() {
               <div className="grid grid-cols-3 gap-3 text-center">
                 {["Figma", "Photoshop", "Illustrator"].map((n) => (
                   <div key={n}>
-                    <div className="mx-auto grid h-11 w-11 place-items-center rounded-lg bg-accent font-bold text-primary">{n[0]}</div>
+                    <div className="mx-auto grid h-11 w-11 place-items-center rounded-lg bg-accent font-bold text-primary">
+                      {n[0]}
+                    </div>
                     <div className="mt-1 text-xs">{n}</div>
                   </div>
                 ))}
@@ -214,7 +300,12 @@ function ProjectDetailPage() {
               </div>
               <div className="flex gap-2">
                 {[Linkedin, Dribbble, Twitter, Facebook].map((Icon, i) => (
-                  <a key={i} href="#" className="grid h-9 w-9 place-items-center rounded-full bg-ink text-ink-foreground hover:bg-primary" aria-label="share">
+                  <a
+                    key={i}
+                    href="#"
+                    className="grid h-9 w-9 place-items-center rounded-full bg-ink text-ink-foreground hover:bg-primary"
+                    aria-label="share"
+                  >
                     <Icon className="h-4 w-4" />
                   </a>
                 ))}
@@ -225,9 +316,14 @@ function ProjectDetailPage() {
               <div className="mt-1 text-xl font-bold text-ink-foreground">
                 Let's create something <span className="text-primary">amazing</span> together!
               </div>
-              <Link to="/contact" className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary py-2.5 pl-5 pr-1 text-sm font-semibold text-primary-foreground">
+              <Link
+                to="/contact"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary py-2.5 pl-5 pr-1 text-sm font-semibold text-primary-foreground"
+              >
                 Let's Talk
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20">
+                  <ArrowRight className="h-4 w-4" />
+                </span>
               </Link>
             </div>
           </aside>
@@ -239,8 +335,19 @@ function ProjectDetailPage() {
           <span className="section-label">Project Gallery</span>
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {gallery.map((src, i) => (
-              <a key={src + i} href={src} target="_blank" rel="noreferrer" className="group block overflow-hidden rounded-2xl border border-border bg-card">
-                <img src={src} alt={`${p.title} screen ${i + 1}`} loading="lazy" className="h-full w-full object-cover transition group-hover:scale-105" />
+              <a
+                key={src + i}
+                href={src}
+                target="_blank"
+                rel="noreferrer"
+                className="group block overflow-hidden rounded-2xl border border-border bg-card"
+              >
+                <img
+                  src={src}
+                  alt={`${p.title} screen ${i + 1}`}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition group-hover:scale-105"
+                />
               </a>
             ))}
           </div>
@@ -252,7 +359,9 @@ function ProjectDetailPage() {
           <div className="flex flex-col items-start gap-6 rounded-2xl border border-border bg-card p-6 md:flex-row md:items-center md:justify-between md:p-8">
             <div className="flex items-start gap-4">
               <Quote className="h-8 w-8 shrink-0 text-primary" />
-              <p className="max-w-2xl text-sm text-muted-foreground md:text-base">"{testimonial.quote}"</p>
+              <p className="max-w-2xl text-sm text-muted-foreground md:text-base">
+                "{testimonial.quote}"
+              </p>
             </div>
             <div className="text-right">
               <div className="font-semibold">{testimonial.name}</div>
@@ -263,11 +372,15 @@ function ProjectDetailPage() {
       )}
 
       <section className="container-x pb-16">
-
         <span className="section-label">Related Projects</span>
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {related.slice(0, 3).map((r) => (
-            <Link key={r.slug} to="/projects/$slug" params={{ slug: r.slug }} className="group block">
+            <Link
+              key={r.slug}
+              to="/projects/$slug"
+              params={{ slug: r.slug }}
+              className="group block"
+            >
               <ProjectVisual project={r} small />
               <h3 className="mt-3 font-semibold group-hover:text-primary">{r.title}</h3>
               <p className="text-sm text-muted-foreground">{r.subtitle}</p>
@@ -282,7 +395,9 @@ function ProjectDetailPage() {
 function MetaLine({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
   return (
     <div>
-      <div className="flex items-center gap-1 text-primary"><Icon className="h-3.5 w-3.5" /> {label}</div>
+      <div className="flex items-center gap-1 text-primary">
+        <Icon className="h-3.5 w-3.5" /> {label}
+      </div>
       <div className="text-white">{value}</div>
     </div>
   );

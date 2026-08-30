@@ -31,13 +31,13 @@ export function AdminSidebar({ className = "" }: { className?: string }) {
         <nav className="space-y-1">
           <div className="text-xs font-semibold text-muted-foreground px-2">Content Management</div>
           {items.map((it) => {
-            const active = hash?.replace(/^#/, '') === it.hash;
+            const active = hash?.replace(/^#/, "") === it.hash;
             return (
               <Link
                 key={it.hash}
                 to={it.to}
                 hash={it.hash}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${active ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
+                className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${active ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}
               >
                 <it.icon className="h-4 w-4" />
                 <span className="truncate">{it.label}</span>
@@ -49,9 +49,18 @@ export function AdminSidebar({ className = "" }: { className?: string }) {
         <Card className="p-4 rounded-2xl border border-border bg-card shadow-xl">
           <div className="text-xs text-muted-foreground">System Status</div>
           <div className="mt-3 space-y-2 text-sm">
-            <div className="flex items-center justify-between"><span>Website</span><span className="text-emerald-500">Online</span></div>
-            <div className="flex items-center justify-between"><span>Database</span><span className="text-emerald-500">Online</span></div>
-            <div className="flex items-center justify-between"><span>Backup</span><span className="text-amber-500">Up to date</span></div>
+            <div className="flex items-center justify-between">
+              <span>Website</span>
+              <span className="text-emerald-500">Online</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Database</span>
+              <span className="text-emerald-500">Online</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Backup</span>
+              <span className="text-amber-500">Up to date</span>
+            </div>
           </div>
         </Card>
       </div>

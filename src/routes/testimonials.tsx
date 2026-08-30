@@ -1,5 +1,22 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Grid3x3, Star, Briefcase, ThumbsUp, Award, Building2, GraduationCap, Heart, Home, Cpu, ShoppingCart, Quote, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  Grid3x3,
+  Star,
+  Briefcase,
+  ThumbsUp,
+  Award,
+  Building2,
+  GraduationCap,
+  Heart,
+  Home,
+  Cpu,
+  ShoppingCart,
+  Quote,
+  Play,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { Portrait } from "@/components/site/Portrait";
 import { site, testimonials } from "@/lib/portfolio-data";
 
@@ -7,9 +24,16 @@ export const Route = createFileRoute("/testimonials")({
   head: () => ({
     meta: [
       { title: "Testimonials — Blark-walter Designs" },
-      { name: "description", content: "Real feedback from real clients about working with Clyde Walter and Blark-walter Designs." },
+      {
+        name: "description",
+        content:
+          "Real feedback from real clients about working with Clyde Walter and Blark-walter Designs.",
+      },
       { property: "og:title", content: "Testimonials — Blark-walter Designs" },
-      { property: "og:description", content: "What businesses and founders say about working with Blark-walter Designs." },
+      {
+        property: "og:description",
+        content: "What businesses and founders say about working with Blark-walter Designs.",
+      },
       { property: "og:url", content: "/testimonials" },
     ],
     links: [{ rel: "canonical", href: "/testimonials" }],
@@ -37,13 +61,20 @@ function TestimonialsPage() {
               What My Clients Are <span className="text-primary">Saying</span>
             </h1>
             <p className="mt-5 max-w-md text-muted-foreground">
-              Real feedback from real clients. Here's what businesses and founders say about working with me and the results we've achieved together.
+              Real feedback from real clients. Here's what businesses and founders say about working
+              with me and the results we've achieved together.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
+              >
                 Work With Me <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link to="/projects" className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold hover:border-primary">
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold hover:border-primary"
+              >
                 View All Projects <Grid3x3 className="h-4 w-4" />
               </Link>
             </div>
@@ -56,7 +87,10 @@ function TestimonialsPage() {
               { Icon: Award, v: "5+", l: "Years of Experience" },
               { Icon: ThumbsUp, v: "100%", l: "Client Satisfaction Rate" },
             ].map(({ Icon, v, l }) => (
-              <div key={l} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
+              <div
+                key={l}
+                className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4"
+              >
                 <div className="grid h-11 w-11 place-items-center rounded-xl bg-accent text-primary">
                   <Icon className="h-5 w-5" />
                 </div>
@@ -80,11 +114,16 @@ function TestimonialsPage() {
           </div>
           <div className="flex items-end justify-between gap-6">
             <p className="text-sm text-muted-foreground">
-              I take pride in building strong relationships and delivering work that makes an impact. Here's what some of my amazing clients have to say.
+              I take pride in building strong relationships and delivering work that makes an
+              impact. Here's what some of my amazing clients have to say.
             </p>
             <div className="flex shrink-0 gap-2">
-              <button className="grid h-10 w-10 place-items-center rounded-full border border-border"><ChevronLeft className="h-4 w-4" /></button>
-              <button className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground"><ChevronRight className="h-4 w-4" /></button>
+              <button className="grid h-10 w-10 place-items-center rounded-full border border-border">
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground">
+                <ChevronRight className="h-4 w-4" />
+              </button>
             </div>
           </div>
         </div>
@@ -98,15 +137,21 @@ function TestimonialsPage() {
                   <div className="font-semibold">{t.name}</div>
                   <div className="text-xs text-muted-foreground">{t.role}</div>
                   <div className="mt-1 flex items-center gap-0.5">
-                    {[...Array(5)].map((_, i) => <Star key={i} className="h-3 w-3 fill-primary text-primary" />)}
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-3 w-3 fill-primary text-primary" />
+                    ))}
                     <span className="ml-1 text-xs">5.0</span>
                   </div>
                 </div>
               </div>
               <p className="mt-4 text-sm text-muted-foreground">{t.quote}</p>
               <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs">
-                <span className="text-muted-foreground">Project: <span className="font-semibold text-primary">{t.project}</span></span>
-                <span className="grid h-8 w-8 place-items-center rounded-full border border-border"><ArrowRight className="h-3.5 w-3.5" /></span>
+                <span className="text-muted-foreground">
+                  Project: <span className="font-semibold text-primary">{t.project}</span>
+                </span>
+                <span className="grid h-8 w-8 place-items-center rounded-full border border-border">
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </span>
               </div>
             </article>
           ))}
@@ -123,7 +168,10 @@ function TestimonialsPage() {
           </div>
           <div className="grid grid-cols-3 gap-4 sm:grid-cols-6">
             {industries.map(({ name, icon: Icon }) => (
-              <div key={name} className="rounded-2xl border border-border bg-card p-5 text-center transition hover:border-primary">
+              <div
+                key={name}
+                className="rounded-2xl border border-border bg-card p-5 text-center transition hover:border-primary"
+              >
                 <Icon className="mx-auto h-8 w-8 text-primary" />
                 <div className="mt-3 text-xs font-semibold">{name}</div>
               </div>
@@ -137,7 +185,9 @@ function TestimonialsPage() {
           <div className="relative overflow-hidden rounded-2xl bg-white/5">
             <div className="aspect-video bg-gradient-to-br from-primary/40 to-purple-700/40" />
             <button className="absolute inset-0 grid place-items-center">
-              <span className="grid h-16 w-16 place-items-center rounded-full bg-primary text-primary-foreground"><Play className="h-6 w-6 fill-current" /></span>
+              <span className="grid h-16 w-16 place-items-center rounded-full bg-primary text-primary-foreground">
+                <Play className="h-6 w-6 fill-current" />
+              </span>
             </button>
             <div className="absolute bottom-3 left-3 text-xs">Play Video</div>
             <div className="absolute bottom-3 right-3 text-xs">02:34</div>
@@ -152,7 +202,9 @@ function TestimonialsPage() {
             </p>
             <button className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary py-2.5 pl-5 pr-1 text-sm font-semibold text-primary-foreground">
               Watch More Testimonials
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20">
+                <ArrowRight className="h-4 w-4" />
+              </span>
             </button>
           </div>
           <div className="space-y-4 border-l border-white/10 pl-6">
@@ -178,9 +230,14 @@ function TestimonialsPage() {
             </h3>
             <p className="text-sm text-muted-foreground">Let's bring your ideas to life.</p>
           </div>
-          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground">
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-6 pr-1.5 text-sm font-semibold text-primary-foreground"
+          >
             Let's Talk
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20"><ArrowRight className="h-4 w-4" /></span>
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20">
+              <ArrowRight className="h-4 w-4" />
+            </span>
           </Link>
         </div>
       </section>

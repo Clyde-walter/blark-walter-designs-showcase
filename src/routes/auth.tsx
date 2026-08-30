@@ -21,63 +21,104 @@ function AuthPage() {
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/_authenticated/admin" as any });
-    });
+    supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        if (data.session) navigate({ to: "/_authenticated/admin" as any });
+      })
+      .catch((sessionError) => {
+        console.error("Unable to reach Supabase while checking the session", sessionError);
+      });
   }, [navigate]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true); setError(""); setSuccess("");
+    setLoading(true);
+    setError("");
+    setSuccess("");
     const fd = new FormData(e.currentTarget);
     const email = String(fd.get("email"));
     const password = String(fd.get("password"));
-    const fn = mode === "signin"
-      ? supabase.auth.signInWithPassword({ email, password })
-      : supabase.auth.signUp({ email, password });
-    const { data, error } = await fn;
-    setLoading(false);
-    if (error) { setError(error.message); return; }
-    // If sign in produced a session, go to admin. If sign up requires email confirmation
-    // Supabase may not return a session; inform the user accordingly.
-    if (data?.session) {
-      navigate({ to: "/_authenticated/admin" as any });
-      return;
+    try {
+      const fn =
+        mode === "signin"
+          ? supabase.auth.signInWithPassword({ email, password })
+          : supabase.auth.signUp({ email, password });
+      const { data, error } = await fn;
+      if (error) {
+        setError(error.message);
+        return;
+      }
+      if (data?.session) {
+        navigate({ to: "/_authenticated/admin" as any });
+        return;
+      }
+      if (mode === "signup") {
+        setSuccess("Check your email to confirm your account. After confirming, sign in.");
+        return;
+      }
+      setError("No active session was returned. Please try signing in again.");
+    } catch (requestError) {
+      console.error("Supabase auth request failed", requestError);
+      setError(
+        "Unable to connect to Supabase. Check your internet connection and confirm that the Supabase project is active.",
+      );
+    } finally {
+      setLoading(false);
     }
-    if (mode === "signup") {
-      setSuccess("Check your email to confirm your account. After confirming, sign in.");
-      return;
-    }
-    // Fallback: navigate to auth page to refresh state
-    navigate({ to: "/_authenticated/admin" as any });
   }
 
   return (
     <section className="container-x flex min-h-[70vh] items-center justify-center py-16">
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-sm">
         <div className="mb-6 flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-primary"><ShieldCheck className="h-5 w-5" /></span>
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-accent text-primary">
+            <ShieldCheck className="h-5 w-5" />
+          </span>
           <div>
             <h1 className="text-xl font-bold">Admin access</h1>
-            <p className="text-xs text-muted-foreground">{mode === "signin" ? "Sign in to manage the site" : "First signup becomes admin"}</p>
+            <p className="text-xs text-muted-foreground">
+              {mode === "signin" ? "Sign in to manage the site" : "First signup becomes admin"}
+            </p>
           </div>
         </div>
         <form onSubmit={onSubmit} className="grid gap-4">
           <label className="grid gap-2 text-sm">
             <span className="font-medium">Email</span>
-            <input name="email" type="email" required className="rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+            <input
+              name="email"
+              type="email"
+              required
+              className="rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+            />
           </label>
           <label className="grid gap-2 text-sm">
             <span className="font-medium">Password</span>
-            <input name="password" type="password" required minLength={6} className="rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+            <input
+              name="password"
+              type="password"
+              required
+              minLength={6}
+              className="rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+            />
           </label>
           {error && <p className="text-sm text-destructive">{error}</p>}
           {success && <p className="text-sm text-emerald-600">{success}</p>}
-          <button disabled={loading} className="inline-flex items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60">
+          <button
+            disabled={loading}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+          >
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
             {mode === "signin" ? "Sign in" : "Create account"}
           </button>
-          <button type="button" onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setError(""); }} className="text-xs text-muted-foreground hover:text-primary">
+          <button
+            type="button"
+            onClick={() => {
+              setMode(mode === "signin" ? "signup" : "signin");
+              setError("");
+            }}
+            className="text-xs text-muted-foreground hover:text-primary"
+          >
             {mode === "signin" ? "No account yet? Create one" : "Have an account? Sign in"}
           </button>
         </form>
