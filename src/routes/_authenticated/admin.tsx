@@ -91,7 +91,7 @@ function AdminPage() {
 
   async function signOut() {
     await supabase.auth.signOut();
-    navigate({ to: "/auth" as any });
+    navigate({ to: "/auth" });
   }
 
   if (isAdmin === null)

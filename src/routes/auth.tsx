@@ -24,7 +24,7 @@ function AuthPage() {
     supabase.auth
       .getSession()
       .then(({ data }) => {
-        if (data.session) navigate({ to: "/_authenticated/admin" as any });
+        if (data.session) navigate({ to: "/admin" });
       })
       .catch((sessionError) => {
         console.error("Unable to reach Supabase while checking the session", sessionError);
@@ -50,7 +50,7 @@ function AuthPage() {
         return;
       }
       if (data?.session) {
-        navigate({ to: "/_authenticated/admin" as any });
+        navigate({ to: "/admin" });
         return;
       }
       if (mode === "signup") {
