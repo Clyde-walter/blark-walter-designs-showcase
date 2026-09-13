@@ -28,7 +28,7 @@ import { LiveSitePreview } from "@/components/site/LiveSitePreview";
 import { projects, site, type Project } from "@/lib/portfolio-data";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/projects/$slug")({
+export const Route = createFileRoute("/projects_/$slug")({
   head: ({ params }) => {
     const p = projects.find((x) => x.slug === params.slug);
     return {
