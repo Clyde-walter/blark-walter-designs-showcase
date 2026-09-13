@@ -24,10 +24,11 @@ import {
   Quote,
 } from "lucide-react";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
+import { LiveSitePreview } from "@/components/site/LiveSitePreview";
 import { projects, site, type Project } from "@/lib/portfolio-data";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/projects/$slug")({
+export const Route = createFileRoute("/projects_/$slug")({
   head: ({ params }) => {
     const p = projects.find((x) => x.slug === params.slug);
     return {
@@ -204,6 +205,8 @@ function ProjectDetailPage() {
           </div>
         </div>
       </section>
+
+      {p.liveUrl && <LiveSitePreview title={p.title} url={p.liveUrl} />}
 
       <section className="container-x py-16">
         <div className="grid gap-12 lg:grid-cols-[1.6fr_1fr]">
