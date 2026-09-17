@@ -1,6 +1,5 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -26,6 +25,7 @@ import {
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { LiveSitePreview } from "@/components/site/LiveSitePreview";
 import { projects, site, type Project } from "@/lib/portfolio-data";
+import { projectCaseStudies, type ProjectCaseStudy } from "@/lib/project-case-studies";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/projects_/$slug")({
@@ -66,6 +66,23 @@ export const Route = createFileRoute("/projects_/$slug")({
 function ProjectDetailPage() {
   const p = Route.useLoaderData() as Project;
   const related = projects.filter((x) => x.slug !== p.slug).slice(0, 6);
+  const caseStudy: ProjectCaseStudy = projectCaseStudies[p.slug] ?? {
+    overview: p.summary,
+    highlights: [
+      { title: "Purposeful direction", description: p.solution },
+      { title: "Audience focus", description: "The work was shaped around the needs of the client and their audience." },
+      { title: "Consistent experience", description: `A cohesive ${p.category.toLowerCase()} system connects every project touchpoint.` },
+    ],
+    process: [
+      { title: "Discover", description: "Clarified the brief, audience, goals, and project constraints." },
+      { title: "Research", description: "Reviewed the market, references, and opportunities for differentiation." },
+      { title: "Explore", description: "Developed and compared early concepts before selecting a direction." },
+      { title: "Create", description: "Built the chosen direction into a complete, consistent experience." },
+      { title: "Refine", description: "Reviewed the final work and prepared it for practical use." },
+    ],
+    deliverables: p.stack ?? [p.category, "Creative direction", "Final production assets"],
+    outcome: p.solution,
+  };
 
   // Enrich with DB extras (hero_image, gallery_images) if the project exists in the CMS
   const { data: extras } = useQuery({
@@ -211,89 +228,78 @@ function ProjectDetailPage() {
       <section className="container-x py-16">
         <div className="grid gap-12 lg:grid-cols-[1.6fr_1fr]">
           <div>
-            <span className="section-label">Project Overview</span>
-            <p className="mt-4 text-muted-foreground">
-              {p.summary} The goal was to create a seamless and secure experience that helps users
-              manage their finances, make transactions, and track spending with ease.
-            </p>
-            <div className="mt-6 grid gap-4 rounded-2xl border border-border bg-card p-5 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                {
-                  icon: TrendingUp,
-                  t: "Easy Transactions",
-                  s: "Send, receive and transfer money instantly.",
-                },
-                {
-                  icon: ShieldCheck,
-                  t: "Smart Analytics",
-                  s: "Visual insights to track spending and savings.",
-                },
-                {
-                  icon: ShieldCheck,
-                  t: "Top Security",
-                  s: "Biometric login and advanced encryption.",
-                },
-                {
-                  icon: HeadphonesIcon,
-                  t: "24/7 Support",
-                  s: "Get help anytime with in-app support.",
-                },
-              ].map(({ icon: Icon, t, s }) => (
-                <div key={t}>
-                  <Icon className="h-6 w-6 text-primary" />
-                  <div className="mt-2 text-sm font-semibold">{t}</div>
-                  <p className="text-xs text-muted-foreground">{s}</p>
-                </div>
-              ))}
+            <span className="section-label">The Case Study</span>
+            <h2 className="mt-4 text-3xl font-bold sm:text-4xl">From brief to finished work</h2>
+            <p className="mt-5 text-base leading-7 text-muted-foreground">{caseStudy.overview}</p>
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              {caseStudy.highlights.map(({ title, description }, index) => {
+                const Icon = [TrendingUp, ShieldCheck, MessageCircle, HeadphonesIcon][index % 4];
+                return (
+                  <article key={title} className="border-t border-border pt-5">
+                    <Icon className="h-6 w-6 text-primary" />
+                    <h3 className="mt-3 font-semibold">{title}</h3>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">{description}</p>
+                  </article>
+                );
+              })}
             </div>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            <div className="mt-12 grid gap-8 sm:grid-cols-2">
               <div>
                 <div className="flex items-center gap-2 text-lg font-semibold">
                   <AlertCircle className="h-5 w-5 text-primary" /> The Problem
                 </div>
-                <p className="mt-2 text-sm text-muted-foreground">{p.problem}</p>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{p.problem}</p>
               </div>
               <div>
                 <div className="flex items-center gap-2 text-lg font-semibold">
                   <CheckCircle2 className="h-5 w-5 text-primary" /> The Solution
                 </div>
-                <p className="mt-2 text-sm text-muted-foreground">{p.solution}</p>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{p.solution}</p>
               </div>
             </div>
             <div className="mt-12">
-              <span className="section-label">My Design Process</span>
+              <span className="section-label">The Process</span>
+              <h2 className="mt-4 text-3xl font-bold">How the work came together</h2>
               <div className="mt-8 grid gap-8 sm:grid-cols-3 lg:grid-cols-5">
-                {[
-                  ["Discover", "Research, competitor analysis and user interviews."],
-                  ["Define", "User personas, journey mapping & problem identification."],
-                  ["Ideate", "Wireframes, user flows and low-fidelity prototypes."],
-                  ["Design", "High-fidelity UI design with a focus on usability & accessibility."],
-                  ["Test & Refine", "Usability testing and iteration for the best experience."],
-                ].map(([t, s], i) => (
-                  <div key={t} className="text-center">
+                {caseStudy.process.map(({ title, description }, i) => (
+                  <div key={title} className="text-center">
                     <div className="mx-auto grid h-12 w-12 place-items-center rounded-full border-2 border-primary text-primary font-bold">
                       {i + 1}
                     </div>
-                    <div className="mt-3 text-sm font-semibold">{t}</div>
-                    <p className="mt-1 text-xs text-muted-foreground">{s}</p>
+                    <div className="mt-3 text-sm font-semibold">{title}</div>
+                    <p className="mt-1 text-xs leading-5 text-muted-foreground">{description}</p>
                   </div>
                 ))}
               </div>
+            </div>
+            <div className="mt-12 border-l-4 border-primary pl-6">
+              <span className="section-label">The Outcome</span>
+              <p className="mt-4 text-lg leading-8 text-foreground">{caseStudy.outcome}</p>
             </div>
           </div>
           <aside className="space-y-6">
             <div className="rounded-2xl border border-border bg-card p-5">
               <div className="mb-4 flex items-center gap-2 font-semibold">
-                <div className="h-2 w-2 rounded-full bg-primary" /> Technologies Used
+                <div className="h-2 w-2 rounded-full bg-primary" /> Deliverables
               </div>
-              <div className="grid grid-cols-3 gap-3 text-center">
-                {["Figma", "Photoshop", "Illustrator"].map((n) => (
-                  <div key={n}>
-                    <div className="mx-auto grid h-11 w-11 place-items-center rounded-lg bg-accent font-bold text-primary">
-                      {n[0]}
-                    </div>
-                    <div className="mt-1 text-xs">{n}</div>
-                  </div>
+              <ul className="space-y-3">
+                {caseStudy.deliverables.map((deliverable) => (
+                  <li key={deliverable} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    {deliverable}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <div className="mb-4 flex items-center gap-2 font-semibold">
+                <div className="h-2 w-2 rounded-full bg-primary" /> Tools &amp; Technology
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {(p.stack ?? ["Figma", "Photoshop", "Illustrator"]).map((tool) => (
+                  <span key={tool} className="rounded-full border border-border px-3 py-1.5 text-xs font-medium">
+                    {tool}
+                  </span>
                 ))}
               </div>
             </div>
