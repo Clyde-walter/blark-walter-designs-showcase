@@ -51,8 +51,8 @@ function ProjectsPage() {
   return (
     <>
       <section className="bg-ink pt-10 pb-14 text-ink-foreground md:pt-14">
-        <div className="container-x grid gap-10 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
-          <div>
+        <div className="container-x grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(12rem,18rem)] md:items-center lg:grid-cols-[1fr_auto_1fr]">
+          <div className="order-2 lg:order-1">
             <span className="section-label">My Work</span>
             <h1 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl md:text-6xl">
               Projects That
@@ -91,8 +91,8 @@ function ProjectsPage() {
               ))}
             </div>
           </div>
-          <Portrait eager />
-          <div className="space-y-4">
+          <Portrait eager className="order-1 max-w-sm lg:order-2" />
+          <div className="order-3 space-y-4 md:col-span-2 lg:col-span-1 lg:order-3">
             <div className="rounded-2xl bg-white/5 p-5 backdrop-blur">
               <div className="mb-3 flex items-center gap-2 font-semibold">
                 <Grid3x3 className="h-4 w-4 text-primary" /> Categories
