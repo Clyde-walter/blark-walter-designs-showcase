@@ -22,6 +22,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ImageUpload, GalleryUpload } from "@/components/admin/ImageUpload";
 import { AdminSidebar } from "@/components/admin/Sidebar";
 import { DashboardMain } from "@/components/admin/Dashboard";
+import { PaymentsView } from "@/components/admin/Payments";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -41,7 +42,14 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 type Tab =
-  "dashboard" | "projects" | "services" | "testimonials" | "plans" | "blog" | "submissions";
+  | "dashboard"
+  | "projects"
+  | "services"
+  | "testimonials"
+  | "plans"
+  | "blog"
+  | "submissions"
+  | "payments";
 const DASHBOARD_TAB = "dashboard" as const;
 const TABS: { id: Tab; label: string; Icon: any }[] = [
   { id: DASHBOARD_TAB, label: "Dashboard", Icon: Eye },
@@ -49,6 +57,7 @@ const TABS: { id: Tab; label: string; Icon: any }[] = [
   { id: "services", label: "Services", Icon: Wrench },
   { id: "testimonials", label: "Testimonials", Icon: MessageSquareQuote },
   { id: "plans", label: "Plans", Icon: DollarSign },
+  { id: "payments", label: "Payments", Icon: DollarSign },
   { id: "blog", label: "Blog", Icon: FileText },
   { id: "submissions", label: "Contacts", Icon: Inbox },
 ];
