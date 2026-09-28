@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -55,21 +55,15 @@ const TABS: { id: Tab; label: string; Icon: any }[] = [
 
 function AdminPage() {
   const navigate = useNavigate();
-  const [tab, setTab] = useState<Tab>("dashboard");
+  const routerHash = useRouterState({ select: (s) => s.location.hash });
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [email, setEmail] = useState<string>("");
 
-  useEffect(() => {
-    const applyHash = () => {
-      const h = (
-        typeof window !== "undefined" ? window.location.hash.replace(/^#/, "") : ""
-      ) as Tab;
-      if (h && TABS.some((t) => t.id === h)) setTab(h);
-    };
-    applyHash();
-    window.addEventListener("hashchange", applyHash);
-    return () => window.removeEventListener("hashchange", applyHash);
-  }, []);
+  const tab: Tab = useMemo(() => {
+    const h = (routerHash ?? "").replace(/^#/, "") as Tab;
+    return TABS.some((t) => t.id === h) ? h : DASHBOARD_TAB;
+  }, [routerHash]);
+
 
   useEffect(() => {
     (async () => {
