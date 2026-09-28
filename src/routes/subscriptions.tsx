@@ -11,6 +11,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { PaystackCheckout } from "@/components/site/PaystackCheckout";
 
 export const Route = createFileRoute("/subscriptions")({
   head: () => ({
@@ -260,15 +261,18 @@ function SubscriptionsPage() {
                     </li>
                   ))}
                 </ul>
+                <PaystackCheckout
+                  planSlug={p.slug}
+                  planName={p.name}
+                  priceUsd={Number(p.price_monthly)}
+                  featured={p.is_featured}
+                />
                 <Link
                   to="/contact"
                   search={{ plan: p.slug }}
-                  className={`mt-6 inline-flex items-center justify-center gap-2 rounded-full py-3 pl-5 pr-1.5 text-sm font-semibold transition ${p.is_featured ? "bg-primary text-primary-foreground" : "bg-ink text-ink-foreground hover:bg-primary"}`}
+                  className="mt-3 text-center text-xs font-semibold text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
                 >
-                  Get Started
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20">
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
+                  Or talk to me first
                 </Link>
               </div>
             ))}
