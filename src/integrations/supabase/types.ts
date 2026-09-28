@@ -95,6 +95,45 @@ export type Database = {
         }
         Relationships: []
       }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          customer_email: string
+          customer_name: string
+          id: string
+          plan_name: string
+          plan_slug: string
+          reference: string
+          status: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          customer_email: string
+          customer_name?: string
+          id?: string
+          plan_name?: string
+          plan_slug?: string
+          reference: string
+          status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          customer_email?: string
+          customer_name?: string
+          id?: string
+          plan_name?: string
+          plan_slug?: string
+          reference?: string
+          status?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           accent: string | null
