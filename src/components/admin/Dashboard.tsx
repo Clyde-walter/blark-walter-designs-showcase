@@ -171,6 +171,38 @@ export function DashboardMain() {
 
   return (
     <div className="space-y-6">
+      <Card className="flex flex-wrap items-center gap-3 bg-surface p-4">
+        <span className="text-sm font-semibold">Showing</span>
+        <div className="flex flex-wrap gap-2">
+          {RANGE_OPTIONS.map((o) => (
+            <button
+              key={o.id}
+              onClick={() => setRange(o.id)}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${range === o.id ? "bg-primary text-primary-foreground" : "border border-border hover:bg-muted"}`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+        {range === "custom" && (
+          <div className="flex flex-wrap items-center gap-2 text-xs">
+            <input
+              type="date"
+              value={customFrom}
+              onChange={(e) => setCustomFrom(e.target.value)}
+              className="rounded-lg border border-border bg-background px-2 py-1.5"
+            />
+            <span className="text-muted-foreground">to</span>
+            <input
+              type="date"
+              value={customTo}
+              onChange={(e) => setCustomTo(e.target.value)}
+              className="rounded-lg border border-border bg-background px-2 py-1.5"
+            />
+          </div>
+        )}
+      </Card>
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="p-4 bg-surface">
           <div className="text-sm text-muted-foreground">Total Visitors</div>
