@@ -47,7 +47,7 @@ function ProjectsPage() {
       "Graphics Design": by("Graphics Design"),
       Logo: by("Logo"),
     } as Record<string, number>;
-  }, []);
+  }, [projects]);
   const filtered =
     active === "All Projects" ? projects : projects.filter((p) => p.category === active);
   return (

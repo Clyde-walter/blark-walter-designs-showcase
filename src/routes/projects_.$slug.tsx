@@ -1,4 +1,4 @@
-import { Link, createFileRoute, notFound } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
@@ -48,9 +48,7 @@ export const Route = createFileRoute("/projects_/$slug")({
       links: [{ rel: "canonical", href: `/projects/${params.slug}` }],
     };
   },
-  loader: ({ context }) => {
-    context.queryClient.ensureQueryData(publishedProjectsQuery());
-  },
+  // No blocking loader: render instantly from static data, then hydrate from the database.
   component: ProjectDetailPage,
   notFoundComponent: () => (
     <div className="container-x py-24 text-center">
@@ -63,11 +61,51 @@ export const Route = createFileRoute("/projects_/$slug")({
 });
 
 function ProjectDetailPage() {
-  const { data: projects = fallbackProjects } = useQuery(publishedProjectsQuery());
   const slug = Route.useParams().slug;
-  const p = projects.find((project) => project.slug === slug) as Project | undefined;
-  if (!p) return <div className="container-x py-24 text-center">Project not found</div>;
-  const related = projects.filter((x) => x.slug !== p.slug).slice(0, 6);
+  const { data: projects = fallbackProjects } = useQuery(publishedProjectsQuery());
+
+  // Hooks must run on every render, so they stay above any early return.
+  const { data: extras } = useQuery({
+    queryKey: ["project-extras", slug],
+    queryFn: async () => {
+      const { data } = await (supabase.from("projects" as never) as any)
+        .select("hero_image,gallery_images")
+        .eq("slug", slug)
+        .maybeSingle();
+      return data as { hero_image?: string; gallery_images?: string[] } | null;
+    },
+  });
+
+  const list = projects.length ? projects : fallbackProjects;
+  const p = (list.find((project) => project.slug === slug) ??
+    fallbackProjects.find((project) => project.slug === slug)) as Project | undefined;
+
+  const { data: testimonial } = useQuery({
+    queryKey: ["project-testimonial", slug, p?.title ?? ""],
+    enabled: Boolean(p),
+    queryFn: async () => {
+      const { data } = await (supabase.from("testimonials" as never) as any)
+        .select("*")
+        .eq("is_published", true)
+        .ilike("project", `%${p!.title}%`)
+        .limit(1)
+        .maybeSingle();
+      return data as { name: string; role: string; quote: string } | null;
+    },
+  });
+
+  if (!p) {
+    return (
+      <div className="container-x py-24 text-center">
+        <h1 className="text-3xl font-bold">Project not found</h1>
+        <Link to="/projects" className="mt-6 inline-flex text-primary">
+          Back to projects
+        </Link>
+      </div>
+    );
+  }
+
+  const related = list.filter((x) => x.slug !== p.slug).slice(0, 6);
   const caseStudy: ProjectCaseStudy = projectCaseStudies[p.slug] ?? {
     overview: p.summary,
     highlights: [
@@ -86,30 +124,8 @@ function ProjectDetailPage() {
     outcome: p.solution,
   };
 
-  // Enrich with DB extras (hero_image, gallery_images) if the project exists in the CMS
-  const { data: extras } = useQuery({
-    queryKey: ["project-extras", p.slug],
-    queryFn: async () => {
-      const { data } = await (supabase.from("projects" as never) as any)
-        .select("hero_image,gallery_images")
-        .eq("slug", p.slug)
-        .maybeSingle();
-      return data as { hero_image?: string; gallery_images?: string[] } | null;
-    },
-  });
-  const { data: testimonial } = useQuery({
-    queryKey: ["project-testimonial", p.slug],
-    queryFn: async () => {
-      const { data } = await (supabase.from("testimonials" as never) as any)
-        .select("*")
-        .eq("is_published", true)
-        .ilike("project", `%${p.title}%`)
-        .limit(1)
-        .maybeSingle();
-      return data as { name: string; role: string; quote: string } | null;
-    },
-  });
   const gallery = extras?.gallery_images ?? [];
+
 
   return (
     <>

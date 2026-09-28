@@ -1,3 +1,4 @@
+import { Globe2 } from "lucide-react";
 import type { Project } from "@/lib/portfolio-data";
 
 export function ProjectVisual({ project, small = false }: { project: Project; small?: boolean }) {
@@ -18,23 +19,41 @@ export function ProjectVisual({ project, small = false }: { project: Project; sm
     }
 
     return (
-      <div className={`relative overflow-hidden rounded-2xl border border-border bg-card ${previewHeight}`}>
-        <iframe
-          src={project.liveUrl}
-          title={`${project.title} live website preview`}
-          loading="lazy"
-          tabIndex={-1}
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-background"
-        />
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex h-8 items-center gap-2 border-b border-border bg-card/95 px-3 text-[10px] text-muted-foreground backdrop-blur-sm">
+      <div
+        className={`relative overflow-hidden rounded-2xl border border-border bg-card ${previewHeight}`}
+      >
+        <div className="absolute inset-x-0 top-0 flex h-8 items-center gap-2 border-b border-border bg-muted px-3 text-[10px] text-muted-foreground">
           <span className="h-2 w-2 rounded-full bg-destructive" />
           <span className="h-2 w-2 rounded-full bg-primary/50" />
           <span className="h-2 w-2 rounded-full bg-foreground/25" />
-          <span className="ml-1 truncate rounded border border-border bg-background px-2 py-0.5">{hostname}</span>
+          <span className="ml-1 flex min-w-0 items-center gap-1 truncate rounded border border-border bg-background px-2 py-0.5">
+            <Globe2 className="h-2.5 w-2.5 shrink-0" />
+            <span className="truncate">{hostname}</span>
+          </span>
         </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-foreground/35 to-transparent px-4 pb-3 pt-10">
-          <span className="text-xs font-semibold text-background">Live website preview</span>
+
+        <div
+          className={`absolute inset-x-0 bottom-0 top-8 bg-gradient-to-br ${project.accent} flex items-center justify-center`}
+        >
+          <div
+            className="absolute inset-0 opacity-20 mix-blend-overlay"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 20% 20%, white 1px, transparent 1px), radial-gradient(circle at 80% 60%, white 1px, transparent 1px)",
+              backgroundSize: "24px 24px, 32px 32px",
+            }}
+          />
+          <div className="relative z-10 px-4 text-center text-white">
+            <div className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+              {initials}
+            </div>
+            <div className="mt-1 text-xs uppercase tracking-widest opacity-80">
+              {project.subtitle}
+            </div>
+            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1 text-[11px] font-semibold backdrop-blur">
+              Live website
+            </div>
+          </div>
         </div>
       </div>
     );
