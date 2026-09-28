@@ -8,17 +8,34 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const mockData = [
-  { date: "May 12", visitors: 2400, pageViews: 2000 },
-  { date: "May 13", visitors: 3200, pageViews: 3500 },
-  { date: "May 14", visitors: 4300, pageViews: 4200 },
-  { date: "May 15", visitors: 5400, pageViews: 6000 },
-  { date: "May 16", visitors: 4200, pageViews: 5200 },
-  { date: "May 17", visitors: 3600, pageViews: 4100 },
-  { date: "May 18", visitors: 4800, pageViews: 5300 },
-];
-
 export function DashboardMain() {
+  const { data: traffic } = useQuery({
+    queryKey: ["site_page_views"],
+    queryFn: async () => {
+      const since = new Date();
+      since.setDate(since.getDate() - 6);
+      const { data, error } = await supabase
+        .from("site_page_views")
+        .select("path,visitor_id,viewed_at")
+        .gte("viewed_at", since.toISOString())
+        .order("viewed_at", { ascending: true });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const totalVisitors = new Set((traffic ?? []).map((row) => row.visitor_id)).size;
+  const totalPageViews = traffic?.length ?? 0;
+  const trafficData = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - (6 - index));
+    const key = date.toISOString().slice(0, 10);
+    const rows = (traffic ?? []).filter((row) => row.viewed_at.slice(0, 10) === key);
+    return {
+      date: date.toLocaleDateString("en-US", { weekday: "short" }),
+      visitors: new Set(rows.map((row) => row.visitor_id)).size,
+      pageViews: rows.length,
+    };
+  });
   const { data: counts, isLoading: countsLoading } = useQuery({
     queryKey: ["counts"],
     queryFn: async () => {
@@ -83,13 +100,13 @@ export function DashboardMain() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="p-4 bg-surface">
           <div className="text-sm text-muted-foreground">Total Visitors</div>
-          <div className="mt-2 text-2xl font-semibold">12,458</div>
-          <div className="text-xs text-emerald-500">+18.2% from last 7 days</div>
+          <div className="mt-2 text-2xl font-semibold">{totalVisitors.toLocaleString()}</div>
+          <div className="text-xs text-muted-foreground">Unique visitors, last 7 days</div>
         </Card>
         <Card className="p-4 bg-surface">
           <div className="text-sm text-muted-foreground">Page Views</div>
-          <div className="mt-2 text-2xl font-semibold">28,596</div>
-          <div className="text-xs text-emerald-500">+15.7% from last 7 days</div>
+          <div className="mt-2 text-2xl font-semibold">{totalPageViews.toLocaleString()}</div>
+          <div className="text-xs text-muted-foreground">Recorded page views</div>
         </Card>
         <Card className="p-4 bg-surface">
           <div className="text-sm text-muted-foreground">Blog Posts</div>
@@ -116,20 +133,20 @@ export function DashboardMain() {
             <ChartContainer
               id="visitors"
               config={{
-                visitors: { label: "Visitors", color: "#ef4444" },
-                pageViews: { label: "Page Views", color: "#6366f1" },
+                visitors: { label: "Visitors", color: "hsl(var(--primary))" },
+                pageViews: { label: "Page Views", color: "hsl(var(--primary))" },
               }}
             >
               <ResponsiveContainer width="100%" height={260}>
-                <AreaChart data={mockData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+                <AreaChart data={trafficData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="visGrad" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6} />
-                      <stop offset="100%" stopColor="#f97316" stopOpacity={0.2} />
+                      <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.6} />
+                      <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
                     </linearGradient>
                     <linearGradient id="pvGrad" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#6366f1" stopOpacity={0.6} />
-                      <stop offset="100%" stopColor="#ec4899" stopOpacity={0.2} />
+                      <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.5} />
+                      <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="date" />
@@ -138,14 +155,14 @@ export function DashboardMain() {
                   <Area
                     type="monotone"
                     dataKey="pageViews"
-                    stroke="#6366f1"
+                    stroke="hsl(var(--primary))"
                     fillOpacity={1}
                     fill="url(#pvGrad)"
                   />
                   <Area
                     type="monotone"
                     dataKey="visitors"
-                    stroke="#ef4444"
+                    stroke="hsl(var(--primary))"
                     fillOpacity={1}
                     fill="url(#visGrad)"
                   />
