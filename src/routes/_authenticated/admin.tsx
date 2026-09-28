@@ -217,6 +217,8 @@ function AdminPage() {
             />
           )}
 
+          {tab === "payments" && <PaymentsView />}
+
           {tab === "submissions" && <SubmissionsView />}
 
           {/* Dashboard: show when tab is dashboard (hash) or default */}
