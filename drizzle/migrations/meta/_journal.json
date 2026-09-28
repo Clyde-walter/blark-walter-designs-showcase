@@ -8,6 +8,13 @@
       "when": 1790584691282,
       "tag": "0000_add_site_page_views",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790604388351,
+      "tag": "0001_create_payments",
+      "breakpoints": true
     }
   ]
 }
