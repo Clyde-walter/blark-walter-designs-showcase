@@ -197,6 +197,27 @@ export type Database = {
         }
         Relationships: []
       }
+      site_page_views: {
+        Row: {
+          id: string
+          path: string
+          viewed_at: string
+          visitor_id: string
+        }
+        Insert: {
+          id?: string
+          path: string
+          viewed_at?: string
+          visitor_id: string
+        }
+        Update: {
+          id?: string
+          path?: string
+          viewed_at?: string
+          visitor_id?: string
+        }
+        Relationships: []
+      }
       subscription_plans: {
         Row: {
           category: string

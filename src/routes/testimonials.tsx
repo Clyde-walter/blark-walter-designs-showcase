@@ -18,7 +18,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { Portrait } from "@/components/site/Portrait";
-import { site, testimonials } from "@/lib/portfolio-data";
+import { site, testimonials as fallbackTestimonials } from "@/lib/portfolio-data";
+import { usePublishedTestimonials } from "@/lib/public-content";
 
 export const Route = createFileRoute("/testimonials")({
   head: () => ({
@@ -51,6 +52,7 @@ const industries = [
 ];
 
 function TestimonialsPage() {
+  const { data: testimonials = fallbackTestimonials } = usePublishedTestimonials();
   return (
     <>
       <section className="container-x pt-10 pb-6 md:pt-14">

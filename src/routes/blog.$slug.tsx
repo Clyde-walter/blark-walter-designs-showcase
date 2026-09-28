@@ -1,11 +1,13 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Facebook, Twitter, Linkedin, Link2, Flame } from "lucide-react";
-import { posts, site, type Post } from "@/lib/portfolio-data";
+import { posts as fallbackPosts, site, type Post } from "@/lib/portfolio-data";
+import { publishedPostsQuery } from "@/lib/public-content";
 import { accentFor } from "./blog";
 
 export const Route = createFileRoute("/blog/$slug")({
   head: ({ params }) => {
-    const p = posts.find((x) => x.slug === params.slug);
+    const p = fallbackPosts.find((x) => x.slug === params.slug);
     return {
       meta: [
         { title: p ? `${p.title} — Blark-walter Designs` : "Article — Blark-walter Designs" },
@@ -18,10 +20,8 @@ export const Route = createFileRoute("/blog/$slug")({
       links: [{ rel: "canonical", href: `/blog/${params.slug}` }],
     };
   },
-  loader: ({ params }) => {
-    const p = posts.find((x) => x.slug === params.slug);
-    if (!p) throw notFound();
-    return p;
+  loader: ({ context }) => {
+    context.queryClient.ensureQueryData(publishedPostsQuery());
   },
   component: BlogDetailPage,
   notFoundComponent: () => (
@@ -35,7 +35,10 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 
 function BlogDetailPage() {
-  const post = Route.useLoaderData() as Post;
+  const { data: posts = fallbackPosts } = useQuery(publishedPostsQuery());
+  const slug = Route.useParams().slug;
+  const post = posts.find((candidate) => candidate.slug === slug) as Post | undefined;
+  if (!post) return <div className="container-x py-24 text-center">Article not found</div>;
   const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
   return (
     <>

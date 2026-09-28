@@ -3,7 +3,8 @@ import { ArrowRight, ExternalLink, Grid3x3, LayoutGrid, Send } from "lucide-reac
 import { useMemo, useState } from "react";
 import { Portrait } from "@/components/site/Portrait";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
-import { projects } from "@/lib/portfolio-data";
+import { projects as fallbackProjects } from "@/lib/portfolio-data";
+import { usePublishedProjects } from "@/lib/public-content";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/projects")({
 });
 
 function ProjectsPage() {
+  const { data: projects = fallbackProjects } = usePublishedProjects();
   const categories = [
     "All Projects",
     "Website",

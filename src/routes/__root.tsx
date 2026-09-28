@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -13,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { PageViewTracker } from "@/components/site/PageViewTracker";
 
 function NotFoundComponent() {
   return (
@@ -129,15 +131,18 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const isAdmin = pathname.startsWith("/admin");
 
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen flex-col">
-        <Header />
+        <PageViewTracker />
+        {!isAdmin && <Header />}
         <main className="flex-1">
           <Outlet />
         </main>
-        <Footer />
+        {!isAdmin && <Footer />}
       </div>
     </QueryClientProvider>
   );

@@ -22,10 +22,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { ImageUpload, GalleryUpload } from "@/components/admin/ImageUpload";
 import { AdminSidebar } from "@/components/admin/Sidebar";
 import { DashboardMain } from "@/components/admin/Dashboard";
-import AdminTopbar from "@/components/admin/Topbar";
 
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -57,7 +55,7 @@ const TABS: { id: Tab; label: string; Icon: any }[] = [
 
 function AdminPage() {
   const navigate = useNavigate();
-  const [tab, setTab] = useState<Tab>("projects");
+  const [tab, setTab] = useState<Tab>("dashboard");
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [email, setEmail] = useState<string>("");
 
@@ -120,46 +118,22 @@ function AdminPage() {
     );
 
   return (
-    <section className="container-x py-8 md:py-12">
-      <AdminTopbar />
-      <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 sm:flex sm:flex-wrap sm:justify-between">
+    <section className="min-h-screen bg-surface">
+      <div className="flex min-h-screen">
+        <AdminSidebar onSignOut={signOut} />
+        <div className="min-w-0 flex-1 px-5 py-8 md:px-8 md:py-10">
+      <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="min-w-0">
           <span className="section-label">Admin</span>
           <h1 className="mt-2 truncate text-3xl font-bold sm:text-4xl">Content Manager</h1>
           <p className="mt-1 truncate text-sm text-muted-foreground">Signed in as {email}</p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Link
-            to="/"
-            className="rounded-full border border-border px-4 py-2 text-xs font-semibold sm:text-sm"
-          >
-            View site
-          </Link>
-          <button
-            onClick={signOut}
-            className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-ink-foreground sm:text-sm"
-          >
-            <LogOut className="h-4 w-4" /> Sign out
-          </button>
-        </div>
+        <span className="rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground">
+          Content is synced to the public website
+        </span>
       </header>
 
-      <div className="mt-6">
-        <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)}>
-          <TabsList>
-            {TABS.map(({ id, label, Icon }) => (
-              <TabsTrigger key={id} value={id} className="px-4">
-                <Icon className="h-4 w-4" />
-                <span className="ml-1">{label}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-      </div>
-
-      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[20rem_1fr]">
-        <AdminSidebar />
-        <main>
+      <main className="mt-8">
           {tab === "projects" && (
             <TableManager
               table="projects"
@@ -244,7 +218,8 @@ function AdminPage() {
 
           {/* Dashboard: show when tab is dashboard (hash) or default */}
           {(tab === "dashboard" || !tab) && <DashboardMain />}
-        </main>
+      </main>
+        </div>
       </div>
     </section>
   );
