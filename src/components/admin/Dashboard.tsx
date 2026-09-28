@@ -280,6 +280,21 @@ export function DashboardMain() {
 
         <div className="space-y-4">
           <Card className="p-4 bg-surface">
+            <div className="text-sm font-semibold">Most visited pages</div>
+            <div className="mt-3 space-y-2 text-sm">
+              {topPages.length === 0 && (
+                <p className="text-xs text-muted-foreground">No visits recorded in this period.</p>
+              )}
+              {topPages.map(([path, count]) => (
+                <div key={path} className="flex items-center justify-between gap-3">
+                  <span className="truncate">{path}</span>
+                  <span className="text-xs font-semibold text-muted-foreground">{count}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card className="p-4 bg-surface">
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-sm text-muted-foreground">Quick Actions</div>
