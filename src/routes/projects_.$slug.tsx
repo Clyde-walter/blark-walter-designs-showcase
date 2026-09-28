@@ -24,13 +24,14 @@ import {
 } from "lucide-react";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { LiveSitePreview } from "@/components/site/LiveSitePreview";
-import { projects, site, type Project } from "@/lib/portfolio-data";
+import { projects as fallbackProjects, site, type Project } from "@/lib/portfolio-data";
+import { publishedProjectsQuery } from "@/lib/public-content";
 import { projectCaseStudies, type ProjectCaseStudy } from "@/lib/project-case-studies";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/projects_/$slug")({
   head: ({ params }) => {
-    const p = projects.find((x) => x.slug === params.slug);
+    const p = fallbackProjects.find((x) => x.slug === params.slug);
     return {
       meta: [
         {
@@ -47,10 +48,8 @@ export const Route = createFileRoute("/projects_/$slug")({
       links: [{ rel: "canonical", href: `/projects/${params.slug}` }],
     };
   },
-  loader: ({ params }) => {
-    const p = projects.find((x) => x.slug === params.slug);
-    if (!p) throw notFound();
-    return p;
+  loader: ({ context }) => {
+    context.queryClient.ensureQueryData(publishedProjectsQuery());
   },
   component: ProjectDetailPage,
   notFoundComponent: () => (
@@ -64,7 +63,10 @@ export const Route = createFileRoute("/projects_/$slug")({
 });
 
 function ProjectDetailPage() {
-  const p = Route.useLoaderData() as Project;
+  const { data: projects = fallbackProjects } = useQuery(publishedProjectsQuery());
+  const slug = Route.useParams().slug;
+  const p = projects.find((project) => project.slug === slug) as Project | undefined;
+  if (!p) return <div className="container-x py-24 text-center">Project not found</div>;
   const related = projects.filter((x) => x.slug !== p.slug).slice(0, 6);
   const caseStudy: ProjectCaseStudy = projectCaseStudies[p.slug] ?? {
     overview: p.summary,
