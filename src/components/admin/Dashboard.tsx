@@ -8,16 +8,71 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
+type RangeKey = "today" | "7d" | "30d" | "90d" | "year" | "all" | "custom";
+
+const RANGE_OPTIONS: { id: RangeKey; label: string }[] = [
+  { id: "today", label: "Today" },
+  { id: "7d", label: "Last 7 days" },
+  { id: "30d", label: "Last 30 days" },
+  { id: "90d", label: "Last 90 days" },
+  { id: "year", label: "This year" },
+  { id: "all", label: "All time" },
+  { id: "custom", label: "Custom" },
+];
+
+function startOfDay(d: Date) {
+  const c = new Date(d);
+  c.setHours(0, 0, 0, 0);
+  return c;
+}
+
+function dayKey(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function resolveRange(range: RangeKey, customFrom: string, customTo: string) {
+  const end = new Date();
+  end.setHours(23, 59, 59, 999);
+  const start = startOfDay(new Date());
+  switch (range) {
+    case "today":
+      return { start, end };
+    case "7d":
+      start.setDate(start.getDate() - 6);
+      return { start, end };
+    case "30d":
+      start.setDate(start.getDate() - 29);
+      return { start, end };
+    case "90d":
+      start.setDate(start.getDate() - 89);
+      return { start, end };
+    case "year":
+      return { start: new Date(end.getFullYear(), 0, 1), end };
+    case "all":
+      return { start: new Date(2020, 0, 1), end };
+    case "custom": {
+      const from = customFrom ? startOfDay(new Date(customFrom)) : startOfDay(new Date());
+      const to = customTo ? new Date(`${customTo}T23:59:59`) : end;
+      return { start: from, end: to };
+    }
+  }
+}
+
 export function DashboardMain() {
+  const [range, setRange] = React.useState<RangeKey>("7d");
+  const [customFrom, setCustomFrom] = React.useState("");
+  const [customTo, setCustomTo] = React.useState("");
+
+  const { start, end } = resolveRange(range, customFrom, customTo);
+
   const { data: traffic } = useQuery({
-    queryKey: ["site_page_views"],
+    queryKey: ["site_page_views", range, customFrom, customTo],
     queryFn: async () => {
-      const since = new Date();
-      since.setDate(since.getDate() - 6);
       const { data, error } = await supabase
         .from("site_page_views")
         .select("path,visitor_id,viewed_at")
-        .gte("viewed_at", since.toISOString())
+        .gte("viewed_at", start.toISOString())
+        .lte("viewed_at", end.toISOString())
         .order("viewed_at", { ascending: true });
       if (error) throw error;
       return data ?? [];
@@ -25,17 +80,36 @@ export function DashboardMain() {
   });
   const totalVisitors = new Set((traffic ?? []).map((row) => row.visitor_id)).size;
   const totalPageViews = traffic?.length ?? 0;
-  const trafficData = Array.from({ length: 7 }, (_, index) => {
-    const date = new Date();
-    date.setDate(date.getDate() - (6 - index));
-    const key = date.toISOString().slice(0, 10);
-    const rows = (traffic ?? []).filter((row) => row.viewed_at.slice(0, 10) === key);
+
+  const dayCount = Math.min(
+    120,
+    Math.max(1, Math.round((end.getTime() - start.getTime()) / 86_400_000) + 1),
+  );
+  const trafficData = Array.from({ length: dayCount }, (_, index) => {
+    const date = new Date(end);
+    date.setDate(date.getDate() - (dayCount - 1 - index));
+    const key = dayKey(date);
+    const rows = (traffic ?? []).filter((row) => dayKey(new Date(row.viewed_at)) === key);
     return {
-      date: date.toLocaleDateString("en-US", { weekday: "short" }),
+      date:
+        dayCount <= 7
+          ? date.toLocaleDateString("en-US", { weekday: "short" })
+          : date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       visitors: new Set(rows.map((row) => row.visitor_id)).size,
       pageViews: rows.length,
     };
   });
+
+  const topPages = Object.entries(
+    (traffic ?? []).reduce<Record<string, number>>((acc, row) => {
+      acc[row.path] = (acc[row.path] ?? 0) + 1;
+      return acc;
+    }, {}),
+  )
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6);
+
+  const rangeLabel = RANGE_OPTIONS.find((r) => r.id === range)?.label ?? "";
   const { data: counts, isLoading: countsLoading } = useQuery({
     queryKey: ["counts"],
     queryFn: async () => {
