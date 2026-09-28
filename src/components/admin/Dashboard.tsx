@@ -207,12 +207,12 @@ export function DashboardMain() {
         <Card className="p-4 bg-surface">
           <div className="text-sm text-muted-foreground">Total Visitors</div>
           <div className="mt-2 text-2xl font-semibold">{totalVisitors.toLocaleString()}</div>
-          <div className="text-xs text-muted-foreground">Unique visitors, last 7 days</div>
+          <div className="text-xs text-muted-foreground">Unique visitors — {rangeLabel}</div>
         </Card>
         <Card className="p-4 bg-surface">
           <div className="text-sm text-muted-foreground">Page Views</div>
           <div className="mt-2 text-2xl font-semibold">{totalPageViews.toLocaleString()}</div>
-          <div className="text-xs text-muted-foreground">Recorded page views</div>
+          <div className="text-xs text-muted-foreground">Page views — {rangeLabel}</div>
         </Card>
         <Card className="p-4 bg-surface">
           <div className="text-sm text-muted-foreground">Blog Posts</div>
