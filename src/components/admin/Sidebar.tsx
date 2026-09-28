@@ -3,7 +3,7 @@ import { BarChart3, DollarSign, FileText, Inbox, Layers, LogOut, MessageSquareQu
 import React from "react";
 import { Card } from "@/components/ui/card";
 
-export function AdminSidebar({ className = "" }: { className?: string }) {
+export function AdminSidebar({ className = "", onSignOut }: { className?: string; onSignOut?: () => void }) {
   const items = [
     { to: "/admin", hash: "dashboard", label: "Dashboard", icon: Layers },
     { to: "/admin", hash: "projects", label: "Projects", icon: Layers },
@@ -68,7 +68,7 @@ export function AdminSidebar({ className = "" }: { className?: string }) {
           <Link to="/" className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-muted">
             <BarChart3 className="h-4 w-4" /> View website
           </Link>
-          <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+          <button onClick={onSignOut} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
             <LogOut className="h-4 w-4" /> Sign out
           </button>
         </div>

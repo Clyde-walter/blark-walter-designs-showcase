@@ -19,6 +19,7 @@ import {
 import { Portrait } from "@/components/site/Portrait";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { site, services, tools, education, experience, projects } from "@/lib/portfolio-data";
+import { usePublishedProjects } from "@/lib/public-content";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,6 +40,8 @@ export const Route = createFileRoute("/")({
 const serviceIcons = [PenTool, Smartphone, Monitor, Layout, Frame, BadgeCheck, Type, Share2];
 
 function HomePage() {
+  const { data: publishedProjects } = usePublishedProjects();
+  const visibleProjects = publishedProjects ?? projects;
   return (
     <>
       {/* Hero */}
@@ -247,7 +250,7 @@ function HomePage() {
           </Link>
         </div>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p) => (
+          {visibleProjects.map((p) => (
             <Link
               key={p.slug}
               to="/projects/$slug"

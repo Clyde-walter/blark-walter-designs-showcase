@@ -1,7 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Search, Edit3, Users, Globe, Flame, Tag } from "lucide-react";
 import { Portrait } from "@/components/site/Portrait";
-import { posts, site } from "@/lib/portfolio-data";
+import { posts as fallbackPosts, site } from "@/lib/portfolio-data";
+import { usePublishedPosts } from "@/lib/public-content";
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
@@ -47,6 +48,7 @@ const tagCloud = [
 ];
 
 function BlogPage() {
+  const { data: posts = fallbackPosts } = usePublishedPosts();
   return (
     <>
       <section className="container-x pt-10 pb-6 md:pt-14">

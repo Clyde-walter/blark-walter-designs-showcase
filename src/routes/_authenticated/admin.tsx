@@ -120,7 +120,7 @@ function AdminPage() {
   return (
     <section className="min-h-screen bg-surface">
       <div className="flex min-h-screen">
-        <AdminSidebar />
+        <AdminSidebar onSignOut={signOut} />
         <div className="min-w-0 flex-1 px-5 py-8 md:px-8 md:py-10">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="min-w-0">
@@ -128,20 +128,9 @@ function AdminPage() {
           <h1 className="mt-2 truncate text-3xl font-bold sm:text-4xl">Content Manager</h1>
           <p className="mt-1 truncate text-sm text-muted-foreground">Signed in as {email}</p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Link
-            to="/"
-            className="rounded-full border border-border px-4 py-2 text-xs font-semibold sm:text-sm"
-          >
-            View site
-          </Link>
-          <button
-            onClick={signOut}
-            className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-ink-foreground sm:text-sm"
-          >
-            <LogOut className="h-4 w-4" /> Sign out
-          </button>
-        </div>
+        <span className="rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground">
+          Content is synced to the public website
+        </span>
       </header>
 
       <main className="mt-8">
