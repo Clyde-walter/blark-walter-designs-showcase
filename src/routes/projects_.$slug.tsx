@@ -48,9 +48,7 @@ export const Route = createFileRoute("/projects_/$slug")({
       links: [{ rel: "canonical", href: `/projects/${params.slug}` }],
     };
   },
-  loader: ({ context }) => {
-    context.queryClient.ensureQueryData(publishedProjectsQuery());
-  },
+  // No blocking loader: render instantly from static data, then hydrate from the database.
   component: ProjectDetailPage,
   notFoundComponent: () => (
     <div className="container-x py-24 text-center">
