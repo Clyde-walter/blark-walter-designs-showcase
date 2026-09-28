@@ -7,11 +7,42 @@ export function ProjectVisual({ project, small = false }: { project: Project; sm
     .join("")
     .slice(0, 3)
     .toUpperCase();
+  const previewHeight = small ? "h-40" : "h-64";
+
+  if (project.liveUrl) {
+    let hostname = project.liveUrl;
+    try {
+      hostname = new URL(project.liveUrl).hostname.replace(/^www\./, "");
+    } catch {
+      // Keep the original value if a CMS URL is not fully formed yet.
+    }
+
+    return (
+      <div className={`relative overflow-hidden rounded-2xl border border-border bg-card ${previewHeight}`}>
+        <iframe
+          src={project.liveUrl}
+          title={`${project.title} live website preview`}
+          loading="lazy"
+          tabIndex={-1}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-background"
+        />
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex h-8 items-center gap-2 border-b border-border bg-card/95 px-3 text-[10px] text-muted-foreground backdrop-blur-sm">
+          <span className="h-2 w-2 rounded-full bg-destructive" />
+          <span className="h-2 w-2 rounded-full bg-primary/50" />
+          <span className="h-2 w-2 rounded-full bg-foreground/25" />
+          <span className="ml-1 truncate rounded border border-border bg-background px-2 py-0.5">{hostname}</span>
+        </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-foreground/35 to-transparent px-4 pb-3 pt-10">
+          <span className="text-xs font-semibold text-background">Live website preview</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
-      className={`relative flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br ${project.accent} ${
-        small ? "h-40" : "h-64"
-      }`}
+      className={`relative flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br ${project.accent} ${previewHeight}`}
     >
       <div
         className="absolute inset-0 opacity-20 mix-blend-overlay"

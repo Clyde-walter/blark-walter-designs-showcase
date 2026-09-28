@@ -41,7 +41,7 @@ function AboutPage() {
   return (
     <>
       <section className="container-x pt-10 pb-6 md:pt-14">
-        <div className="grid gap-10 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+        <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(12rem,18rem)] md:items-center lg:grid-cols-[1fr_auto_1fr]">
           <div>
             <span className="section-label">About Me</span>
             <h1 className="mt-4 text-4xl font-bold sm:text-5xl md:text-6xl">
@@ -76,8 +76,8 @@ function AboutPage() {
             </div>
             <p className="mt-6 font-script text-4xl">Clyde Walter</p>
           </div>
-          <Portrait eager />
-          <div className="grid gap-3">
+          <Portrait eager className="max-w-sm md:order-2 lg:order-none" />
+          <div className="grid gap-3 md:col-span-2 lg:col-span-1 lg:order-none">
             {[
               ["Name", site.designer],
               ["Email", site.email],
