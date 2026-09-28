@@ -42,7 +42,7 @@ function AboutPage() {
     <>
       <section className="container-x pt-10 pb-6 md:pt-14">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(12rem,18rem)] md:items-center lg:grid-cols-[1fr_auto_1fr]">
-          <div>
+          <div className="order-2 lg:order-1">
             <span className="section-label">About Me</span>
             <h1 className="mt-4 text-4xl font-bold sm:text-5xl md:text-6xl">
               Who is <span className="text-primary">Clyde Walter?</span>
@@ -76,8 +76,8 @@ function AboutPage() {
             </div>
             <p className="mt-6 font-script text-4xl">Clyde Walter</p>
           </div>
-          <Portrait eager className="max-w-sm md:order-2 lg:order-none" />
-          <div className="grid gap-3 md:col-span-2 lg:col-span-1 lg:order-none">
+          <Portrait eager className="order-1 max-w-sm lg:order-2" />
+          <div className="order-3 grid gap-3 md:col-span-2 lg:col-span-1 lg:order-3">
             {[
               ["Name", site.designer],
               ["Email", site.email],

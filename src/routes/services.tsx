@@ -66,7 +66,7 @@ function ServicesPage() {
     <>
       <section className="container-x pt-10 pb-6 md:pt-14">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(12rem,18rem)] md:items-center lg:grid-cols-[1fr_auto_1fr]">
-          <div>
+          <div className="order-2 lg:order-1">
             <span className="section-label">My Services</span>
             <h1 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl md:text-6xl">
               What I Can Do
@@ -92,8 +92,8 @@ function ServicesPage() {
               </Link>
             </div>
           </div>
-          <Portrait eager className="max-w-sm md:order-2 lg:order-none" />
-          <div className="grid gap-3 md:col-span-2 lg:col-span-1 lg:order-none">
+          <Portrait eager className="order-1 max-w-sm lg:order-2" />
+          <div className="order-3 grid gap-3 md:col-span-2 lg:col-span-1 lg:order-3">
             {[
               { Icon: User, v: "5+", l: "Years of Experience" },
               { Icon: Briefcase, v: "750+", l: "Projects Completed" },
