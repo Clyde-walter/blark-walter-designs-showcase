@@ -88,6 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Blark-walter Designs is the portfolio of Clyde Walter — a UI/UX and brand designer helping startups turn ideas into intuitive digital experiences.",
       },
       { name: "author", content: "Clyde Walter" },
+      { name: "google-site-verification", content: "YdTOxKXoiFINcaKC3MyM-Cho5zQ_7MqtwnCWkhFLG4U" },
       { property: "og:site_name", content: "Blark-walter Designs" },
       { property: "og:title", content: "Blark-walter Designs — UI/UX & Brand Designer" },
       {

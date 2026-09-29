@@ -299,6 +299,58 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug: "fintech-ux-design",
+    title: "Fintech UX Design: Lessons from Building the NexaBank App",
+    category: "UI/UX Design",
+    date: "Sep 29, 2026",
+    readTime: "7 min read",
+    excerpt:
+      "What designing a mobile banking app taught me about fintech UX: trust, clarity, security that feels calm, and money screens people actually understand.",
+    tags: ["Fintech", "UI/UX", "Mobile Banking", "Case Study"],
+    body: [
+      {
+        heading: "Why Fintech UX Design Is Different",
+        content:
+          "In most apps a confusing screen costs a few seconds. In a banking app it costs trust. People open a fintech product while thinking about rent, salary or a transfer to family, so every label, number and button carries emotional weight. Good fintech UX design lowers that stress: it makes money feel visible, actions feel reversible and security feel reassuring instead of scary.",
+      },
+      {
+        heading: "The NexaBank Brief",
+        content:
+          "NexaBank Limited came to me with a familiar problem: users found banking processes complicated, screens cluttered and their spending hard to track. Over eight weeks I designed the iOS and Android experience around one goal: make everyday money tasks feel simple, fast and safe.",
+      },
+      {
+        heading: "Lesson 1: Put the Balance and the Next Action First",
+        content:
+          "Research showed users open the app for two reasons: to check how much they have and to move money. The home screen leads with a clear balance, one tap to hide it in public, and big send, pay and top-up actions. Everything else, like offers and settings, moves down a level so the core job never competes for attention.",
+      },
+      {
+        heading: "Lesson 2: Make Spending Understandable at a Glance",
+        content:
+          "Raw transaction lists don't help people make decisions. NexaBank groups spending into plain-language categories, shows a simple monthly trend and highlights unusual changes. Merchant names are cleaned up and given icons, so a user can tell at a glance where their money went without decoding bank statement text.",
+      },
+      {
+        heading: "Lesson 3: Security Should Feel Calm",
+        content:
+          "Strong security is essential, but alarm-style warnings make people anxious. We used biometric sign-in, clear confirmation screens before every transfer showing the recipient and amount, and friendly wording for one-time codes. Risky moments get a deliberate pause; routine moments stay fast. That balance is the heart of trustworthy fintech UX.",
+      },
+      {
+        heading: "Lesson 4: Design for Errors and Edge Cases",
+        content:
+          "Failed transfers, network drops and pending payments are where users panic. Every state in NexaBank has a clear message: what happened, whether money left the account and what to do next. Receipts are shareable, and a pending transaction always shows its expected completion time.",
+      },
+      {
+        heading: "Lesson 5: Test with Real Money Scenarios",
+        content:
+          "Usability sessions used realistic tasks like splitting a bill or paying a utility provider. Watching people hesitate on a single word led to many small fixes, such as renaming 'beneficiary' to 'saved recipient'. Small copy changes often matter more in fintech than big visual ones.",
+      },
+      {
+        heading: "Final Thoughts on Fintech UX",
+        content:
+          "Great fintech UX design is quiet: it removes doubt, shows the numbers that matter and protects users without getting in their way. If you're building a banking, payments or finance product and want an interface your customers trust, let's talk.",
+      },
+    ],
+  },
+  {
     slug: "art-behind-the-interface",
     title: "The Art Behind the Interface: Secrets of UI/UX Magic",
     category: "UI/UX Design",
