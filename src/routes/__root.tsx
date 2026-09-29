@@ -108,6 +108,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Caveat:wght@500&display=swap",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Blark-walter Designs",
+          url: "https://blarkwalterdesigns.com",
+          logo: "https://blarkwalterdesigns.com/logo.png",
+          founder: { "@type": "Person", name: "Clyde Walter" },
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
