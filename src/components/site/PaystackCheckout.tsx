@@ -48,7 +48,7 @@ export function PaystackCheckout({
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [currency, setCurrency] = useState<"NGN" | "USD">("NGN");
+  const currency = "NGN" as const;
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [receipt, setReceipt] = useState<{
@@ -71,9 +71,8 @@ export function PaystackCheckout({
     void loadPaystack().catch(() => undefined);
   }, [open]);
 
-  const amount = currency === "NGN" ? Math.round(priceUsd * NGN_PER_USD) : priceUsd;
-  const display =
-    currency === "NGN" ? `₦${amount.toLocaleString()}` : `$${amount.toLocaleString()}`;
+  const amount = Math.round(priceUsd * NGN_PER_USD);
+  const display = `₦${amount.toLocaleString()}`;
 
   async function pay() {
     setError("");
@@ -207,21 +206,6 @@ export function PaystackCheckout({
                     className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm"
                     placeholder="you@company.com"
                   />
-                </div>
-                <div>
-                  <span className="text-sm font-medium">Pay in</span>
-                  <div className="mt-1 inline-flex rounded-full border border-border bg-card p-1">
-                    {(["NGN", "USD"] as const).map((c) => (
-                      <button
-                        key={c}
-                        type="button"
-                        onClick={() => setCurrency(c)}
-                        className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${currency === c ? "bg-ink text-ink-foreground" : "text-muted-foreground"}`}
-                      >
-                        {c === "NGN" ? "Naira" : "Dollars"}
-                      </button>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="flex items-baseline justify-between rounded-xl border border-border bg-muted/40 px-4 py-3">
