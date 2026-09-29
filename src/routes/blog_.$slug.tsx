@@ -5,7 +5,7 @@ import { posts as fallbackPosts, site, type Post } from "@/lib/portfolio-data";
 import { publishedPostsQuery } from "@/lib/public-content";
 import { accentFor } from "./blog";
 
-export const Route = createFileRoute("/blog/$slug")({
+export const Route = createFileRoute("/blog_/$slug")({
   head: ({ params }) => {
     const p = fallbackPosts.find((x) => x.slug === params.slug);
     return {
