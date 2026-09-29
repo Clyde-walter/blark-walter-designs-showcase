@@ -1,11 +1,11 @@
-import { Link, createFileRoute, notFound } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Facebook, Twitter, Linkedin, Link2, Flame } from "lucide-react";
 import { posts as fallbackPosts, site, type Post } from "@/lib/portfolio-data";
 import { publishedPostsQuery } from "@/lib/public-content";
 import { accentFor } from "./blog";
 
-export const Route = createFileRoute("/blog/$slug")({
+export const Route = createFileRoute("/blog_/$slug")({
   head: ({ params }) => {
     const p = fallbackPosts.find((x) => x.slug === params.slug);
     return {
@@ -38,9 +38,6 @@ export const Route = createFileRoute("/blog/$slug")({
           ]
         : [],
     };
-  },
-  loader: ({ context }) => {
-    context.queryClient.ensureQueryData(publishedPostsQuery());
   },
   component: BlogDetailPage,
   notFoundComponent: () => (
