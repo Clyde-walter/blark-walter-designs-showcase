@@ -86,6 +86,11 @@ export function PaystackCheckout({
       if (!paystack) throw new Error("Could not load the payment window.");
       const reference = `bwd_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
+      // Close our dialog first so its focus/pointer lock does not swallow the
+      // first tap inside the Paystack window.
+      setOpen(false);
+      await new Promise((r) => setTimeout(r, 180));
+
       await new Promise<void>((resolve, reject) => {
         const handler = paystack.setup({
           key: config.publicKey,
@@ -93,6 +98,7 @@ export function PaystackCheckout({
           amount: Math.round(amount * 100),
           currency,
           ref: reference,
+          channels: ["card", "bank", "bank_transfer", "ussd", "qr"],
           metadata: {
             customer_name: name.trim(),
             plan_slug: planSlug,
@@ -107,12 +113,15 @@ export function PaystackCheckout({
       const result = await verify({ data: { reference, planSlug, planName } });
       if (result.status !== "success") throw new Error("The payment did not go through.");
       setReceipt({ reference, amount: result.amount, currency: result.currency });
+      setOpen(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
+      setOpen(true);
     } finally {
       setBusy(false);
     }
   }
+
 
   function close() {
     setOpen(false);
