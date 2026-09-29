@@ -48,7 +48,7 @@ export function PaystackCheckout({
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [currency, setCurrency] = useState<"NGN" | "USD">("NGN");
+  const currency = "NGN" as const;
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [receipt, setReceipt] = useState<{
@@ -71,9 +71,8 @@ export function PaystackCheckout({
     void loadPaystack().catch(() => undefined);
   }, [open]);
 
-  const amount = currency === "NGN" ? Math.round(priceUsd * NGN_PER_USD) : priceUsd;
-  const display =
-    currency === "NGN" ? `₦${amount.toLocaleString()}` : `$${amount.toLocaleString()}`;
+  const amount = Math.round(priceUsd * NGN_PER_USD);
+  const display = `₦${amount.toLocaleString()}`;
 
   async function pay() {
     setError("");
