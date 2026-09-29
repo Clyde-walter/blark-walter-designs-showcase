@@ -43,9 +43,25 @@ export const Route = createFileRoute("/projects_/$slug")({
         { property: "og:title", content: p ? `${p.title} — ${p.subtitle}` : "Project" },
         { property: "og:description", content: p?.summary ?? "" },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: `/projects/${params.slug}` },
+        { property: "og:url", content: `https://blarkwalterdesigns.com/projects/${params.slug}` },
       ],
-      links: [{ rel: "canonical", href: `/projects/${params.slug}` }],
+      links: [{ rel: "canonical", href: `https://blarkwalterdesigns.com/projects/${params.slug}` }],
+      scripts: p
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "CreativeWork",
+                name: `${p.title} — ${p.subtitle}`,
+                description: p.summary,
+                creator: { "@type": "Person", name: "Clyde Walter" },
+                url: `https://blarkwalterdesigns.com/projects/${params.slug}`,
+                ...(p.liveUrl ? { sameAs: p.liveUrl } : {}),
+              }),
+            },
+          ]
+        : [],
     };
   },
   // No blocking loader: render instantly from static data, then hydrate from the database.

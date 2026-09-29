@@ -15,9 +15,28 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:title", content: p?.title ?? "Article" },
         { property: "og:description", content: p?.excerpt ?? "" },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: `/blog/${params.slug}` },
+        { property: "og:url", content: `https://blarkwalterdesigns.com/blog/${params.slug}` },
       ],
-      links: [{ rel: "canonical", href: `/blog/${params.slug}` }],
+      links: [{ rel: "canonical", href: `https://blarkwalterdesigns.com/blog/${params.slug}` }],
+      scripts: p
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                headline: p.title,
+                description: p.excerpt,
+                datePublished: isNaN(Date.parse(p.date))
+                  ? undefined
+                  : new Date(p.date).toISOString().slice(0, 10),
+                author: { "@type": "Person", name: "Clyde Walter" },
+                publisher: { "@type": "Organization", name: "Blark-walter Designs" },
+                mainEntityOfPage: `https://blarkwalterdesigns.com/blog/${params.slug}`,
+              }),
+            },
+          ]
+        : [],
     };
   },
   loader: ({ context }) => {
