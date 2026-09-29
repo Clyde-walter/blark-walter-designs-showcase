@@ -39,9 +39,6 @@ export const Route = createFileRoute("/blog_/$slug")({
         : [],
     };
   },
-  loader: ({ context }) => {
-    context.queryClient.ensureQueryData(publishedPostsQuery());
-  },
   component: BlogDetailPage,
   notFoundComponent: () => (
     <div className="container-x py-24 text-center">
