@@ -207,21 +207,6 @@ export function PaystackCheckout({
                     placeholder="you@company.com"
                   />
                 </div>
-                <div>
-                  <span className="text-sm font-medium">Pay in</span>
-                  <div className="mt-1 inline-flex rounded-full border border-border bg-card p-1">
-                    {(["NGN", "USD"] as const).map((c) => (
-                      <button
-                        key={c}
-                        type="button"
-                        onClick={() => setCurrency(c)}
-                        className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${currency === c ? "bg-ink text-ink-foreground" : "text-muted-foreground"}`}
-                      >
-                        {c === "NGN" ? "Naira" : "Dollars"}
-                      </button>
-                    ))}
-                  </div>
-                </div>
 
                 <div className="flex items-baseline justify-between rounded-xl border border-border bg-muted/40 px-4 py-3">
                   <span className="text-sm text-muted-foreground">Total today</span>
