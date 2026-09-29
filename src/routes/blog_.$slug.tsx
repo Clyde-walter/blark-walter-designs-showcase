@@ -1,4 +1,4 @@
-import { Link, createFileRoute, notFound } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Facebook, Twitter, Linkedin, Link2, Flame } from "lucide-react";
 import { posts as fallbackPosts, site, type Post } from "@/lib/portfolio-data";
