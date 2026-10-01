@@ -14,6 +14,7 @@ import {
   Code2,
 } from "lucide-react";
 import { Portrait } from "@/components/site/Portrait";
+import { ScrollGuide, type GuideSection } from "@/components/site/ScrollGuide";
 import { site, education, experience, frontendSkills } from "@/lib/portfolio-data";
 
 export const Route = createFileRoute("/about")({
@@ -37,10 +38,19 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
+const GUIDE_SECTIONS: GuideSection[] = [
+  { id: "about-intro", label: "Who I Am" },
+  { id: "about-values", label: "My Values" },
+  { id: "about-journey", label: "My Journey" },
+  { id: "about-skills", label: "Frontend" },
+  { id: "about-promise", label: "My Promise" },
+];
+
 function AboutPage() {
   return (
     <>
-      <section className="container-x pt-10 pb-6 md:pt-14">
+      <ScrollGuide sections={GUIDE_SECTIONS} />
+      <section id="about-intro" className="container-x pt-10 pb-6 md:pt-14">
         <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(12rem,18rem)] md:items-center lg:grid-cols-[1fr_auto_1fr]">
           <div className="order-2 lg:order-1">
             <span className="section-label">About Me</span>
@@ -103,7 +113,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="container-x py-16">
+      <section id="about-values" className="container-x bwd-reveal py-16">
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
             <span className="section-label">My Values</span>
@@ -182,7 +192,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="container-x py-16">
+      <section id="about-journey" className="container-x bwd-reveal py-16">
         <span className="section-label">My Journey</span>
         <h2 className="mt-4 text-4xl font-bold">
           My <span className="text-primary">Education &amp; Work Journey</span>
@@ -193,7 +203,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="container-x pb-16">
+      <section id="about-skills" className="container-x bwd-reveal pb-16">
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr] lg:items-center">
           <div>
             <span className="section-label">Frontend Development</span>
@@ -219,7 +229,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="container-x pb-16">
+      <section id="about-promise" className="container-x bwd-reveal pb-16">
         <div className="ink-panel p-10">
           <span className="section-label">My Promise</span>
           <h2 className="mt-4 text-4xl font-bold text-ink-foreground">
