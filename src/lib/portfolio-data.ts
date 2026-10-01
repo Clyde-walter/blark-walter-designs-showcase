@@ -3,7 +3,9 @@ export const site = {
   tagline: "UI/UX & Brand Designer",
   designer: "Clyde Walter",
   email: "blarkwalterdesigns@gmail.com",
-  phone: "+234 901 941 1996",
+  phone: "+234 810 269 2046",
+  whatsapp: "2348102692046",
+
   location: "Lagos, Nigeria",
   availability: "Available 24/7",
 };
