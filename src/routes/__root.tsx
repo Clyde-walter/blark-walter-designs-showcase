@@ -58,7 +58,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset?: () => void }) 
           <button
             onClick={() => {
               router.invalidate();
-              reset();
+              reset?.();
             }}
             className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground"
           >
