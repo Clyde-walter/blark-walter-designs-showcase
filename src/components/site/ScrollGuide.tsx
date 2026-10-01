@@ -49,9 +49,9 @@ export function ScrollGuide({ sections }: { sections: GuideSection[] }) {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed right-6 top-1/2 z-30 hidden -translate-y-1/2 lg:block"
+      className="pointer-events-none fixed right-10 top-1/2 z-30 hidden -translate-y-1/2 lg:block"
     >
-      <div ref={trackRef} className="relative" style={{ height: trackHeight }}>
+      <div ref={trackRef} className="relative w-14" style={{ height: trackHeight }}>
         {/* track */}
         <div className="absolute left-1/2 top-0 h-full w-[2px] -translate-x-1/2 rounded-full bg-border" />
         <div
