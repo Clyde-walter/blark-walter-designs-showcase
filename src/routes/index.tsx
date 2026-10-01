@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Portrait } from "@/components/site/Portrait";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
+import { TypewriterRoles } from "@/components/site/TypewriterRoles";
 import { site, services, tools, education, experience, projects } from "@/lib/portfolio-data";
 import { usePublishedProjects } from "@/lib/public-content";
 
@@ -52,9 +53,7 @@ function HomePage() {
             <h1 className="mt-4 text-5xl font-bold leading-[1.05] sm:text-6xl md:text-7xl">
               Clyde <span className="text-primary">Walter</span>
             </h1>
-            <p className="mt-3 text-lg font-medium text-foreground">
-              UI/UX Designer &amp; Brand Designer
-            </p>
+            <TypewriterRoles className="mt-3" />
             <p className="mt-5 max-w-md text-base text-muted-foreground">
               I help startups and businesses transform ideas into intuitive digital experiences and
               memorable brand identities.
