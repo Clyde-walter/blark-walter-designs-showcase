@@ -583,7 +583,7 @@ function EditorModal({ fields, row, onChange, onCancel, onSave, saving, error }:
           <p className="px-2 pb-2 text-sm text-destructive">{String(error.message ?? error)}</p>
         )}
 
-        <DialogFooter>
+        <DialogFooter className="flex-col gap-2 sm:flex-row">
           <Button variant="outline" onClick={onCancel}>
             Cancel
           </Button>
