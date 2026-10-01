@@ -368,110 +368,107 @@ function TableManager({
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold">
+      <div className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+        <h2 className="min-w-0 truncate text-xl font-bold">
           {title}{" "}
           <span className="text-sm font-normal text-muted-foreground">({data?.length ?? 0})</span>
         </h2>
-        <Button onClick={() => setEditing({ ...defaults })}>
+        <Button className="shrink-0" onClick={() => setEditing({ ...defaults })}>
           <Plus className="h-4 w-4" /> New
         </Button>
       </div>
       {isLoading ? (
         <Loader2 className="h-5 w-5 animate-spin text-primary" />
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
-          <table className="w-full text-sm">
-            <thead className="bg-surface text-left text-xs uppercase text-muted-foreground">
-              <tr>
-                <th className="p-3">Name / Title</th>
-                <th className="p-3 hidden sm:table-cell">Meta</th>
-                <th className="p-3 w-32 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(data ?? []).map((row: any) => {
-                const isDraft = row.status === "draft" || row.is_published === false;
-                return (
-                  <tr key={row.id} className="border-t border-border">
-                    <td className="p-3 font-medium">
-                      <div className="flex items-center gap-2">
-                        {row.hero_image && (
-                          <img
-                            src={row.hero_image}
-                            alt=""
-                            className="h-8 w-8 rounded object-cover"
-                          />
-                        )}
-                        <span>{row.title ?? row.name ?? row.slug}</span>
-                        {isDraft ? (
-                          <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-amber-600">
-                            Draft
-                          </span>
-                        ) : (
-                          <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-emerald-600">
-                            Published
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="p-3 hidden text-xs text-muted-foreground sm:table-cell">
-                      {row.category ?? row.role ?? row.slug ?? ""}
-                      {typeof row.price_monthly === "number" && ` · $${row.price_monthly}/mo`}
-                    </td>
-                    <td className="p-3 text-right">
-                      {"status" in row || "is_published" in row ? (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          title={isDraft ? "Publish" : "Unpublish"}
-                          onClick={() =>
-                            save.mutate({
-                              ...row,
-                              ...("status" in row
-                                ? { status: isDraft ? "published" : "draft" }
-                                : { is_published: isDraft }),
-                            })
-                          }
-                          className="mr-2"
-                        >
-                          {isDraft ? (
-                            <Eye className="inline h-3 w-3" />
-                          ) : (
-                            <EyeOff className="inline h-3 w-3" />
-                          )}
-                        </Button>
-                      ) : null}
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setEditing(row)}
-                        className="mr-2"
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => confirm("Delete?") && del.mutate(row.id)}
-                      >
-                        <Trash2 className="inline h-3 w-3" />
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })}
-              {(data ?? []).length === 0 && (
-                <tr>
-                  <td colSpan={3} className="p-6 text-center text-sm text-muted-foreground">
-                    No entries yet.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+        <div className="space-y-3">
+          {(data ?? []).map((row: any) => {
+            const isDraft = row.status === "draft" || row.is_published === false;
+            const meta = [
+              row.category ?? row.role ?? row.slug ?? "",
+              typeof row.price_monthly === "number" ? `$${row.price_monthly}/mo` : "",
+            ]
+              .filter(Boolean)
+              .join(" · ");
+            return (
+              <div
+                key={row.id}
+                className="rounded-2xl border border-border bg-card p-4 md:flex md:items-center md:gap-4"
+              >
+                <div className="flex min-w-0 flex-1 items-start gap-3">
+                  {row.hero_image && (
+                    <img
+                      src={row.hero_image}
+                      alt=""
+                      className="h-10 w-10 shrink-0 rounded-lg object-cover"
+                    />
+                  )}
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="break-words font-semibold">
+                        {row.title ?? row.name ?? row.slug}
+                      </span>
+                      {isDraft ? (
+                        <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-amber-600">
+                          Draft
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-emerald-600">
+                          Published
+                        </span>
+                      )}
+                    </div>
+                    {meta && (
+                      <div className="mt-1 break-words text-xs text-muted-foreground">{meta}</div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-3 flex flex-wrap items-center gap-2 md:mt-0 md:shrink-0 md:justify-end">
+                  {"status" in row || "is_published" in row ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      title={isDraft ? "Publish" : "Unpublish"}
+                      onClick={() =>
+                        save.mutate({
+                          ...row,
+                          ...("status" in row
+                            ? { status: isDraft ? "published" : "draft" }
+                            : { is_published: isDraft }),
+                        })
+                      }
+                    >
+                      {isDraft ? (
+                        <Eye className="h-3.5 w-3.5" />
+                      ) : (
+                        <EyeOff className="h-3.5 w-3.5" />
+                      )}
+                      <span className="ml-1">{isDraft ? "Publish" : "Unpublish"}</span>
+                    </Button>
+                  ) : null}
+                  <Button variant="outline" size="sm" onClick={() => setEditing(row)}>
+                    Edit
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => confirm("Delete?") && del.mutate(row.id)}
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    <span className="ml-1">Delete</span>
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
+          {(data ?? []).length === 0 && (
+            <p className="rounded-2xl border border-border bg-card p-6 text-center text-sm text-muted-foreground">
+              No entries yet.
+            </p>
+          )}
         </div>
       )}
+
 
       {editing && (
         <EditorModal
