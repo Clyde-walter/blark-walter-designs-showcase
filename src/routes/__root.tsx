@@ -76,7 +76,8 @@ const ErrorComponent: ErrorRouteComponent = ({ error, reset }) => {
       </div>
     </div>
   );
-}
+};
+
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
