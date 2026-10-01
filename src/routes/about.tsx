@@ -38,6 +38,14 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
+const GUIDE_SECTIONS: GuideSection[] = [
+  { id: "about-intro", label: "Who I Am" },
+  { id: "about-values", label: "My Values" },
+  { id: "about-journey", label: "My Journey" },
+  { id: "about-skills", label: "Frontend" },
+  { id: "about-promise", label: "My Promise" },
+];
+
 function AboutPage() {
   return (
     <>
