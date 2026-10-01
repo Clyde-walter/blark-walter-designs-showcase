@@ -67,10 +67,11 @@ export function AdminSidebar({ className = "", onSignOut }: { className?: string
         </Card>
         <div className="mt-auto space-y-2 border-t border-border pt-4">
           <Link to="/" className="flex items-center justify-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-muted lg:justify-start">
-            <BarChart3 className="h-4 w-4" /> View website
+            <BarChart3 className="h-4 w-4 shrink-0" /> <span className="hidden lg:inline">View website</span>
           </Link>
           <button onClick={onSignOut} className="flex w-full items-center justify-center gap-3 rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted lg:justify-start">
-            <LogOut className="h-4 w-4" /> Sign out
+            <LogOut className="h-4 w-4 shrink-0" /> <span className="hidden lg:inline">Sign out</span>
+
           </button>
         </div>
       </div>

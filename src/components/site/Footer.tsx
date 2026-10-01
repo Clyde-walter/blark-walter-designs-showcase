@@ -76,9 +76,15 @@ export function Footer() {
           <ul className="space-y-3 text-sm text-muted-foreground">
             <li className="flex items-center gap-2.5">
               <Phone className="h-4 w-4 shrink-0 text-primary" />
-              <a href={`tel:${site.phone.replace(/\s+/g, "")}`} className="hover:text-primary">
+              <a
+                href={`https://wa.me/${site.whatsapp}`}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-primary"
+              >
                 {site.phone}
               </a>
+
             </li>
             <li className="flex items-center gap-2.5">
               <Mail className="h-4 w-4 shrink-0 text-primary" />
