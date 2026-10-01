@@ -125,16 +125,19 @@ function AdminPage() {
       <div className="flex min-h-screen">
         <AdminSidebar onSignOut={signOut} />
         <div className="min-w-0 flex-1 px-5 py-8 md:px-8 md:py-10">
-      <header className="flex flex-wrap items-center justify-between gap-4">
+      <header className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-4">
         <div className="min-w-0">
           <span className="section-label">Admin</span>
-          <h1 className="mt-2 truncate text-3xl font-bold sm:text-4xl">Content Manager</h1>
+          <h1 className="mt-2 truncate text-2xl font-bold sm:text-3xl md:text-4xl">
+            Content Manager
+          </h1>
           <p className="mt-1 truncate text-sm text-muted-foreground">Signed in as {email}</p>
         </div>
-        <span className="rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground">
+        <span className="justify-self-start rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground sm:justify-self-end">
           Content is synced to the public website
         </span>
       </header>
+
 
       <main className="mt-8">
           {tab === "projects" && (
