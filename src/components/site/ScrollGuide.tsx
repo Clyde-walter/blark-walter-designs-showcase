@@ -90,9 +90,9 @@ export function ScrollGuide({ sections }: { sections: GuideSection[] }) {
               />
             </div>
             <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-background bg-primary" />
-          </div>
-          <div className="mt-2 w-28 -translate-x-[3.25rem] text-right text-[11px] font-semibold text-muted-foreground">
-            {sections[active]?.label}
+            <div className="absolute right-full top-1/2 mr-3 -translate-y-1/2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-1 text-[11px] font-semibold text-muted-foreground shadow-sm">
+              {sections[active]?.label}
+            </div>
           </div>
         </div>
       </div>
