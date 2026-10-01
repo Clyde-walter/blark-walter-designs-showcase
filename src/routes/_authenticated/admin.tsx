@@ -501,7 +501,7 @@ function EditorModal({ fields, row, onChange, onCancel, onSave, saving, error }:
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 p-2 sm:grid-cols-2">
+        <div className="grid gap-4 py-2 sm:grid-cols-2">
           {fields.map((f: Field) => (
             <div key={f.key} className={f.span === 2 ? "sm:col-span-2" : ""}>
               <label className="text-xs font-semibold text-muted-foreground">{f.label}</label>
