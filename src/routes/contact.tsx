@@ -96,10 +96,11 @@ function ContactPage() {
               />
               <InfoCard
                 Icon={Phone}
-                label="Phone"
+                label="WhatsApp"
                 value={site.phone}
-                href={`tel:${site.phone.replace(/\s+/g, "")}`}
+                href={`https://wa.me/${site.whatsapp}`}
               />
+
               <InfoCard Icon={MapPin} label="Location" value={site.location} />
               <InfoCard Icon={Clock} label="Availability" value={site.availability} />
             </div>
