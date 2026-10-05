@@ -1,3 +1,4 @@
+import { submitContact } from "@/lib/contact.functions";
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
