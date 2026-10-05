@@ -113,6 +113,8 @@ export function PaystackCheckout({
       });
 
       const result = await verify({ data: { reference, planSlug, planName } });
+      if (result.status === "underpaid")
+        throw new Error("The amount paid does not match the plan price. Please contact support with your reference.");
       if (result.status !== "success") throw new Error("The payment did not go through.");
       setReceipt({ reference, amount: result.amount, currency: result.currency });
       setOpen(true);
