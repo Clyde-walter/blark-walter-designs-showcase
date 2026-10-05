@@ -52,16 +52,19 @@ function ContactPage() {
       setErrorMsg(parsed.error.issues[0]?.message ?? "Invalid input");
       return;
     }
-    const { error } = await supabase.from("contact_submissions").insert({
-      name: parsed.data.name,
-      email: parsed.data.email,
-      subject: parsed.data.subject,
-      message: parsed.data.message,
-      plan_slug: plan ?? "",
-    });
-    if (error) {
+    try {
+      await submitContact({
+        data: {
+          name: parsed.data.name,
+          email: parsed.data.email,
+          subject: parsed.data.subject,
+          message: parsed.data.message,
+          planSlug: plan ?? "",
+        },
+      });
+    } catch (err) {
       setStatus("error");
-      setErrorMsg(error.message);
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
       return;
     }
     setStatus("sent");
