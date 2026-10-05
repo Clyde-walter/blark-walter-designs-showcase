@@ -101,5 +101,23 @@ export const verifyPaystackPayment = createServerFn({ method: "POST" })
       { onConflict: "reference" },
     );
 
+    if (status === "success" && email) {
+      try {
+        const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+        await sendTemplateEmail("payment-receipt", email, {
+          templateData: {
+            name,
+            item: tx.metadata?.plan_name ?? data.planName,
+            amount: `${currency === "NGN" ? "₦" : currency + " "}${amount.toLocaleString("en-US")}`,
+            reference: data.reference,
+            isTemplate: planSlug.startsWith("template:"),
+          },
+          idempotencyKey: `payment-receipt-${data.reference}`,
+        });
+      } catch (e) {
+        console.error("receipt email failed", e);
+      }
+    }
+
     return { status, amount, currency, email, reference: data.reference };
   });
