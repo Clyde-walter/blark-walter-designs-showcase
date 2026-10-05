@@ -49,7 +49,8 @@ type Tab =
   | "plans"
   | "blog"
   | "submissions"
-  | "payments";
+  | "payments"
+  | "templates";
 const DASHBOARD_TAB = "dashboard" as const;
 const TABS: { id: Tab; label: string; Icon: any }[] = [
   { id: DASHBOARD_TAB, label: "Dashboard", Icon: Eye },
@@ -58,6 +59,7 @@ const TABS: { id: Tab; label: string; Icon: any }[] = [
   { id: "testimonials", label: "Testimonials", Icon: MessageSquareQuote },
   { id: "plans", label: "Plans", Icon: DollarSign },
   { id: "payments", label: "Payments", Icon: DollarSign },
+  { id: "templates", label: "Templates", Icon: Layers },
   { id: "blog", label: "Blog", Icon: FileText },
   { id: "submissions", label: "Contacts", Icon: Inbox },
 ];
@@ -220,6 +222,31 @@ function AdminPage() {
             />
           )}
 
+          {tab === "templates" && (
+            <TableManager
+              table="templates"
+              title="Website Templates"
+              fields={TEMPLATE_FIELDS}
+              defaults={{
+                slug: "",
+                title: "",
+                tagline: "",
+                description: "",
+                category: "Website",
+                price_usd: 0,
+                tech_stack: [],
+                features: [],
+                hero_image: "",
+                gallery_images: [],
+                live_demo_url: "",
+                badge: "",
+                sort: 0,
+                is_published: false,
+              }}
+              orderBy="sort"
+            />
+          )}
+
           {tab === "payments" && <PaymentsView />}
 
           {tab === "submissions" && <SubmissionsView />}
@@ -266,6 +293,27 @@ const PROJECT_FIELDS: Field[] = [
   { key: "summary", label: "Summary", type: "textarea", span: 2 },
   { key: "problem", label: "Problem", type: "textarea", span: 2 },
   { key: "solution", label: "Solution", type: "textarea", span: 2 },
+  { key: "sort", label: "Sort", type: "number" },
+  { key: "is_published", label: "Published", type: "bool" },
+];
+const TEMPLATE_FIELDS: Field[] = [
+  { key: "title", label: "Template name", type: "text" },
+  { key: "slug", label: "Web address name (e.g. saas-landing)", type: "text" },
+  { key: "tagline", label: "Short tagline", type: "text", span: 2 },
+  {
+    key: "category",
+    label: "Category",
+    type: "select",
+    options: ["Website", "Landing Page", "Portfolio", "E-Commerce", "Dashboard", "SaaS", "Agency"],
+  },
+  { key: "price_usd", label: "Price (USD, charged in Naira)", type: "number" },
+  { key: "badge", label: "Badge (e.g. New, Best Seller)", type: "text" },
+  { key: "live_demo_url", label: "Live demo link", type: "text" },
+  { key: "tech_stack", label: "Tech stack (comma-separated)", type: "tags", span: 2 },
+  { key: "features", label: "Features (comma-separated)", type: "tags", span: 2 },
+  { key: "hero_image", label: "Cover image", type: "image", span: 2, folder: "templates/hero" },
+  { key: "gallery_images", label: "Screenshots", type: "gallery", span: 2, folder: "templates/gallery" },
+  { key: "description", label: "Full description", type: "textarea", span: 2 },
   { key: "sort", label: "Sort", type: "number" },
   { key: "is_published", label: "Published", type: "bool" },
 ];

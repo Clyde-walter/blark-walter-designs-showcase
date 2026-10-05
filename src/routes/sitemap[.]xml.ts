@@ -15,6 +15,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/blog/fintech-ux-design",
           "/testimonials",
           "/subscriptions",
+          "/templates",
           "/contact",
         ];
         const urls = paths
