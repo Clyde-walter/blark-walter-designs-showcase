@@ -39,11 +39,13 @@ export function PaystackCheckout({
   planName,
   priceUsd,
   featured,
+  buttonLabel = "Subscribe now",
 }: {
   planSlug: string;
   planName: string;
   priceUsd: number;
   featured?: boolean;
+  buttonLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -137,7 +139,7 @@ export function PaystackCheckout({
         onClick={() => setOpen(true)}
         className={`mt-6 inline-flex items-center justify-center gap-2 rounded-full py-3 pl-5 pr-1.5 text-sm font-semibold transition ${featured ? "bg-primary text-primary-foreground" : "bg-ink text-ink-foreground hover:bg-primary"}`}
       >
-        Subscribe now
+        {buttonLabel}
         <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20">
           <ArrowRight className="h-4 w-4" />
         </span>

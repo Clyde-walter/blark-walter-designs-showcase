@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BarChart3, CreditCard, DollarSign, FileText, Inbox, Layers, LogOut, MessageSquareQuote, Wrench } from "lucide-react";
+import { BarChart3, CreditCard, DollarSign, FileText, Inbox, Layers, LayoutTemplate, LogOut, MessageSquareQuote, Wrench } from "lucide-react";
 import React from "react";
 import { Card } from "@/components/ui/card";
 
@@ -11,6 +11,7 @@ export function AdminSidebar({ className = "", onSignOut }: { className?: string
     { to: "/admin", hash: "testimonials", label: "Testimonials", icon: MessageSquareQuote },
     { to: "/admin", hash: "plans", label: "Plans", icon: DollarSign },
     { to: "/admin", hash: "payments", label: "Payments", icon: CreditCard },
+    { to: "/admin", hash: "templates", label: "Templates", icon: LayoutTemplate },
     { to: "/admin", hash: "blog", label: "Blog Posts", icon: FileText },
     { to: "/admin", hash: "submissions", label: "Contacts", icon: Inbox },
   ];
