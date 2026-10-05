@@ -25,6 +25,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
 import { Route as ProjectsSlugRouteImport } from './routes/projects_.$slug'
 import { Route as TemplatesSlugRouteImport } from './routes/templates_.$slug'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -105,6 +106,12 @@ const TemplatesSlugRoute = TemplatesSlugRouteImport.update({
   path: '/templates/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/templates/$slug': typeof TemplatesSlugRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -139,6 +147,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/templates/$slug': typeof TemplatesSlugRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,6 +167,7 @@ export interface FileRoutesById {
   '/blog_/$slug': typeof BlogSlugRoute
   '/projects_/$slug': typeof ProjectsSlugRoute
   '/templates_/$slug': typeof TemplatesSlugRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/projects/$slug'
     | '/templates/$slug'
+    | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,6 +205,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/projects/$slug'
     | '/templates/$slug'
+    | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/'
@@ -212,6 +224,7 @@ export interface FileRouteTypes {
     | '/blog_/$slug'
     | '/projects_/$slug'
     | '/templates_/$slug'
+    | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -230,6 +243,7 @@ export interface RootRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   TemplatesSlugRoute: typeof TemplatesSlugRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -346,6 +360,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TemplatesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -376,6 +397,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   TemplatesSlugRoute: TemplatesSlugRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
