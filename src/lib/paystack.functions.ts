@@ -92,7 +92,7 @@ export const verifyPaystackPayment = createServerFn({ method: "POST" })
         reference: data.reference,
         customer_name: name,
         customer_email: email,
-        plan_slug: tx.metadata?.plan_slug ?? data.planSlug,
+        plan_slug: planSlug,
         plan_name: tx.metadata?.plan_name ?? data.planName,
         amount,
         currency,
