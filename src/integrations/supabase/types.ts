@@ -305,6 +305,66 @@ export type Database = {
         }
         Relationships: []
       }
+      templates: {
+        Row: {
+          badge: string | null
+          category: string
+          created_at: string
+          description: string
+          features: string[]
+          gallery_images: string[]
+          hero_image: string | null
+          id: string
+          is_published: boolean
+          live_demo_url: string | null
+          price_usd: number
+          slug: string
+          sort: number
+          tagline: string
+          tech_stack: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          badge?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          features?: string[]
+          gallery_images?: string[]
+          hero_image?: string | null
+          id?: string
+          is_published?: boolean
+          live_demo_url?: string | null
+          price_usd?: number
+          slug: string
+          sort?: number
+          tagline?: string
+          tech_stack?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          badge?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          features?: string[]
+          gallery_images?: string[]
+          hero_image?: string | null
+          id?: string
+          is_published?: boolean
+          live_demo_url?: string | null
+          price_usd?: number
+          slug?: string
+          sort?: number
+          tagline?: string
+          tech_stack?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           created_at: string

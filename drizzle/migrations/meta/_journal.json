@@ -15,6 +15,13 @@
       "when": 1790604388351,
       "tag": "0001_create_payments",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791192726695,
+      "tag": "0002_create_templates",
+      "breakpoints": true
     }
   ]
 }
