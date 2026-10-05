@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { ArrowRight, Code2, ExternalLink, Search } from "lucide-react";
-import { formatNaira, publishedTemplatesQuery, type Template } from "@/lib/templates";
+import { formatNaira, publishedTemplatesQuery } from "@/lib/templates";
+import { TemplateCover } from "@/components/site/TemplateCover";
 
 export const Route = createFileRoute("/templates")({
   head: () => ({
@@ -24,19 +25,6 @@ export const Route = createFileRoute("/templates")({
   }),
   component: TemplatesPage,
 });
-
-export function TemplateCover({ t, className = "h-52" }: { t: Template; className?: string }) {
-  if (t.hero_image) {
-    return <img src={t.hero_image} alt={t.title} loading="lazy" className={`w-full object-cover ${className}`} />;
-  }
-  return (
-    <div className={`grid w-full place-items-center bg-gradient-to-br from-primary/80 to-ink ${className}`}>
-      <span className="font-display text-4xl font-bold text-primary-foreground">
-        {t.title.split(" ").map((w) => w[0]).slice(0, 2).join("")}
-      </span>
-    </div>
-  );
-}
 
 function TemplatesPage() {
   const { data: templates = [], isLoading } = useQuery(publishedTemplatesQuery());

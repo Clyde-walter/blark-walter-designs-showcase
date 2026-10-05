@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ArrowLeft, Check, ExternalLink } from "lucide-react";
 import { PaystackCheckout } from "@/components/site/PaystackCheckout";
 import { formatNaira, publishedTemplatesQuery } from "@/lib/templates";
-import { TemplateCover } from "./templates";
+import { TemplateCover } from "@/components/site/TemplateCover";
 
 export const Route = createFileRoute("/templates_/$slug")({
   head: () => ({
