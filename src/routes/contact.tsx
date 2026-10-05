@@ -3,7 +3,6 @@ import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 import { ArrowRight, Mail, MapPin, Phone, Clock, CheckCircle2, Loader2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { site } from "@/lib/portfolio-data";
 
 const contactSearchSchema = z.object({ plan: z.string().optional() });
