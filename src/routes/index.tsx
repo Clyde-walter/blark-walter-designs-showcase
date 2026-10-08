@@ -19,6 +19,7 @@ import {
 import { Portrait } from "@/components/site/Portrait";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { TypewriterRoles } from "@/components/site/TypewriterRoles";
+import { FeaturedCarousel, ProcessSection, TestimonialsCarousel } from "@/components/site/HomeSections";
 import { site, services, tools, education, experience, projects } from "@/lib/portfolio-data";
 import { usePublishedProjects } from "@/lib/public-content";
 
@@ -33,6 +34,8 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:title", content: "Blark-walter Designs — Clyde Walter" },
       { property: "og:description", content: "UI/UX and brand design portfolio by Clyde Walter." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: HomePage,
@@ -129,6 +132,8 @@ function HomePage() {
           ))}
         </div>
       </section>
+
+      <FeaturedCarousel />
 
       {/* About + Services */}
       <section className="container-x py-16 md:py-20">
@@ -229,6 +234,8 @@ function HomePage() {
         </div>
       </section>
 
+      <ProcessSection />
+
       {/* Portfolio */}
       <section className="container-x py-16 md:py-20">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -299,6 +306,8 @@ function HomePage() {
           ))}
         </div>
       </section>
+
+      <TestimonialsCarousel />
 
       {/* CTA */}
       <CTABand
