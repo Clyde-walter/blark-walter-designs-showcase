@@ -35,5 +35,21 @@ export const submitContact = createServerFn({ method: "POST" })
     } catch (e) {
       console.error("contact confirmation email failed", e);
     }
+
+    try {
+      const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
+      await sendTemplateEmail("new-lead-alert", "blarkwalterdesigns@gmail.com", {
+        templateData: {
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+          plan: data.planSlug,
+        },
+        idempotencyKey: `new-lead-alert-${row.id}`,
+      });
+    } catch (e) {
+      console.error("owner lead alert email failed", e);
+    }
     return { ok: true };
   });
