@@ -78,8 +78,8 @@ export function FeaturedCarousel() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden md:flex" />
-        <CarouselNext className="hidden md:flex" />
+        <CarouselPrevious className="left-2 hidden md:flex" />
+        <CarouselNext className="right-2 hidden md:flex" />
       </Carousel>
       <Dots api={api} index={index} count={count} />
     </section>
