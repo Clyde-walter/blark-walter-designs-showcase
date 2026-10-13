@@ -47,6 +47,7 @@ export const submitContact = createServerFn({ method: "POST" })
           plan: data.planSlug,
         },
         idempotencyKey: `new-lead-alert-${row.id}`,
+        replyTo: data.email,
       });
     } catch (e) {
       console.error("owner lead alert email failed", e);
