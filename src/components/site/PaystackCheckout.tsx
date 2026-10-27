@@ -57,6 +57,7 @@ export function PaystackCheckout({
     reference: string;
     amount: number;
     currency: string;
+    downloadUrl?: string | null;
   } | null>(null);
 
   const fetchConfig = useServerFn(getPaystackConfig);
@@ -116,7 +117,7 @@ export function PaystackCheckout({
       if (result.status === "underpaid")
         throw new Error("The amount paid does not match the plan price. Please contact support with your reference.");
       if (result.status !== "success") throw new Error("The payment did not go through.");
-      setReceipt({ reference, amount: result.amount, currency: result.currency });
+      setReceipt({ reference, amount: result.amount, currency: result.currency, downloadUrl: result.downloadUrl });
       setOpen(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
@@ -175,8 +176,16 @@ export function PaystackCheckout({
                   <dd className="truncate font-mono text-xs">{receipt.reference}</dd>
                 </div>
               </dl>
+              {receipt.downloadUrl && (
+                <a
+                  href={receipt.downloadUrl}
+                  className="mt-5 flex w-full items-center justify-center rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground"
+                >
+                  Download template (.zip)
+                </a>
+              )}
               <p className="mt-4 text-xs text-muted-foreground">
-                A welcome message will follow at {email} with your onboarding details.
+                {receipt.downloadUrl ? "This download link works for 24 hours. " : ""}A welcome message will follow at {email} with your onboarding details.
               </p>
               <button
                 onClick={close}

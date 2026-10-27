@@ -119,5 +119,20 @@ export const verifyPaystackPayment = createServerFn({ method: "POST" })
       }
     }
 
-    return { status, amount, currency, email, reference: data.reference };
+    let downloadUrl: string | null = null;
+    if (status === "success" && planSlug.startsWith("template:")) {
+      const { data: tpl } = await supabaseAdmin
+        .from("templates")
+        .select("zip_path, slug")
+        .eq("slug", planSlug.slice("template:".length))
+        .maybeSingle();
+      if (tpl?.zip_path) {
+        const { data: signed } = await supabaseAdmin.storage
+          .from("template-files")
+          .createSignedUrl(tpl.zip_path, 60 * 60 * 24, { download: `${tpl.slug}.zip` });
+        downloadUrl = signed?.signedUrl ?? null;
+      }
+    }
+
+    return { status, amount, currency, email, reference: data.reference, downloadUrl };
   });

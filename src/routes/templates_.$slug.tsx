@@ -5,6 +5,7 @@ import { ArrowLeft, Check, ExternalLink } from "lucide-react";
 import { PaystackCheckout } from "@/components/site/PaystackCheckout";
 import { formatNaira, publishedTemplatesQuery } from "@/lib/templates";
 import { TemplateCover } from "@/components/site/TemplateCover";
+import ReactMarkdown from "react-markdown";
 
 export const Route = createFileRoute("/templates_/$slug")({
   head: () => ({
@@ -71,7 +72,9 @@ function TemplateDetail() {
           )}
 
           <h2 className="mt-10 font-display text-2xl font-bold">About this template</h2>
-          <p className="mt-3 whitespace-pre-line text-muted-foreground">{t.description || t.tagline}</p>
+          <div className="prose-content mt-3 text-muted-foreground">
+            <ReactMarkdown>{(t.description || t.tagline || "").replace(/\r\n/g, "\n")}</ReactMarkdown>
+          </div>
 
           {t.features.length > 0 && (
             <>
@@ -119,7 +122,7 @@ function TemplateDetail() {
             <ul className="mt-2 space-y-2">
               {included.map((i) => <li key={i} className="flex gap-2 text-sm text-muted-foreground"><Check className="mt-0.5 h-4 w-4 text-primary" />{i}</li>)}
             </ul>
-            <p className="mt-4 text-xs text-muted-foreground">After payment, the code is sent to your email.</p>
+            <p className="mt-4 text-xs text-muted-foreground">After payment, you can download the code instantly.</p>
           </div>
         </aside>
       </div>
