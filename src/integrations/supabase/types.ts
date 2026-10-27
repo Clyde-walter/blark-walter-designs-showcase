@@ -324,6 +324,7 @@ export type Database = {
           tech_stack: string[]
           title: string
           updated_at: string
+          zip_path: string | null
         }
         Insert: {
           badge?: string | null
@@ -343,6 +344,7 @@ export type Database = {
           tech_stack?: string[]
           title: string
           updated_at?: string
+          zip_path?: string | null
         }
         Update: {
           badge?: string | null
@@ -362,6 +364,7 @@ export type Database = {
           tech_stack?: string[]
           title?: string
           updated_at?: string
+          zip_path?: string | null
         }
         Relationships: []
       }

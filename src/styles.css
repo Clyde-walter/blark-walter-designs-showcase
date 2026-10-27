@@ -154,3 +154,16 @@
     animation-range: entry 0% cover 25%;
   }
 }
+
+.prose-content h1, .prose-content h2, .prose-content h3 { font-family: var(--font-display, inherit); font-weight: 700; color: var(--foreground); margin: 1.4em 0 0.5em; line-height: 1.25; }
+.prose-content h1 { font-size: 1.6em; } .prose-content h2 { font-size: 1.3em; } .prose-content h3 { font-size: 1.1em; }
+.prose-content > :first-child { margin-top: 0; }
+.prose-content p { margin: 0.75em 0; line-height: 1.75; }
+.prose-content ul, .prose-content ol { margin: 0.75em 0; padding-left: 1.4em; }
+.prose-content ul { list-style: disc; } .prose-content ol { list-style: decimal; }
+.prose-content li { margin: 0.35em 0; line-height: 1.65; }
+.prose-content li::marker { color: var(--primary); }
+.prose-content strong { color: var(--foreground); font-weight: 600; }
+.prose-content a { color: var(--primary); text-decoration: underline; }
+.prose-content code { background: var(--muted); padding: 0.1em 0.35em; border-radius: 0.3em; font-size: 0.9em; }
+.prose-content blockquote { border-left: 3px solid var(--primary); padding-left: 1em; font-style: italic; margin: 1em 0; }

@@ -17,12 +17,15 @@ import {
   Inbox,
   Eye,
   EyeOff,
+  Sparkles,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ImageUpload, GalleryUpload } from "@/components/admin/ImageUpload";
 import { AdminSidebar } from "@/components/admin/Sidebar";
 import { DashboardMain } from "@/components/admin/Dashboard";
 import { PaymentsView } from "@/components/admin/Payments";
+import { LeadAssistant } from "@/components/admin/LeadAssistant";
+import { ZipUpload } from "@/components/admin/ZipUpload";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -263,7 +266,7 @@ function AdminPage() {
 type Field = {
   key: string;
   label: string;
-  type: "text" | "textarea" | "number" | "bool" | "tags" | "select" | "image" | "gallery";
+  type: "text" | "textarea" | "number" | "bool" | "tags" | "select" | "image" | "gallery" | "zip";
   options?: string[];
   span?: number;
   folder?: string;
@@ -313,7 +316,8 @@ const TEMPLATE_FIELDS: Field[] = [
   { key: "features", label: "Features (comma-separated)", type: "tags", span: 2 },
   { key: "hero_image", label: "Cover image", type: "image", span: 2, folder: "templates/hero" },
   { key: "gallery_images", label: "Screenshots", type: "gallery", span: 2, folder: "templates/gallery" },
-  { key: "description", label: "Full description", type: "textarea", span: 2 },
+  { key: "zip_path", label: "Template ZIP file (buyers download after payment)", type: "zip", span: 2 },
+  { key: "description", label: "Full description (supports formatting: ## Heading, - bullet, **bold**)", type: "textarea", span: 2 },
   { key: "sort", label: "Sort", type: "number" },
   { key: "is_published", label: "Published", type: "bool" },
 ];
@@ -613,6 +617,12 @@ function EditorModal({ fields, row, onChange, onCancel, onSave, saving, error }:
                   folder={f.folder}
                   label={f.label}
                 />
+              ) : f.type === "zip" ? (
+                <ZipUpload
+                  value={row[f.key] ?? ""}
+                  onChange={(path) => onChange({ ...row, [f.key]: path })}
+                  folder={row.slug || "template"}
+                />
               ) : f.type === "gallery" ? (
                 <GalleryUpload
                   value={row[f.key] ?? []}
@@ -676,6 +686,9 @@ function SubmissionsView() {
         Contact submissions{" "}
         <span className="text-sm font-normal text-muted-foreground">({data?.length ?? 0})</span>
       </h2>
+      <LeadAssistant
+        trigger={<Button size="sm"><Sparkles className="h-4 w-4" /> Analyze a new lead with AI</Button>}
+      />
       {(data ?? []).map((r: any) => (
         <div key={r.id} className="rounded-2xl border border-border bg-card p-4">
           <div className="flex flex-wrap items-start justify-between gap-3">
@@ -688,12 +701,18 @@ function SubmissionsView() {
                 {new Date(r.created_at).toLocaleString()} {r.plan_slug && `· plan: ${r.plan_slug}`}
               </div>
             </div>
+            <div className="flex gap-2">
+            <LeadAssistant
+              initial={{ name: r.name, email: r.email, subject: r.subject ?? r.plan_slug ?? "", message: r.message }}
+              trigger={<button className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"><Sparkles className="inline h-3 w-3" /> AI follow-up</button>}
+            />
             <button
               onClick={() => confirm("Delete?") && del.mutate(r.id)}
               className="rounded-full bg-destructive/10 px-2 py-1 text-xs font-semibold text-destructive"
             >
               <Trash2 className="inline h-3 w-3" />
             </button>
+            </div>
           </div>
           {r.subject && <div className="mt-2 text-sm font-semibold">{r.subject}</div>}
           <p className="mt-1 whitespace-pre-wrap text-sm text-muted-foreground">{r.message}</p>
