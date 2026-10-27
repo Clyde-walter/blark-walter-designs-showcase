@@ -317,7 +317,7 @@ const TEMPLATE_FIELDS: Field[] = [
   { key: "hero_image", label: "Cover image", type: "image", span: 2, folder: "templates/hero" },
   { key: "gallery_images", label: "Screenshots", type: "gallery", span: 2, folder: "templates/gallery" },
   { key: "zip_path", label: "Template ZIP file (buyers download after payment)", type: "zip", span: 2 },
-  { key: "description", label: "Full description", type: "textarea", span: 2 },
+  { key: "description", label: "Full description (supports formatting: ## Heading, - bullet, **bold**)", type: "textarea", span: 2 },
   { key: "sort", label: "Sort", type: "number" },
   { key: "is_published", label: "Published", type: "bool" },
 ];
