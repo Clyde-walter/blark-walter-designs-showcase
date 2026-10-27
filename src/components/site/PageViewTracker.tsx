@@ -17,10 +17,18 @@ export function PageViewTracker() {
   useEffect(() => {
     if (pathname.startsWith("/admin") || pathname.startsWith("/auth")) return;
 
-    void supabase.from("site_page_views" as never).insert({
-      path: pathname,
-      visitor_id: getVisitorId(),
-    } as never);
+    let visitorId: string | null = null;
+    try {
+      visitorId = getVisitorId();
+    } catch {
+      visitorId = null;
+    }
+    supabase
+      .from("site_page_views" as never)
+      .insert({ path: pathname, visitor_id: visitorId } as never)
+      .then(({ error }) => {
+        if (error) console.error("Page view tracking failed:", error.message);
+      });
   }, [pathname]);
 
   return null;
