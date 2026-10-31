@@ -87,6 +87,7 @@ export type Project = {
   accent: string;
   liveUrl?: string;
   stack?: string[];
+  hero_image?: string | null;
 };
 
 export const projects: Project[] = [

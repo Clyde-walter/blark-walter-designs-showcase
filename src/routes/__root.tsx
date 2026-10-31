@@ -17,6 +17,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { PageViewTracker } from "@/components/site/PageViewTracker";
+import { DevBanner } from "@/components/site/DevBanner";
 
 function NotFoundComponent() {
   return (
@@ -155,6 +156,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen flex-col">
         <PageViewTracker />
+        {!isAdmin && <DevBanner />}
         {!isAdmin && <Header />}
         <main className="flex-1">
           <Outlet />

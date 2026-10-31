@@ -145,8 +145,19 @@ function ProjectDetailPage() {
 
   return (
     <>
-      <section className="bg-ink py-10 text-ink-foreground">
-        <div className="container-x">
+      <section className="relative overflow-hidden bg-ink py-10 text-ink-foreground">
+        {extras?.hero_image && (
+          <>
+            <img
+              src={extras.hero_image}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-ink/85 backdrop-blur-[2px]" />
+          </>
+        )}
+        <div className="container-x relative">
           <nav className="text-xs text-white/60">
             <Link to="/" className="hover:text-white">
               Home
