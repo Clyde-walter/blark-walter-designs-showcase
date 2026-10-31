@@ -10,6 +10,19 @@ export function ProjectVisual({ project, small = false }: { project: Project; sm
     .toUpperCase();
   const previewHeight = small ? "h-40" : "h-64";
 
+  if (project.hero_image) {
+    return (
+      <div className={`relative overflow-hidden rounded-2xl bg-muted ${previewHeight}`}>
+        <img
+          src={project.hero_image}
+          alt={`${project.title} cover`}
+          loading="lazy"
+          className="h-full w-full object-cover transition duration-500 hover:scale-105"
+        />
+      </div>
+    );
+  }
+
   if (project.liveUrl) {
     let hostname = project.liveUrl;
     try {
