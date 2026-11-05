@@ -119,9 +119,6 @@ export function Footer() {
             <Link to="/subscriptions" className="hover:text-primary">
               Pricing
             </Link>
-            <Link to="/auth" className="hover:text-primary">
-              Admin
-            </Link>
           </div>
         </div>
       </div>
