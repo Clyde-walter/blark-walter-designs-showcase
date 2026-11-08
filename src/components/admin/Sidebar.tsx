@@ -10,6 +10,7 @@ export function AdminSidebar({ className = "", onSignOut }: { className?: string
     { to: "/admin", hash: "services", label: "Services", icon: Wrench },
     { to: "/admin", hash: "testimonials", label: "Testimonials", icon: MessageSquareQuote },
     { to: "/admin", hash: "plans", label: "Plans", icon: DollarSign },
+    { to: "/admin", hash: "orders", label: "Client Orders", icon: CreditCard },
     { to: "/admin", hash: "payments", label: "Payments", icon: CreditCard },
     { to: "/admin", hash: "templates", label: "Templates", icon: LayoutTemplate },
     { to: "/admin", hash: "blog", label: "Blog Posts", icon: FileText },

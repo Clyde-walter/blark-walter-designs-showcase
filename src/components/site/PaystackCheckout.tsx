@@ -176,6 +176,9 @@ export function PaystackCheckout({
                   <dd className="truncate font-mono text-xs">{receipt.reference}</dd>
                 </div>
               </dl>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Track this order anytime at <a href="/track" className="text-primary underline">/track</a> using this reference and your email.
+              </p>
               {receipt.downloadUrl && (
                 <a
                   href={receipt.downloadUrl}
