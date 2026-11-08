@@ -124,7 +124,7 @@ function TemplatesPage() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  <PaystackCheckout planSlug={`template:${t.slug}`} planName={`Template: ${t.title}`} priceUsd={t.price_usd} featured buttonLabel={`Buy now — ${t.price_usd}`} />
+                  <PaystackCheckout planSlug={`template:${t.slug}`} planName={`Template: ${t.title}`} priceUsd={t.price_usd} featured buttonLabel={`Buy now — $${t.price_usd}`} />
                 </div>
               </div>
             </article>
