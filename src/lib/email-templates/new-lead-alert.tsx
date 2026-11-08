@@ -35,7 +35,7 @@ export const template = {
   component: NewLeadAlert,
   subject: (d: Record<string, any>) => `New lead: ${d.name ?? 'Website visitor'}${d.subject ? ` – ${d.subject}` : ''}`,
   displayName: 'New lead alert (to owner)',
-  to: 'blarkwalterdesigns@gmail.com',
+  to: 'info@blarkwalterdesigns.com',
   previewData: { name: 'Jane', email: 'jane@example.com', subject: 'New website', message: 'Hi, I need a portfolio site.' },
 } satisfies TemplateEntry
 

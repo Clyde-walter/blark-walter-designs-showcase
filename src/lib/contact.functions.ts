@@ -38,7 +38,7 @@ export const submitContact = createServerFn({ method: "POST" })
 
     try {
       const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
-      await sendTemplateEmail("new-lead-alert", "blarkwalterdesigns@gmail.com", {
+      await sendTemplateEmail("new-lead-alert", "info@blarkwalterdesigns.com", {
         templateData: {
           name: data.name,
           email: data.email,
