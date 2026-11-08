@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ArrowRight, Code2, ExternalLink, Search } from "lucide-react";
 import { formatNaira, publishedTemplatesQuery } from "@/lib/templates";
 import { TemplateCover } from "@/components/site/TemplateCover";
+import { PaystackCheckout } from "@/components/site/PaystackCheckout";
 
 export const Route = createFileRoute("/templates")({
   head: () => ({
@@ -121,6 +122,9 @@ function TemplatesPage() {
                       Details <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
+                </div>
+                <div className="mt-4">
+                  <PaystackCheckout planSlug={`template:${t.slug}`} planName={`Template: ${t.title}`} priceUsd={t.price_usd} featured buttonLabel={`Buy now — ${t.price_usd}`} />
                 </div>
               </div>
             </article>
