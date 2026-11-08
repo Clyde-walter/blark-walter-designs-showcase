@@ -65,6 +65,51 @@ export type Database = {
         }
         Relationships: []
       }
+      client_orders: {
+        Row: {
+          client_email: string
+          client_name: string
+          created_at: string
+          delivery_url: string
+          id: string
+          item_title: string
+          item_type: string
+          notes: string
+          payment_reference: string | null
+          reference: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          client_email: string
+          client_name?: string
+          created_at?: string
+          delivery_url?: string
+          id?: string
+          item_title?: string
+          item_type?: string
+          notes?: string
+          payment_reference?: string | null
+          reference?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          client_email?: string
+          client_name?: string
+          created_at?: string
+          delivery_url?: string
+          id?: string
+          item_title?: string
+          item_type?: string
+          notes?: string
+          payment_reference?: string | null
+          reference?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string
