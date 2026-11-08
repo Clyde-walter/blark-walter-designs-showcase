@@ -2,7 +2,7 @@ export const site = {
   name: "Blark-Walter Designs",
   tagline: "UI/UX & Brand Designer",
   designer: "Clyde Walter",
-  email: "blarkwalterdesigns@gmail.com",
+  email: "info@blarkwalterdesigns.com",
   phone: "+234 810 269 2046",
   whatsapp: "2348102692046",
 
