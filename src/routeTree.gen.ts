@@ -21,6 +21,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
 import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
+import { Route as TrackRouteImport } from './routes/track'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
 import { Route as ProjectsSlugRouteImport } from './routes/projects_.$slug'
@@ -86,6 +87,11 @@ const TestimonialsRoute = TestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TrackRoute = TrackRouteImport.update({
+  id: '/track',
+  path: '/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/subscriptions': typeof SubscriptionsRoute
   '/templates': typeof TemplatesRoute
   '/testimonials': typeof TestimonialsRoute
+  '/track': typeof TrackRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/subscriptions': typeof SubscriptionsRoute
   '/templates': typeof TemplatesRoute
   '/testimonials': typeof TestimonialsRoute
+  '/track': typeof TrackRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/subscriptions': typeof SubscriptionsRoute
   '/templates': typeof TemplatesRoute
   '/testimonials': typeof TestimonialsRoute
+  '/track': typeof TrackRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/blog_/$slug': typeof BlogSlugRoute
   '/projects_/$slug': typeof ProjectsSlugRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/templates'
     | '/testimonials'
+    | '/track'
     | '/admin'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/templates'
     | '/testimonials'
+    | '/track'
     | '/admin'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/templates'
     | '/testimonials'
+    | '/track'
     | '/_authenticated/admin'
     | '/blog_/$slug'
     | '/projects_/$slug'
@@ -240,6 +252,7 @@ export interface RootRouteChildren {
   SubscriptionsRoute: typeof SubscriptionsRoute
   TemplatesRoute: typeof TemplatesRoute
   TestimonialsRoute: typeof TestimonialsRoute
+  TrackRoute: typeof TrackRoute
   BlogSlugRoute: typeof BlogSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   TemplatesSlugRoute: typeof TemplatesSlugRoute
@@ -332,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestimonialsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -394,6 +414,7 @@ const rootRouteChildren: RootRouteChildren = {
   SubscriptionsRoute: SubscriptionsRoute,
   TemplatesRoute: TemplatesRoute,
   TestimonialsRoute: TestimonialsRoute,
+  TrackRoute: TrackRoute,
   BlogSlugRoute: BlogSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   TemplatesSlugRoute: TemplatesSlugRoute,
