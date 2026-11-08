@@ -24,6 +24,7 @@ import { ImageUpload, GalleryUpload } from "@/components/admin/ImageUpload";
 import { AdminSidebar } from "@/components/admin/Sidebar";
 import { DashboardMain } from "@/components/admin/Dashboard";
 import { PaymentsView } from "@/components/admin/Payments";
+import { OrdersView } from "@/components/admin/Orders";
 import { LeadAssistant } from "@/components/admin/LeadAssistant";
 import { ZipUpload } from "@/components/admin/ZipUpload";
 
@@ -53,7 +54,8 @@ type Tab =
   | "blog"
   | "submissions"
   | "payments"
-  | "templates";
+  | "templates"
+  | "orders";
 const DASHBOARD_TAB = "dashboard" as const;
 const TABS: { id: Tab; label: string; Icon: any }[] = [
   { id: DASHBOARD_TAB, label: "Dashboard", Icon: Eye },
@@ -61,6 +63,7 @@ const TABS: { id: Tab; label: string; Icon: any }[] = [
   { id: "services", label: "Services", Icon: Wrench },
   { id: "testimonials", label: "Testimonials", Icon: MessageSquareQuote },
   { id: "plans", label: "Plans", Icon: DollarSign },
+  { id: "orders", label: "Client Orders", Icon: Inbox },
   { id: "payments", label: "Payments", Icon: DollarSign },
   { id: "templates", label: "Templates", Icon: Layers },
   { id: "blog", label: "Blog", Icon: FileText },
@@ -251,6 +254,7 @@ function AdminPage() {
           )}
 
           {tab === "payments" && <PaymentsView />}
+          {tab === "orders" && <OrdersView />}
 
           {tab === "submissions" && <SubmissionsView />}
 

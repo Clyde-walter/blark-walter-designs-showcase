@@ -102,6 +102,26 @@ export const verifyPaystackPayment = createServerFn({ method: "POST" })
     );
 
     if (status === "success" && email) {
+      const isTpl = planSlug.startsWith("template:");
+      const { data: existing } = await supabaseAdmin
+        .from("client_orders")
+        .select("id")
+        .eq("payment_reference", data.reference)
+        .maybeSingle();
+      if (!existing) {
+        await supabaseAdmin.from("client_orders").insert({
+          client_name: name,
+          client_email: email,
+          item_type: isTpl ? "template" : "subscription",
+          item_title: tx.metadata?.plan_name ?? data.planName,
+          status: isTpl ? "delivered" : "received",
+          payment_reference: data.reference,
+          notes: isTpl ? "Payment confirmed. Your download link was shown after checkout." : "Payment confirmed. We'll be in touch to kick off.",
+        });
+      }
+    }
+
+    if (status === "success" && email) {
       try {
         const { sendTemplateEmail } = await import("@/lib/email-templates/send-email");
         await sendTemplateEmail("payment-receipt", email, {
