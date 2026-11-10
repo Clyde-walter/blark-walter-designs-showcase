@@ -18,6 +18,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { PageViewTracker } from "@/components/site/PageViewTracker";
 import { DevBanner } from "@/components/site/DevBanner";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -160,6 +161,7 @@ function RootComponent() {
         {!isAdmin && <Header />}
         <main className="flex-1">
           <Outlet />
+          <Toaster />
         </main>
         {!isAdmin && <Footer />}
       </div>
