@@ -171,15 +171,15 @@ function ProjectDetailPage() {
               {p.title} - {p.subtitle}
             </span>
           </nav>
-          <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_1.2fr_1fr]">
-            <div>
+          <div className="mt-6 grid items-center gap-10 lg:grid-cols-2">
+            <div className="min-w-0">
               <span className="section-label">{p.category}</span>
               <h1 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl">
                 {p.title}
                 <br />
                 <span className="text-white/80">{p.subtitle}</span>
               </h1>
-              <p className="mt-5 text-white/70">{p.summary}</p>
+              <p className="mt-5 max-w-prose whitespace-pre-line leading-7 text-white/70">{p.summary}</p>
               <div className="mt-6 flex flex-wrap gap-3">
                 {p.liveUrl ? (
                   <a
@@ -222,14 +222,16 @@ function ProjectDetailPage() {
                   </span>
                 ))}
               </div>
-              <div className="mt-6 grid grid-cols-2 gap-3 text-xs text-white/70 sm:grid-cols-4">
-                <MetaLine icon={Clock} label="Duration" value={p.duration} />
+              <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-6 text-xs text-white/70 sm:grid-cols-3">
+                <MetaLine icon={User} label="Client" value={p.client} />
+                <MetaLine icon={TrendingUp} label="Industry" value={p.industry} />
                 <MetaLine icon={User} label="My Role" value={p.role} />
+                <MetaLine icon={Clock} label="Duration" value={p.duration} />
                 <MetaLine icon={Calendar} label="Year" value={p.year} />
                 <MetaLine icon={Monitor} label="Platform" value={p.platforms} />
               </div>
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex min-w-0 items-center justify-center">
               {extras?.hero_image ? (
                 <img
                   src={extras.hero_image}
