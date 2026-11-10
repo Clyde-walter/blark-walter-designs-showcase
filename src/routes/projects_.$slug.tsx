@@ -239,7 +239,9 @@ function ProjectDetailPage() {
                   className="max-h-[520px] w-full rounded-2xl object-contain"
                 />
               ) : (
-                <ProjectVisual project={p} />
+                <div className="w-full">
+                  <ProjectVisual project={p} />
+                </div>
               )}
             </div>
 
