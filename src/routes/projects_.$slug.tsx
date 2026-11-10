@@ -171,15 +171,15 @@ function ProjectDetailPage() {
               {p.title} - {p.subtitle}
             </span>
           </nav>
-          <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_1.2fr_1fr]">
-            <div>
+          <div className="mt-6 grid items-center gap-10 lg:grid-cols-2">
+            <div className="min-w-0">
               <span className="section-label">{p.category}</span>
               <h1 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl">
                 {p.title}
                 <br />
                 <span className="text-white/80">{p.subtitle}</span>
               </h1>
-              <p className="mt-5 text-white/70">{p.summary}</p>
+              <p className="mt-5 max-w-prose whitespace-pre-line leading-7 text-white/70">{p.summary}</p>
               <div className="mt-6 flex flex-wrap gap-3">
                 {p.liveUrl ? (
                   <a
@@ -222,14 +222,16 @@ function ProjectDetailPage() {
                   </span>
                 ))}
               </div>
-              <div className="mt-6 grid grid-cols-2 gap-3 text-xs text-white/70 sm:grid-cols-4">
-                <MetaLine icon={Clock} label="Duration" value={p.duration} />
+              <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-6 text-xs text-white/70 sm:grid-cols-3">
+                <MetaLine icon={User} label="Client" value={p.client} />
+                <MetaLine icon={TrendingUp} label="Industry" value={p.industry} />
                 <MetaLine icon={User} label="My Role" value={p.role} />
+                <MetaLine icon={Clock} label="Duration" value={p.duration} />
                 <MetaLine icon={Calendar} label="Year" value={p.year} />
                 <MetaLine icon={Monitor} label="Platform" value={p.platforms} />
               </div>
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex min-w-0 items-center justify-center">
               {extras?.hero_image ? (
                 <img
                   src={extras.hero_image}
@@ -237,33 +239,12 @@ function ProjectDetailPage() {
                   className="max-h-[520px] w-full rounded-2xl object-contain"
                 />
               ) : (
-                <ProjectVisual project={p} />
+                <div className="w-full">
+                  <ProjectVisual project={p} />
+                </div>
               )}
             </div>
 
-            <div className="rounded-2xl bg-white/5 p-6 backdrop-blur">
-              <div className="mb-3 flex items-center gap-2 font-semibold">
-                <div className="h-2 w-2 rounded-full bg-primary" />
-                Project Overview
-              </div>
-              <p className="text-sm text-white/70">{p.summary}</p>
-              <dl className="mt-5 space-y-3 border-t border-white/10 pt-5 text-sm">
-                {[
-                  ["Client", p.client],
-                  ["Industry", p.industry],
-                  ["Project Type", p.category],
-                  ["My Role", p.role],
-                  ["Duration", p.duration],
-                  ["Year", p.year],
-                  ["Platforms", p.platforms],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex justify-between gap-4">
-                    <dt className="text-white/60">{k}</dt>
-                    <dd className="font-semibold text-white">{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
           </div>
         </div>
       </section>
@@ -271,11 +252,11 @@ function ProjectDetailPage() {
       {p.liveUrl && <LiveSitePreview title={p.title} url={p.liveUrl} />}
 
       <section className="container-x py-16">
-        <div className="grid gap-12 lg:grid-cols-[1.6fr_1fr]">
-          <div>
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+          <div className="min-w-0">
             <span className="section-label">The Case Study</span>
             <h2 className="mt-4 text-3xl font-bold sm:text-4xl">From brief to finished work</h2>
-            <p className="mt-5 text-base leading-7 text-muted-foreground">{caseStudy.overview}</p>
+            <p className="mt-5 whitespace-pre-line text-base leading-7 text-muted-foreground">{caseStudy.overview}</p>
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
               {caseStudy.highlights.map(({ title, description }, index) => {
                 const Icon = [TrendingUp, ShieldCheck, MessageCircle, HeadphonesIcon][index % 4];
@@ -283,46 +264,51 @@ function ProjectDetailPage() {
                   <article key={title} className="border-t border-border pt-5">
                     <Icon className="h-6 w-6 text-primary" />
                     <h3 className="mt-3 font-semibold">{title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-muted-foreground">{description}</p>
+                    <p className="mt-1 whitespace-pre-line text-sm leading-6 text-muted-foreground">{description}</p>
                   </article>
                 );
               })}
             </div>
-            <div className="mt-12 grid gap-8 sm:grid-cols-2">
-              <div>
+            <div className="mt-12 grid gap-6">
+              <div className="rounded-2xl border border-border bg-card p-6">
                 <div className="flex items-center gap-2 text-lg font-semibold">
                   <AlertCircle className="h-5 w-5 text-primary" /> The Problem
                 </div>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{p.problem}</p>
+                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">{p.problem}</p>
               </div>
-              <div>
+              <div className="rounded-2xl border border-primary/30 bg-primary/5 p-6">
                 <div className="flex items-center gap-2 text-lg font-semibold">
                   <CheckCircle2 className="h-5 w-5 text-primary" /> The Solution
                 </div>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{p.solution}</p>
+                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">{p.solution}</p>
               </div>
             </div>
             <div className="mt-12">
               <span className="section-label">The Process</span>
               <h2 className="mt-4 text-3xl font-bold">How the work came together</h2>
-              <div className="mt-8 grid gap-8 sm:grid-cols-3 lg:grid-cols-5">
+              <ol className="mt-8 space-y-0">
                 {caseStudy.process.map(({ title, description }, i) => (
-                  <div key={title} className="text-center">
-                    <div className="mx-auto grid h-12 w-12 place-items-center rounded-full border-2 border-primary text-primary font-bold">
+                  <li key={title} className="relative flex gap-5 pb-8 last:pb-0">
+                    {i < caseStudy.process.length - 1 && (
+                      <span aria-hidden className="absolute left-6 top-12 h-[calc(100%-3rem)] w-px bg-border" />
+                    )}
+                    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-primary font-bold text-primary">
                       {i + 1}
                     </div>
-                    <div className="mt-3 text-sm font-semibold">{title}</div>
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">{description}</p>
-                  </div>
+                    <div className="min-w-0 pt-2.5">
+                      <div className="font-semibold">{title}</div>
+                      <p className="mt-1 whitespace-pre-line text-sm leading-6 text-muted-foreground">{description}</p>
+                    </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
             <div className="mt-12 border-l-4 border-primary pl-6">
               <span className="section-label">The Outcome</span>
-              <p className="mt-4 text-lg leading-8 text-foreground">{caseStudy.outcome}</p>
+              <p className="mt-4 whitespace-pre-line text-lg leading-8 text-foreground">{caseStudy.outcome}</p>
             </div>
           </div>
-          <aside className="space-y-6">
+          <aside className="space-y-6 self-start lg:sticky lg:top-24">
             <div className="rounded-2xl border border-border bg-card p-5">
               <div className="mb-4 flex items-center gap-2 font-semibold">
                 <div className="h-2 w-2 rounded-full bg-primary" /> Deliverables
@@ -452,7 +438,7 @@ function MetaLine({ icon: Icon, label, value }: { icon: any; label: string; valu
       <div className="flex items-center gap-1 text-primary">
         <Icon className="h-3.5 w-3.5" /> {label}
       </div>
-      <div className="text-white">{value}</div>
+      <div className="break-words font-medium text-white">{value}</div>
     </div>
   );
 }
