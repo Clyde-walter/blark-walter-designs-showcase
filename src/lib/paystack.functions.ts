@@ -101,15 +101,17 @@ export const verifyPaystackPayment = createServerFn({ method: "POST" })
       { onConflict: "reference" },
     );
 
+    let orderCode: string | null = null;
     if (status === "success" && email) {
       const isTpl = planSlug.startsWith("template:");
       const { data: existing } = await supabaseAdmin
         .from("client_orders")
-        .select("id")
+        .select("id, reference")
         .eq("payment_reference", data.reference)
         .maybeSingle();
+      orderCode = existing?.reference ?? null;
       if (!existing) {
-        await supabaseAdmin.from("client_orders").insert({
+        const { data: created } = await supabaseAdmin.from("client_orders").insert({
           client_name: name,
           client_email: email,
           item_type: isTpl ? "template" : "subscription",
@@ -117,7 +119,8 @@ export const verifyPaystackPayment = createServerFn({ method: "POST" })
           status: isTpl ? "delivered" : "received",
           payment_reference: data.reference,
           notes: isTpl ? "Payment confirmed. Your download link was shown after checkout." : "Payment confirmed. We'll be in touch to kick off.",
-        });
+        }).select("reference").single();
+        orderCode = created?.reference ?? null;
       }
     }
 
@@ -131,6 +134,7 @@ export const verifyPaystackPayment = createServerFn({ method: "POST" })
             amount: `${currency === "NGN" ? "₦" : currency + " "}${amount.toLocaleString("en-US")}`,
             reference: data.reference,
             isTemplate: planSlug.startsWith("template:"),
+            orderCode,
           },
           idempotencyKey: `payment-receipt-${data.reference}`,
         });
@@ -154,5 +158,5 @@ export const verifyPaystackPayment = createServerFn({ method: "POST" })
       }
     }
 
-    return { status, amount, currency, email, reference: data.reference, downloadUrl };
+    return { status, amount, currency, email, reference: data.reference, orderCode, downloadUrl };
   });
