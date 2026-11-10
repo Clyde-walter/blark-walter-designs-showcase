@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Plus, Save, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
+import { updateOrderStatus } from "@/lib/orders.functions";
 import { Button } from "@/components/ui/button";
 
 export const STATUS_LABELS: Record<string, string> = {
@@ -91,12 +94,15 @@ function OrderCard({ order }: { order: Order }) {
   const [status, setStatus] = useState(order.status);
   const [notes, setNotes] = useState(order.notes);
   const [url, setUrl] = useState(order.delivery_url);
+  const [notify, setNotify] = useState(true);
+  const updateFn = useServerFn(updateOrderStatus);
   const save = useMutation({
-    mutationFn: async () => {
-      const { error } = await supabase.from("client_orders").update({ status, notes, delivery_url: url }).eq("id", order.id);
-      if (error) throw error;
+    mutationFn: () => updateFn({ data: { id: order.id, status, notes, deliveryUrl: url, notify } }),
+    onSuccess: (r) => {
+      qc.invalidateQueries({ queryKey: ["client_orders"] });
+      toast.success(r.emailed ? `Saved and emailed ${order.client_email}` : "Saved");
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["client_orders"] }),
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Could not save"),
   });
   const del = useMutation({
     mutationFn: async () => {
@@ -124,7 +130,11 @@ function OrderCard({ order }: { order: Order }) {
         <input placeholder="Preview / delivery link" className={`${input} md:col-span-2`} value={url} onChange={(e) => setUrl(e.target.value)} />
         <textarea placeholder="Update note for the client" className={`${input} md:col-span-3`} rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} />
       </div>
-      <div className="mt-3 flex justify-end gap-2">
+      <div className="mt-3 flex flex-wrap items-center justify-end gap-2">
+        <label className="mr-auto flex items-center gap-2 text-xs text-muted-foreground">
+          <input type="checkbox" checked={notify} onChange={(e) => setNotify(e.target.checked)} />
+          Email the client when status changes
+        </label>
         <Button variant="outline" size="sm" onClick={() => confirm("Delete this order?") && del.mutate()}>
           <Trash2 className="h-4 w-4" />
         </Button>

@@ -58,6 +58,7 @@ export function PaystackCheckout({
     amount: number;
     currency: string;
     downloadUrl?: string | null;
+    orderCode?: string | null;
   } | null>(null);
 
   const fetchConfig = useServerFn(getPaystackConfig);
@@ -117,7 +118,7 @@ export function PaystackCheckout({
       if (result.status === "underpaid")
         throw new Error("The amount paid does not match the plan price. Please contact support with your reference.");
       if (result.status !== "success") throw new Error("The payment did not go through.");
-      setReceipt({ reference, amount: result.amount, currency: result.currency, downloadUrl: result.downloadUrl });
+      setReceipt({ reference, amount: result.amount, currency: result.currency, downloadUrl: result.downloadUrl, orderCode: result.orderCode });
       setOpen(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
@@ -171,13 +172,19 @@ export function PaystackCheckout({
                     {receipt.amount.toLocaleString()}
                   </dd>
                 </div>
+                {receipt.orderCode && (
+                  <div className="flex justify-between gap-4">
+                    <dt className="text-muted-foreground">Order code</dt>
+                    <dd className="font-mono text-sm font-semibold">{receipt.orderCode}</dd>
+                  </div>
+                )}
                 <div className="flex justify-between gap-4">
                   <dt className="text-muted-foreground">Reference</dt>
                   <dd className="truncate font-mono text-xs">{receipt.reference}</dd>
                 </div>
               </dl>
               <p className="mt-3 text-xs text-muted-foreground">
-                Track this order anytime at <a href="/track" className="text-primary underline">/track</a> using this reference and your email.
+                Track this order anytime at <a href="/track" className="text-primary underline">/track</a> using your order code and email.
               </p>
               {receipt.downloadUrl && (
                 <a

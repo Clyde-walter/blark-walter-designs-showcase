@@ -8,9 +8,10 @@ interface Props {
   amount?: string
   reference?: string
   isTemplate?: boolean
+  orderCode?: string | null
 }
 
-const PaymentReceipt = ({ name, item, amount, reference, isTemplate }: Props) => (
+const PaymentReceipt = ({ name, item, amount, reference, isTemplate, orderCode }: Props) => (
   <Html lang="en" dir="ltr">
     <Head />
     <Preview>Your payment receipt from Blark-Walter Designs</Preview>
@@ -22,7 +23,9 @@ const PaymentReceipt = ({ name, item, amount, reference, isTemplate }: Props) =>
         <Hr style={hr} />
         <Text style={row}><b>Item:</b> {item || 'Purchase'}</Text>
         <Text style={row}><b>Amount paid:</b> {amount || '—'}</Text>
-        <Text style={row}><b>Reference:</b> {reference || '—'}</Text>
+        {orderCode ? <Text style={row}><b>Order code:</b> {orderCode}</Text> : null}
+        <Text style={row}><b>Payment reference:</b> {reference || '—'}</Text>
+        {orderCode ? <Text style={text}>Track your order anytime at https://blarkwalterdesigns.com/track using your order code and this email.</Text> : null}
         <Hr style={hr} />
         <Text style={text}>
           {isTemplate
